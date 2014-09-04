@@ -1,0 +1,16 @@
+# Maven
+target
+
+# Idea
+.idea/
+*.iml
+*.ipr
+*.iws
+.buildpath
+*.ids
+
+# Mac
+.DS_Store
+
+# SoapUI
+*.log
