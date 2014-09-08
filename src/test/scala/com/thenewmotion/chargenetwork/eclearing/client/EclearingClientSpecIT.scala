@@ -1,9 +1,8 @@
 package com.thenewmotion.chargenetwork.eclearing.client
 
-import com.thenewmotion.chargenetwork.eclearing.api.{ExpiryDate, TokenSubType, Card}
-import com.thenewmotion.chargenetwork.eclearing.{EclearingConfig, Converters}
+import com.thenewmotion.chargenetwork.eclearing.api.{EmtId, ExpiryDate, TokenSubType, Card}
+import com.thenewmotion.chargenetwork.eclearing.{EclearingConfig}
 import com.typesafe.config._
-import eu.ochp._1.RoamingAuthorisationInfo
 import org.specs2.mutable.SpecificationWithJUnit
 
 
@@ -55,29 +54,23 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
 //      success
 //    }.pendingUntilFixed("CDR operations giving inexplicable errors")
 
-    " indicate in result that WS is not reachable" >> {
-      val authList = faultyClient.roamingAuthorisationList()
-      val cards = authList.map(Converters.roamingAuthorisationInfoToCard)
-//      cards(0).evcoId === "YYABCC00000003"
-      success
-    }
 
     " receive roamingAuthorisationList" >> {
       val authList = client.roamingAuthorisationList()
-      val cards = authList.map(Converters.roamingAuthorisationInfoToCard)
-      cards(0).evcoId === "YYABCC00000003"
+      val cards = authList
+      cards(0).contractId === "YYABCC00000003"
     }
 
     " send roamingAuthorisationList" >> {
       val cards = List(card1)
-      val rais = cards.map(Converters.cardToRoamingAuthorisationInfo)
+      val rais = cards
       val result = client.setRoamingAuthorisationList(rais)
       result.resultCode === "ok"
     }
 
     " return an error for rejected roamingAuthorisationList" >> {
       val cards = List(card2)
-      val rais = cards.map(Converters.cardToRoamingAuthorisationInfo)
+      val rais = cards
       val result = client.setRoamingAuthorisationList(rais)
       result.resultCode === "nok"
     }
@@ -112,11 +105,6 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
 //      success
 //    }
 
-//    "use another URL if given" >> {
-//      val client = new EclearingClient("", "", None, Some(new URI("http://example.org/test_override")))
-//
-//      client.soapBindings.baseAddress.toString mustEqual "http://example.org/test_override"
-//    }
   }
 }
 
@@ -139,18 +127,21 @@ trait TestData {
   )
 
   val card1 = Card(
-    evcoId = "YYABCC00000003",
-    tokenSubType = TokenSubType.withName("mifareCls"),
-    tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0",
-    printedNumber = "YYABCC00000003J",
+    contractId = "YYABCC00000003",
+    emtId=EmtId(
+      tokenSubType = Some(TokenSubType.withName("mifareCls")),
+      tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"),
+    printedNumber = Some("YYABCC00000003J"),
     expiryDate = ExpiryDate("2014-07-14T00:00:00Z")
   )
 
   val card2 = Card(
-    evcoId = "YYABCC00000003",
-    tokenSubType = TokenSubType.withName("mifareCls"),
-    tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1", // cf. last digit!
-    printedNumber = "YYABCC00000003J",
+    contractId = "YYABCC00000003",
+    emtId=EmtId(
+      tokenSubType = Some(TokenSubType.withName("mifareCls")),
+      tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1"), // cf. last digit!)
+    printedNumber = Some("YYABCC00000003J"),
+
     expiryDate = ExpiryDate("2014-07-14T00:00:00Z")
   )
 }

@@ -31,6 +31,6 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     <dependency>
         <groupId>com.thenewmotion.chargenetwork</groupId>
         <artifactId>e-clearing-client_ochp-1.2_2.10</artifactId>
-        <version>2.9</version>
+        <version>1.0</version>
     </dependency>
 ```

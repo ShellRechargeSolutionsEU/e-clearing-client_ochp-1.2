@@ -6,6 +6,7 @@ import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card}
 import com.typesafe.scalalogging.slf4j.Logging
 import eu.ochp._1._
 import eu.ochp._1_2.OCHP12
@@ -21,10 +22,11 @@ import org.apache.wss4j.dom.handler.WSHandlerConstants
 class EclearingClient(cxfClient: OCHP12) extends Logging {
 
   import scala.collection.JavaConverters._
+  import com.thenewmotion.chargenetwork.eclearing.Converters._
 
-  def setRoamingAuthorisationList(info: Seq[RoamingAuthorisationInfo]): Result = {
+  def setRoamingAuthorisationList(info: Seq[Card]): Result = {
     val req: SetRoamingAuthorisationListRequest = new SetRoamingAuthorisationListRequest()
-    req.getRoamingAuthorisationInfoArray.addAll(info.asJava)
+    req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.setRoamingAuthorisationList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
   }
@@ -32,10 +34,21 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
   def roamingAuthorisationList() = {
     val resp: GetRoamingAuthorisationListResponse = cxfClient.getRoamingAuthorisationList(
       new GetRoamingAuthorisationListRequest)
-    resp.getRoamingAuthorisationInfoArray.asScala.toList
+    resp.getRoamingAuthorisationInfoArray.asScala.toList.map(implicitly[Card](_))
   }
 
+  def getCdrs() = {
+    val resp: GetCDRsResponse = cxfClient.getCDRs(
+      new GetCDRsRequest)
+    resp.getCdrInfoArray.asScala.toList.map(implicitly[CDR](_))
+  }
 
+  def addCdrs(cdrs: Seq[CDR]) = {
+    val req: AddCDRsRequest = new AddCDRsRequest()
+    req.getCdrInfoArray.addAll(cdrs.map(implicitly[CDRInfo](_)).asJava)
+    val resp = cxfClient.addCDRs(req)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
 
 }
 

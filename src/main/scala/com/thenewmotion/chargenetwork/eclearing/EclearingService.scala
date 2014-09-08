@@ -1,6 +1,6 @@
 package com.thenewmotion.chargenetwork.eclearing
 
-import api.{EclearingApi, Card}
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, EclearingApi, Card}
 import com.thenewmotion.chargenetwork.eclearing.client.{Result, EclearingClient}
 import eu.ochp._1.RoamingAuthorisationInfo
 
@@ -11,7 +11,9 @@ import eu.ochp._1.RoamingAuthorisationInfo
 trait EclearingService extends EclearingApi {
   def client: EclearingClient
 
-  import Converters._
-  def sendCards(cards: Seq[Card]): Result = client.setRoamingAuthorisationList(cards.map(implicitly[RoamingAuthorisationInfo](_)))
-  def recvCards() = client.roamingAuthorisationList().map(implicitly[Card](_))
+  def sendCards(cards: List[Card]): Result = client.setRoamingAuthorisationList(cards)
+  def recvCards():List[Card] = client.roamingAuthorisationList()
+
+  def sendCdrs(cdrs: List[CDR]): Result = client.addCdrs(cdrs)
+  def recvCdrs():List[CDR] = client.getCdrs()
 }
