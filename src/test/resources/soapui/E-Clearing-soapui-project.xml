@@ -4170,7 +4170,7 @@ information that is more actual than the given value.</s:documentation>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="specs2_send_roamingAuthorisationList"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken wsu:Id="UsernameToken-fb8f3757-8862-4d8b-bd58-26d92abe79d6">
+         <wsse:UsernameToken wsu:Id="UsernameToken-c44ceff1-73d8-4a5c-b366-aadecc8dc870">
             <wsse:Username>backend.tnm</wsse:Username>
             <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Malt3Z3r?</wsse:Password>
          </wsse:UsernameToken>
@@ -4182,11 +4182,11 @@ information that is more actual than the given value.</s:documentation>
             <EmtId>
                <instance>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>rfid</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000003</contractId>
             <expiryDate>
-               <DateTime>Some(2014-07-14T02:00:00.000+02:00)</DateTime>
+               <DateTime>2014-07-14T02:00:00.000+02:00</DateTime>
             </expiryDate>
          </roamingAuthorisationInfoArray>
       </SetRoamingAuthorisationListRequest>
@@ -5806,7 +5806,17 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
          </ns:refusedChargePointInfo>
       </ns:SetChargePointListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="SetRoamingAuthorisationList"><con:settings/><con:defaultResponse>specs2_send_roamingAuthorisationList</con:defaultResponse><con:dispatchStyle>QUERY_MATCH</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="SetRoamingAuthorisationList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+def req = new XmlSlurper().parseText(mockRequest.requestContent)
+def emtId = req.Body.SetRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].EmtId.instance
+log.info("emtid: " + emtId)
+
+if (emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0")
+ return "specs2_send_roamingAuthorisationList_ok"
+else if (emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1")
+ return "specs2_send_roamingAuthorisationList_nok"
+else
+ return "Response 1"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:SetRoamingAuthorisationListResponse>
@@ -5833,7 +5843,7 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
          </ns:refusedRoamingAuthorisationInfo>
       </ns:SetRoamingAuthorisationListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/></con:response><con:response name="specs2_send_roamingAuthorisationList" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/></con:response><con:response name="specs2_send_roamingAuthorisationList_ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:SetRoamingAuthorisationListResponse>
@@ -5845,7 +5855,38 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
          </ns:result>
       </ns:SetRoamingAuthorisationListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateChargePointList" interface="eCHS-OCHP_1.2" operation="UpdateChargePointList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/></con:response><con:response name="specs2_send_roamingAuthorisationList_nok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:SetRoamingAuthorisationListResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>nok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data wrong.</ns:resultDescription>
+         </ns:result>
+         <ns:refusedRoamingAuthorisationInfo>
+            <ns:EmtId representation="sha-160">
+               <ns:instance>?</ns:instance>
+               <ns:tokenType>?</ns:tokenType>
+               <!--Optional:-->
+               <ns:tokenSubType>?</ns:tokenSubType>
+            </ns:EmtId>
+            <ns:contractId>?</ns:contractId>
+            <!--Optional:-->
+            <ns:printedNumber>?</ns:printedNumber>
+            <ns:expiryDate>
+               <ns:DateTime>?</ns:DateTime>
+            </ns:expiryDate>
+         </ns:refusedRoamingAuthorisationInfo>
+      </ns:SetRoamingAuthorisationListResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetRoamingAuthorisationList"/></con:response><con:dispatchConfig xsi:type="con:MockOperationQueryMatchDispatch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:query><con:name>ok</con:name><con:query>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://ochp.eu/1.2';
+declare namespace wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
+declare namespace wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd';
+declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
+//roamingAuthorisationInfoArray[0]/EmtId/instance</con:query><con:match>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</con:match><con:response>specs2_send_roamingAuthorisationList_ok</con:response></con:query><con:query><con:name>nok</con:name><con:response>specs2_send_roamingAuthorisationList_nok</con:response></con:query></con:dispatchConfig></con:mockOperation><con:mockOperation name="UpdateChargePointList" interface="eCHS-OCHP_1.2" operation="UpdateChargePointList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateChargePointListResponse>

@@ -15,12 +15,12 @@ import org.specs2.mutable.SpecificationWithJUnit
  * User: czwirello
  * Date: 08.09.14
  */
-class ConverterTest extends SpecificationWithJUnit{
+class ConverterSpec extends SpecificationWithJUnit{
    "Converter " should {
      " translate CDRinfo into CDR" >> {
        val cdrinfo = new CDRInfo()
        val emtId = new GenEmtId()
-       cdrinfo.setContractId("12345")
+       cdrinfo.setContractId("DE-LND-C00001516-E")
        emtId.setInstance("96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0")
        emtId.setTokenType("rfid")
        emtId.setTokenSubType("mifareCls")
@@ -49,7 +49,7 @@ class ConverterTest extends SpecificationWithJUnit{
 
 
        val cdr:CDR = cdrInfoToCdr(cdrinfo)
-       cdr.contractId === "12345"
+       cdr.contractId === "DE-LND-C00001516-E"
        cdr.emtId.tokenId === "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"
        cdr.emtId.tokenType.toString === "rfid"
        cdr.emtId.tokenSubType.get.toString === "mifareCls"
@@ -65,13 +65,13 @@ class ConverterTest extends SpecificationWithJUnit{
      " translate CDR into CDRInfo" >> {
        val cdr = CDR(
          cdrId = "123456someId123456",
-         evseId = "1234567",
+         evseId = "FR*A23*E45B*78C",
          emtId = EmtId(
             tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0",
             tokenType = TokenType.withName("rfid"),
             tokenSubType = Some(TokenSubType.withName("mifareCls"))
            ),
-         contractId = "12345",
+         contractId = "DE-LND-C00001516-E",
          liveAuthId = Some("wtf"),
          status = CdrStatusType.withName("new"),
          startDateTime = CdrStartDateTime("2014-08-08T10:10:10+01:00"),
@@ -104,9 +104,9 @@ class ConverterTest extends SpecificationWithJUnit{
        )
        val cdrinfo: CDRInfo = cdrToCdrInfo(cdr)
        cdrinfo.getCdrId === "123456someId123456"
-       cdrinfo.getEvseId === "1234567"
+       cdrinfo.getEvseId === "FR*A23*E45B*78C"
        cdrinfo.getEmtId.getInstance === "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"
-       cdrinfo.getContractId === "12345"
+       cdrinfo.getContractId === "DE-LND-C00001516-E"
        cdrinfo.getLiveAuthId === "wtf"
        cdrinfo.getStatus.getCdrStatusType === "new"
        cdrinfo.getStartDateTime.getLocalDateTime === "2014-08-08T11:10:10.000+02:00"

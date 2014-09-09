@@ -12,13 +12,14 @@ import org.specs2.mutable.SpecificationWithJUnit
  * The respective project can be found in
  * test/resources/soapui/E-Clearing-soapui-project.xml (SoauUI v5.0.0) *
  *
+ * The mock service will be starting automatically during the pre-integration-test phase
+ * so this test can run during integration-test phase
+ *
  *
  * @author Christoph Zwirello
  */
 class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
   args(sequential = true)
-
-
 
 
   "EclearingClient" should {
