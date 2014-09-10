@@ -3802,7 +3802,370 @@ information that is more actual than the given value.</s:documentation>
          </ns:cdrInfoArray>
       </ns:AddCDRsRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="realRequest"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/ConfirmCDRs" name="ConfirmCDRs" bindingOperationName="ConfirmCDRs" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="realRequest"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="formattingDummy"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
+            <wsse:Username>""</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">""</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <SetRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2">
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>02C0D078</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000033963M</contractId>
+            <expiryDate>
+               <DateTime>2014-09-25T00:00:00.000+02:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>040648B2752680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000017527W</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04167EE2952F81</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000679110H</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0470C0E2952F80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000679061B</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04851BD2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000074625T</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>048C4792213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000466650U</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04935192213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000466641V</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0495F692213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000470017S</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A354AA213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000269603E</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A98ACAF52680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM001000042W</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A9A5E2952F80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000679070A</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04AD4ADA2B2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM001010824Y</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04B8D702CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM0001753945</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04BB1392253190</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000412785R</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04C42C02CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>BETNM0000017717</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04DA6D42B32280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>BETNM0000006068</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E3C3D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000113673W</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E52CC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000132429H</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E9F0D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000117133T</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EF9CC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM00012345XK</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFA8C2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000119042E</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFAAC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000123024V</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFB0C2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000123223W</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFBCC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000123364Z</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFFAC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM0001232973</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0A833229</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000009497P</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>1234567890ABCDEF</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>ASDAS00DASDASDT</contractId>
+            <expiryDate>
+               <DateTime>2020-01-01T00:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2A2F5066</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM00001339XE</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2ABD4B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000009482B</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>4922592213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000463373V</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>C289017D</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000038154Y</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>DAE14B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000008168X</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>EAD44B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000005931P</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>FA163E29</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000011603W</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>FA6C4B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000007715R</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+      </SetRoamingAuthorisationListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/ConfirmCDRs" name="ConfirmCDRs" bindingOperationName="ConfirmCDRs" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:ConfirmCDRsRequest>
@@ -3974,7 +4337,7 @@ information that is more actual than the given value.</s:documentation>
    &lt;soap:Body>
       &lt;GetRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2"/>
    &lt;/soap:Body>
-&lt;/soap:Envelope></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetRoamingAuthorisationListUpdates" name="GetRoamingAuthorisationListUpdates" bindingOperationName="GetRoamingAuthorisationListUpdates" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+&lt;/soap:Envelope></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetRoamingAuthorisationListUpdates" name="GetRoamingAuthorisationListUpdates" bindingOperationName="GetRoamingAuthorisationListUpdates" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:GetRoamingAuthorisationListUpdatesRequest>
@@ -5580,7 +5943,18 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
                <DateTime>2014-07-14T00:00:00Z</DateTime>
             </expiryDate>
          </roamingAuthorisationInfoArray>
-         <roamingAuthorisationInfoArray>
+      </GetRoamingAuthorisationListResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="GetRoamingAuthorisationListUpdates" interface="eCHS-OCHP_1.2" operation="GetRoamingAuthorisationListUpdates"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <GetRoamingAuthorisationListUpdatesResponse xmlns="http://ochp.eu/1.2">
+         <result>
+            <resultCode>
+               <resultCode>ok</resultCode>
+            </resultCode>
+            <resultDescription>Data accepted and processed.</resultDescription>
+         </result>
+         <roamingAuthorisationInfo>
             <EmtId representation="plain">
                <instance>04917CF2293180</instance>
                <tokenType>rfid</tokenType>
@@ -5591,37 +5965,10 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
             <expiryDate>
                <DateTime>2014-08-20T15:23:32Z</DateTime>
             </expiryDate>
-         </roamingAuthorisationInfoArray>
-      </GetRoamingAuthorisationListResponse>
+         </roamingAuthorisationInfo>
+      </GetRoamingAuthorisationListUpdatesResponse>
    </soap:Body>
-</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="GetRoamingAuthorisationListUpdates" interface="eCHS-OCHP_1.2" operation="GetRoamingAuthorisationListUpdates"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ns:GetRoamingAuthorisationListUpdatesResponse>
-         <ns:result>
-            <ns:resultCode>
-               <ns:resultCode>?</ns:resultCode>
-            </ns:resultCode>
-            <ns:resultDescription>?</ns:resultDescription>
-         </ns:result>
-         <!--Zero or more repetitions:-->
-         <ns:roamingAuthorisationInfo>
-            <ns:EmtId representation="sha-160">
-               <ns:instance>?</ns:instance>
-               <ns:tokenType>?</ns:tokenType>
-               <!--Optional:-->
-               <ns:tokenSubType>?</ns:tokenSubType>
-            </ns:EmtId>
-            <ns:contractId>?</ns:contractId>
-            <!--Optional:-->
-            <ns:printedNumber>?</ns:printedNumber>
-            <ns:expiryDate>
-               <ns:DateTime>?</ns:DateTime>
-            </ns:expiryDate>
-         </ns:roamingAuthorisationInfo>
-      </ns:GetRoamingAuthorisationListUpdatesResponse>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationListUpdates"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="RequestLiveRoamingAuthorisation" interface="eCHS-OCHP_1.2" operation="RequestLiveRoamingAuthorisation"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationListUpdates"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="RequestLiveRoamingAuthorisation" interface="eCHS-OCHP_1.2" operation="RequestLiveRoamingAuthorisation"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:RequestLiveRoamingAuthorisationResponse>
@@ -6042,31 +6389,36 @@ declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
          </ns:refusedChargePointInfo>
       </ns:UpdateChargePointListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="UpdateRoamingAuthorisationList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="UpdateRoamingAuthorisationList"><con:settings/><con:defaultResponse>specs2_updateRoamingAuthList_ok</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+def req = new XmlSlurper().parseText(mockRequest.requestContent)
+def emtId = req.Body.UpdateRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].EmtId.instance
+log.info("emtid: " + emtId)
+
+if (emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1")
+ return "specs2_updateRoamingAuthList_ok"
+else
+ return "specs2_updateRoamingAuthList_nok"</con:dispatchPath><con:response name="specs2_updateRoamingAuthList_ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateRoamingAuthorisationListResponse>
          <ns:result>
             <ns:resultCode>
-               <ns:resultCode>?</ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
             </ns:resultCode>
-            <ns:resultDescription>?</ns:resultDescription>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
          </ns:result>
-         <!--Zero or more repetitions:-->
-         <ns:refusedRoamingAuthorisationInfo>
-            <ns:EmtId representation="sha-160">
-               <ns:instance>?</ns:instance>
-               <ns:tokenType>?</ns:tokenType>
-               <!--Optional:-->
-               <ns:tokenSubType>?</ns:tokenSubType>
-            </ns:EmtId>
-            <ns:contractId>?</ns:contractId>
-            <!--Optional:-->
-            <ns:printedNumber>?</ns:printedNumber>
-            <ns:expiryDate>
-               <ns:DateTime>?</ns:DateTime>
-            </ns:expiryDate>
-         </ns:refusedRoamingAuthorisationInfo>
+      </ns:UpdateRoamingAuthorisationListResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/></con:response><con:response name="specs2_updateRoamingAuthList_nok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:UpdateRoamingAuthorisationListResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>nok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
+         </ns:result>
       </ns:UpdateRoamingAuthorisationListResponse>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer><con:outgoing><con:name>echs-q</con:name><con:username>backend.tnm</con:username><con:password>T683f2L03d</con:password><con:entry type="Username"><con:configuration><addCreated>true</addCreated><addNonce>true</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

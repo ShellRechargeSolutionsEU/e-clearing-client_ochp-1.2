@@ -25,16 +25,29 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
   import com.thenewmotion.chargenetwork.eclearing.Converters._
 
   def setRoamingAuthorisationList(info: Seq[Card]): Result = {
-    val req: SetRoamingAuthorisationListRequest = new SetRoamingAuthorisationListRequest()
+    val req = new SetRoamingAuthorisationListRequest()
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.setRoamingAuthorisationList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
   }
 
   def roamingAuthorisationList() = {
-    val resp: GetRoamingAuthorisationListResponse = cxfClient.getRoamingAuthorisationList(
+    val resp = cxfClient.getRoamingAuthorisationList(
       new GetRoamingAuthorisationListRequest)
     resp.getRoamingAuthorisationInfoArray.asScala.toList.map(implicitly[Card](_))
+  }
+
+  def setRoamingAuthorisationListUpdate(info: Seq[Card]): Result = {
+    val req = new UpdateRoamingAuthorisationListRequest()
+    req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
+    val resp = cxfClient.updateRoamingAuthorisationList(req)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
+
+  def roamingAuthorisationListUpdate() = {
+    val resp = cxfClient.getRoamingAuthorisationListUpdates(
+      new GetRoamingAuthorisationListUpdatesRequest)
+    resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_))
   }
 
   def getCdrs() = {

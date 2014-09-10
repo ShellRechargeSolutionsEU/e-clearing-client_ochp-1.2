@@ -9,7 +9,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 /**
  * EclearingClient integration tests.
  * need a soapUI mock service running on 8088.
- * The respective project can be found in
+ * The respective soapui project can be found in
  * test/resources/soapui/E-Clearing-soapui-project.xml (SoauUI v5.0.0) *
  *
  * The mock service will be starting automatically during the pre-integration-test phase
@@ -59,6 +59,7 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
     " receive roamingAuthorisationList" >> {
       val authList = client.roamingAuthorisationList()
       val cards = authList
+      cards.length === 7
       cards(0).contractId === "YYABCC00000003"
     }
 
@@ -71,12 +72,25 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
 
     " return an error for rejected roamingAuthorisationList" >> {
       val cards = List(card2)
-      val rais = cards
-      val result = client.setRoamingAuthorisationList(rais)
+      val result = client.setRoamingAuthorisationList(cards)
       result.resultCode === "nok"
     }
 
-//    "receive chargepointList" >> {
+    " receive roamingAuthorisationListUpdate" >> {
+      val authList = client.roamingAuthorisationListUpdate()
+      val cards = authList
+      cards.length === 1
+      cards(0).contractId === "YYABCC00000001"
+    }
+
+    " send roamingAuthorisationListUpdate" >> {
+      val cards = List(card2)
+      val result = client.setRoamingAuthorisationListUpdate(cards)
+      result.resultCode === "ok"
+    }
+
+
+    //    "receive chargepointList" >> {
 //      val cps = client.chargepointList()
 //      System.out.println(cps.mkString("\n"))
 //      success

@@ -10,8 +10,10 @@ import org.joda.time.format.ISODateTimeFormat
  * @author Yaroslav Klymko
  */
 trait EclearingApi {
-  def recvCards(): List[Card]
-  def sendCards(cards: List[Card]): Result
+  def recvAllCards(): List[Card]
+  def sendAllCards(cards: List[Card]): Result
+  def recvNewCards(lastUpdate: DateTime): List[Card]
+  def sendNewCards(cards: List[Card]): Result
 
   def recvCdrs(): List[CDR]
   def sendCdrs(cards: List[CDR]): Result
