@@ -40,7 +40,7 @@ object Converters{
     rai.setContractId(contractId)
     emtId.setInstance(card.emtId.tokenId)
     emtId.setTokenType(card.emtId.tokenType.toString)
-    emtId.setTokenSubType(card.emtId.tokenSubType.toString)
+    card.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
     val expDate = new DateTimeType()
