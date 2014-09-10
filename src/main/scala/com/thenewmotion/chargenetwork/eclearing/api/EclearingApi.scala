@@ -74,7 +74,7 @@ object BillingItemType extends Enumeration{
 
 case class EmtId(
   tokenType: TokenType = TokenType.rfid,
-  tokenSubType: Option[TokenSubType.Value],
+  tokenSubType: Option[TokenSubType.Value] = None,
   tokenId: String
 )
 
