@@ -24,7 +24,7 @@ case class CDR(
   city: Option[String] = None,
   country: String,
   chargePointType: String,
-  connectorType: ConnectorType,
+  connectorType: Connector,
   maxSocketPower: Float,
   productType: Option[String] = None,
   meterId: Option[String] = None,

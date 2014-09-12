@@ -28,7 +28,7 @@ case class EmtId(
   tokenId: String
 )
 
-case class ConnectorType (
+case class Connector (
   connectorStandard: ConnectorStandard.Value,
   connectorFormat: ConnectorFormat.Value
 )
@@ -82,10 +82,15 @@ object DateTimeNoMillis {
   def unapply(dt: DateTime): String = dt.toString(formatter)
 }
 
+case class TimeNoSecs(
+  time: LocalTime
+){
+  override def toString = TimeNoSecs.formatter.print(time)
+}
+
 object TimeNoSecs {
   val formatter = ISODateTimeFormat.hourMinute()
-  def apply(s: String) = formatter.parseLocalTime(s)
-  def unapply(dt: LocalTime): String = formatter.print(dt)
+  def apply(s: String): TimeNoSecs = TimeNoSecs(formatter.parseLocalTime(s))
 }
 
 object TokenRepresentation extends Enumeration{

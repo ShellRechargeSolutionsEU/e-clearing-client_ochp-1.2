@@ -14,27 +14,27 @@ case class ChargePoint (
   timestamp: Option[DateTime] = None,
   locationName: String,
   locationNameLang: String,
-  images: List[EvseImageUrl],
+  images: List[EvseImageUrl] = List(),
   address: CpAddress,
   geoLocation: GeoPoint,
   geoUserInterface: Option[GeoPoint] = None,
-  geoSiteEntrance: List[GeoPoint],
-  geoSiteExit: List[GeoPoint],
+  geoSiteEntrance: List[GeoPoint] = List(),
+  geoSiteExit: List[GeoPoint] = List(),
   operatingTimes: Option[Hours] = None,
   accessTimes: Option[Hours] = None,
   status: Option[ChargePointStatus.Value] = None,
-  statusSchedule: List[ChargePointSchedule],
-  telephoneNumber: Option[String],
-  floorLevel: Option[String],
-  parkingSlotNumber: Option[String],
-  parkingRestriction: List[ParkingRestriction.Value],
+  statusSchedule: List[ChargePointSchedule] = List(),
+  telephoneNumber: Option[String] = None,
+  floorLevel: Option[String] = None,
+  parkingSlotNumber: Option[String] = None,
+  parkingRestriction: List[ParkingRestriction.Value] = List(),
   authMethods: List[AuthMethod.Value], //must be non-empty
-  connectors: List[ConnectorType], //must be non-empty
-  userInterfaceLang: List[String]
+  connectors: List[Connector], //must be non-empty
+  userInterfaceLang: List[String] = List()
 )
 
 case class CpAddress (
-  houseNumber: Option[String],
+  houseNumber: Option[String] = None,
   address: String,
   city: String,
   zipCode: String,
@@ -60,12 +60,12 @@ case class Hours (
 
 case class RegularHours (
   weekday: Int = 0,
-  periodBegin: LocalTime,
-  periodEnd: LocalTime)
+  periodBegin: TimeNoSecs,
+  periodEnd: TimeNoSecs)
 
 case class ExceptionalPeriod (
-  periodBegin: LocalTime,
-  periodEnd: LocalTime)
+  periodBegin: DateTime,
+  periodEnd: DateTime)
 
 object ChargePointStatus extends Enumeration{
   type ChargePointStatus = Value

@@ -18,7 +18,7 @@ import org.specs2.mutable.SpecificationWithJUnit
  *
  * @author Christoph Zwirello
  */
-class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
+class EclearingClientSpecIT extends SpecificationWithJUnit with CardTestScope with CpTestScope{
   args(sequential = true)
 
 
@@ -92,38 +92,20 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
 
     " receive chargepointList" >> {
       val cps = client.chargePointList()
+      cps(0).evseId === chargePoint1.evseId
       success
     }
 
-    "set charge point list" >> {
-//      client.setChargepointList(Seq(
-//        ChargepointInfo(evseId = "02000001",
-//        locationName = "The New Motion Office",
-//        locationNameLang = "en",
-//        houseNumber = "452",
-//        streetName = "Keizersgracht",
-//        city = "Amsterdam",
-//        postalCode = "1016 GD",
-//        taLat = "52.0",
-//        taLon = "5.0",
-//        taLatEntranceExit = "",
-//        taLonEntranceExit = "",
-//        openingTimes = "",
-//        powerOutletStatus = "in use",
-//        energyProviderId = "GreenChoice",
-//        roamingHubId = "The New Motion",
-//        telephoneNumber = "",
-//        floorLevel = "0",
-//        paymentMethod = "",
-//        evChargingReceptacleType = "Mennekes Type II"
-//      )))
+    " set charge point list" >> {
+      val result = client.setChargePointList(Seq(chargePoint1))
+      result.resultCode === "ok"
       success
     }
 
   }
 }
 
-trait TestData {
+trait CardTestScope {
 
   val conf: Config = ConfigFactory.load()
 

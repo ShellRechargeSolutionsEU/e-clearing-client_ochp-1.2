@@ -1,5 +1,7 @@
 package com.thenewmotion.chargenetwork.eclearing
 
+import java.util
+
 import api._
 import com.thenewmotion.chargenetwork.eclearing.api.BillingItem
 import com.thenewmotion.chargenetwork.eclearing.api.CdrPeriod
@@ -80,13 +82,13 @@ object Converters{
             TimeNoSecs(rh.getPeriodEnd))},
         exceptionalOpenings = hrs.getExceptionalOpenings.asScala.toList map {eo =>
           ExceptionalPeriod(
-            periodBegin = TimeNoSecs(eo.getPeriodBegin.getDateTime),
-            periodEnd = TimeNoSecs(eo.getPeriodEnd.getDateTime)
+            periodBegin = DateTimeNoMillis(eo.getPeriodBegin.getDateTime),
+            periodEnd = DateTimeNoMillis(eo.getPeriodEnd.getDateTime)
           )},
         exceptionalClosings = hrs.getExceptionalClosings.asScala.toList map {ec =>
           ExceptionalPeriod(
-            periodBegin = TimeNoSecs(ec.getPeriodBegin.getDateTime),
-            periodEnd = TimeNoSecs(ec.getPeriodEnd.getDateTime)
+            periodBegin = DateTimeNoMillis(ec.getPeriodBegin.getDateTime),
+            periodEnd = DateTimeNoMillis(ec.getPeriodEnd.getDateTime)
           )}))
     }
   }
@@ -112,7 +114,7 @@ object Converters{
       city = toOption(cdrinfo.getCity),
       country = cdrinfo.getCountry,
       chargePointType = cdrinfo.getChargePointType,
-      connectorType = ConnectorType(
+      connectorType = Connector(
         connectorStandard = ConnectorStandard.withName(
           cdrinfo.getConnectorType.getConnectorStandard.getConnectorStandard),
         connectorFormat = ConnectorFormat.withName(
@@ -184,7 +186,7 @@ object Converters{
     cdrInfo
   }
 
-  def chargePeriodToGenCp(gcp: CdrPeriod): GenCdrPeriodType = {
+  private def chargePeriodToGenCp(gcp: CdrPeriod): GenCdrPeriodType = {
     val period1 = new GenCdrPeriodType()
     val start = new LocalDateTimeType()
     start.setLocalDateTime(gcp.startDateTime.toString)
@@ -202,7 +204,20 @@ object Converters{
     period1
   }
 
+  private def geoPointToGenGeoPoint(point: GeoPoint): GeoPointType = {
+    val gpt = new GeoPointType()
+    gpt.setLat(point.lat)
+    gpt.setLon(point.lon)
+    gpt
+  }
+
   implicit def cpInfoToChargePoint(genCp: ChargePointInfo): ChargePoint = {
+//    println("--\n" + genCp)
+//    Thread.sleep(100)
+//    println(genCp.getGeoLocation)
+//    Thread.sleep(100)
+//    println(genCp.getGeoLocation.getLat)
+//    Thread.sleep(100)
     ChargePoint(
       evseId = genCp.getEvseId,
       locationId = genCp.getLocationId,
@@ -225,8 +240,8 @@ object Converters{
         country = genCp.getCountry
       ),
       geoLocation = GeoPoint(
-        genCp.getGeoLocation.getLat,
-        genCp.getGeoLocation.getLon),
+         lat = genCp.getGeoLocation match {case null => ""; case gl: GeoPointType => gl.getLat},
+        lon = genCp.getGeoLocation match {case null => ""; case gl: GeoPointType => gl.getLon}),
       geoUserInterface = toGeoPointOption(genCp.getGeoUserInterface),
       geoSiteEntrance = genCp.getGeoSiteEntrance.asScala.toList map {gp =>
         GeoPoint(gp.getLat, gp.getLon)},
@@ -247,7 +262,7 @@ object Converters{
       authMethods = genCp.getAuthMethods.asScala.toList map {am =>
         AuthMethod.withName(am.getAuthMethodType)},
       connectors = genCp.getConnectors.asScala.toList map {con =>
-        ConnectorType(
+        Connector(
         connectorStandard = ConnectorStandard.withName(
           con.getConnectorStandard.getConnectorStandard),
         connectorFormat = ConnectorFormat.withName(
@@ -256,28 +271,118 @@ object Converters{
     )
   }
 
-  def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
+  private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
     val iut = new GenEvseImageUrlType()
     iut.setClazz(image.clazz)
-    image.height  match {case Some(s) => iut.setHeight(s)}
-    image.width  match {case Some(s) => iut.setWidth(s)}
-    image.thumbUri  match {case Some(s) => iut.setThumbUri(s)}
+    image.height map iut.setHeight
+    image.width map iut.setWidth
+    image.thumbUri map iut.setThumbUri
     iut.setType(image.`type`)
     iut.setUri(image.uri)
     iut
+  }
+
+
+
+
+  private def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
+    def regHoursToRegHoursType(regHours: RegularHours): RegularHoursType = {
+      val regularHoursType = new RegularHoursType()
+        regularHoursType.setWeekday(regHours.weekday)
+        regularHoursType.setPeriodBegin(regHours.periodBegin.toString)
+        regularHoursType.setPeriodEnd(regHours.periodEnd.toString)
+      regularHoursType
+    }
+    def excPeriodToExcPeriodType(ep: ExceptionalPeriod): ExceptionalPeriodType = {
+      val ept = new ExceptionalPeriodType()
+      val begin = new DateTimeType
+      begin.setDateTime(ep.periodBegin.toString)
+      ept.setPeriodBegin(begin)
+      val end = new DateTimeType
+      end.setDateTime(ep.periodEnd.toString)
+      ept.setPeriodEnd(end)
+      ept
+    }
+    val hoursType = new HoursType()
+    maybeHours map {hours =>
+      hoursType.getRegularHours.addAll(hours.regularHours map regHoursToRegHoursType asJavaCollection)
+      hoursType.getExceptionalOpenings.addAll(hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
+      hoursType.getExceptionalClosings.addAll(hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
+    }
+    hoursType
+  }
+
+  private def statSchedToGenStatSched(schedule: ChargePointSchedule): ChargePointScheduleType = {
+    val cpst = new ChargePointScheduleType()
+    val status = new ChargePointStatusType()
+    status.setChargePointStatusType(schedule.status.toString)
+    cpst.setStatus(status)
+    val startDate = new DateTimeType()
+    startDate.setDateTime(schedule.startDate.toString)
+    cpst.setStartDate(startDate)
+    val endDate = new DateTimeType()
+    endDate.setDateTime(schedule.endDate.toString)
+    cpst.setEndDate(endDate)
+    cpst
+  }
+
+  private def parkRestrToGenParkRestr(pRestr: ParkingRestriction.Value): ParkingRestrictionType = {
+    val prt = new ParkingRestrictionType()
+    prt.setParkingRestrictionType(pRestr.toString)
+    prt
+  }
+
+  private def authMethodToGenAuthMethod(authMethod: AuthMethod.Value): AuthMethodType = {
+    val amt = new AuthMethodType()
+    amt.setAuthMethodType(authMethod.toString)
+    amt
+  }
+  
+  private def connToGenConn(connector: Connector): GenConnectorType = {
+    val ct = new GenConnectorType()
+    val cs = new GenConnectorStandard()
+    val cf = new GenConnectorFormat()
+    cs.setConnectorStandard(connector.connectorStandard.toString)
+    ct.setConnectorStandard(cs)
+    cf.setConnectorFormat(connector.connectorFormat.toString)
+    ct.setConnectorFormat(cf)
+    ct
   }
 
   implicit def chargePointToGenCp(cp: ChargePoint): ChargePointInfo = {
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId)
     cpi.setLocationId(cp.locationId)
-    cpi.timestamp match {case Some(t) =>
+    cpi.timestamp map {t =>
       val ts = new DateTimeType()
       ts.setDateTime(t.toString)
       cpi.setTimestamp(ts)}
     cpi.setLocationName(cp.locationName)
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
+    cp.address.houseNumber map {hn => cpi.setAddress(hn)}
+    cpi.setAddress(cp.address.address)
+    cpi.setZipCode(cp.address.zipCode)
+    cpi.setCity(cp.address.city)
+    cpi.setCountry(cp.address.country)
+    cpi.setGeoLocation(geoPointToGenGeoPoint(cp.geoLocation))
+    cp.geoUserInterface map {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
+    cpi.getGeoSiteEntrance.addAll(cp.geoSiteEntrance.map {geoPointToGenGeoPoint} asJavaCollection)
+    cpi.getGeoSiteExit.addAll(cp.geoSiteExit.map {geoPointToGenGeoPoint} asJavaCollection)
+    cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
+    cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
+    cp.status map {st =>
+      val status = new ChargePointStatusType()
+      status.setChargePointStatusType(st.toString)
+      cpi.setStatus(status)}
+    cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
+    cp.telephoneNumber map cpi.setTelephoneNumber
+    cp.floorLevel map cpi.setFloorLevel
+    cp.parkingSlotNumber map cpi.setParkingSlotNumber
+    cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)
+    cpi.getAuthMethods.addAll(cp.authMethods.map {authMethodToGenAuthMethod} asJavaCollection)
+    cpi.getConnectors.addAll(cp.connectors.map {connToGenConn} asJavaCollection)
+    cpi.getUserInterfaceLang.addAll(cp.userInterfaceLang asJavaCollection)
     cpi
   }
 }

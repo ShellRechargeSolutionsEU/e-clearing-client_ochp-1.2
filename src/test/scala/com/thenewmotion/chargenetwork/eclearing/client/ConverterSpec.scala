@@ -73,7 +73,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope{
          city = Some("Amsterdam"),
          country = "NL",
          chargePointType = "AC",
-         connectorType = ConnectorType(
+         connectorType = Connector(
            connectorStandard = ConnectorStandard.`TESLA-R`,
            connectorFormat = ConnectorFormat.Socket),
          maxSocketPower = 16,
@@ -114,24 +114,54 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope{
      " translate ChargePointInfo into ChargePoint" >> {
 
        val chargePoint = cpInfoToChargePoint(chargePointInfo1)
-       chargePoint.evseId === "DE*823*E1234*5678"
-       chargePoint.locationId === "Wereld"
-       chargePoint.locationName === ""
-       chargePoint.locationNameLang === "NL"
-       chargePoint.address.address === "Keizersgracht 585"
-       chargePoint.address.city === "Amsterdam"
-       chargePoint.authMethods(0) === AuthMethod.RfidMifareCls
-       chargePoint.connectors(0).connectorFormat === ConnectorFormat.Socket
-       chargePoint.connectors(0).connectorStandard === ConnectorStandard.`TESLA-R`
-       chargePoint.operatingTimes.get.regularHours(0).weekday === 1
-       chargePoint.operatingTimes.get.regularHours(0).periodBegin === "08:00"
-       chargePoint.operatingTimes.get.regularHours(0).periodEnd === "18:00"
+       chargePoint.evseId === chargePointInfo1.getEvseId
+       chargePoint.locationId === chargePointInfo1.getLocationId
+       chargePoint.locationName === chargePointInfo1.getLocationName
+       chargePoint.locationNameLang === chargePointInfo1.getLocationNameLang
+       chargePoint.address.address === chargePointInfo1.getAddress
+       chargePoint.address.city === chargePointInfo1.getCity
+       chargePoint.authMethods(0).toString === chargePointInfo1.getAuthMethods.get(0).getAuthMethodType
+       chargePoint.connectors(0).connectorFormat.toString ===
+         chargePointInfo1.getConnectors.get(0).getConnectorFormat.getConnectorFormat
+       chargePoint.connectors(0).connectorStandard.toString ===
+         chargePointInfo1.getConnectors.get(0).getConnectorStandard.getConnectorStandard
+       chargePoint.operatingTimes.get.regularHours(0).weekday ===
+         chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getWeekday
+       chargePoint.operatingTimes.get.regularHours(0).periodBegin.toString ===
+         chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getPeriodBegin
+       chargePoint.operatingTimes.get.regularHours(0).periodEnd.toString ===
+         chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getPeriodEnd
 
+     }
+
+     " translate ChargePoint into ChargePointInfo" >> {
+       val chargePointInfo = chargePointToGenCp(chargePoint1)
+       chargePointInfo.getEvseId === chargePoint1.evseId
+       chargePointInfo.getLocationId === chargePoint1.locationId
+       chargePointInfo.getLocationName === chargePoint1.locationName
+       chargePointInfo.getLocationNameLang === chargePoint1.locationNameLang
+       chargePointInfo.getAddress === chargePoint1.address.address
+       chargePointInfo.getZipCode === chargePoint1.address.zipCode
+       chargePointInfo.getAuthMethods.get(0).getAuthMethodType ===
+         chargePoint1.authMethods(0).toString
+       chargePointInfo.getConnectors.get(0).getConnectorFormat.getConnectorFormat ===
+         chargePoint1.connectors(0).connectorFormat.toString
+       chargePointInfo.getConnectors.get(0).getConnectorStandard.getConnectorStandard ===
+         chargePoint1.connectors(0).connectorStandard.toString
+       chargePointInfo.getOperatingTimes.getRegularHours.get(0).getWeekday ===
+         chargePoint1.operatingTimes.get.regularHours(0).weekday
+       chargePointInfo.getOperatingTimes.getRegularHours.get(0).getPeriodBegin ===
+         chargePoint1.operatingTimes.get.regularHours(0).periodBegin.toString
+       chargePointInfo.getOperatingTimes.getRegularHours.get(0).getPeriodEnd ===
+         chargePoint1.operatingTimes.get.regularHours(0).periodEnd.toString
      }
    }
 }
 
 trait CpTestScope {
+  /*
+   * Using cxf-generated java code:
+   */
   val teslaSocketConnector = new GenConnectorType()
   val connForm = new GenConnectorFormat()
   connForm.setConnectorFormat("Socket")
@@ -165,4 +195,33 @@ trait CpTestScope {
   regularHours.setPeriodEnd("18:00")
   operatingTimes.getRegularHours.add(regularHours)
   chargePointInfo1.setOperatingTimes(operatingTimes)
+
+  /*
+   * Using scala code:
+   */
+  val chargePoint1 = ChargePoint(
+    evseId = "DE*823*E1234*5678",
+    locationId = "Wereld",
+    locationName = "",
+    locationNameLang = "NL",
+    address = CpAddress(
+      address = "Keizersgracht 585",
+      city = "Amsterdam",
+      zipCode = "1017DR",
+      country = "NL"
+    ),
+    geoLocation = GeoPoint(
+      lat = "52.36420822143555",
+      lon = "4.891792297363281"
+    ),
+    authMethods = List(AuthMethod.RfidMifareCls),
+    connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
+    operatingTimes = Some(Hours(
+    regularHours = List(RegularHours(
+       weekday = 1,
+       periodBegin = TimeNoSecs("08:00"),
+       periodEnd = TimeNoSecs("18:00")
+    )),
+    exceptionalOpenings = List(),
+    exceptionalClosings = List())))
 }
