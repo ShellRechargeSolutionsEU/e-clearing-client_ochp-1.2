@@ -1,6 +1,6 @@
 package com.thenewmotion.chargenetwork.eclearing.client
 
-import com.thenewmotion.chargenetwork.eclearing.api.{EmtId, ExpiryDate, TokenSubType, Card}
+import com.thenewmotion.chargenetwork.eclearing.api.{EmtId, DateTimeNoMillis, TokenSubType, Card}
 import com.thenewmotion.chargenetwork.eclearing.{EclearingConfig}
 import com.typesafe.config._
 import org.specs2.mutable.SpecificationWithJUnit
@@ -90,14 +90,14 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
     }
 
 
-    //    "receive chargepointList" >> {
-//      val cps = client.chargepointList()
-//      System.out.println(cps.mkString("\n"))
-//      success
-//    }
+    " receive chargepointList" >> {
+      val cps = client.chargePointList()
+      success
+    }
 
-//    "set charge point list" >> {
-//      client.setChargepointList(Seq(ChargepointInfo(evseId = "02000001",
+    "set charge point list" >> {
+//      client.setChargepointList(Seq(
+//        ChargepointInfo(evseId = "02000001",
 //        locationName = "The New Motion Office",
 //        locationNameLang = "en",
 //        houseNumber = "452",
@@ -117,8 +117,8 @@ class EclearingClientSpecIT extends SpecificationWithJUnit with TestData{
 //        paymentMethod = "",
 //        evChargingReceptacleType = "Mennekes Type II"
 //      )))
-//      success
-//    }
+      success
+    }
 
   }
 }
@@ -147,7 +147,7 @@ trait TestData {
       tokenSubType = Some(TokenSubType.withName("mifareCls")),
       tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"),
     printedNumber = Some("YYABCC00000003J"),
-    expiryDate = ExpiryDate("2014-07-14T00:00:00Z")
+    expiryDate = DateTimeNoMillis("2014-07-14T00:00:00Z")
   )
 
   val card2 = Card(
@@ -157,6 +157,6 @@ trait TestData {
       tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1"), // cf. last digit!)
     printedNumber = Some("YYABCC00000003J"),
 
-    expiryDate = ExpiryDate("2014-07-14T00:00:00Z")
+    expiryDate = DateTimeNoMillis("2014-07-14T00:00:00Z")
   )
 }

@@ -21,58 +21,6 @@ trait EclearingApi {
 }
 
 
-case class CDR(
-  cdrId: String,
-  evseId: String,
-  emtId: EmtId,
-  contractId: String,
-  liveAuthId: Option[String] = None,
-  status: CdrStatusType.Value,
-  startDateTime: DateTime,
-  endDateTime: DateTime,
-  duration: Option[String] = None,
-  houseNumber: Option[String] = None,
-  address: Option[String] = None,
-  zipCode: Option[String] = None,
-  city: Option[String] = None,
-  country: String,
-  chargePointType: String,
-  connectorType: ConnectorType,
-  maxSocketPower: Float,
-  productType: Option[String] = None,
-  meterId: Option[String] = None,
-  chargingPeriods: List[CdrPeriodType])
-
-object CdrStartDateTime {
-  val formatter = ISODateTimeFormat.dateTimeNoMillis()
-  def apply(s: String) = formatter.parseDateTime(s)
-  def unapply(dt: DateTime): String = dt.toString(formatter)
-}
-object CdrEndDateTime {
-  val formatter = ISODateTimeFormat.dateTimeNoMillis()
-  def apply(s: String) = formatter.parseDateTime(s)
-  def unapply(dt: DateTime): String = dt.toString(formatter)
-}
-
-case class CdrPeriodType (
-  startDateTime: DateTime,
-  endDateTime: DateTime,
-  billingItem: BillingItemType.Value,
-  billingValue: Float,
-  currency: String,
-  itemPrice: Float,
-  periodCost: Option[Float]
-)
-
-object BillingItemType extends Enumeration{
-  type BillingItemType = Value
-  val parkingtime = Value("parkingtime")
-  val usagetime = Value("usagetime")
-  val energy = Value("energy")
-  val power = Value("power")
-  val serviceFee = Value("serviceFee")
-
-}
 
 case class EmtId(
   tokenType: TokenType = TokenType.rfid,
@@ -128,10 +76,16 @@ case class Card(contractId: String,
                 printedNumber: Option[String],
                 expiryDate: DateTime)
 
-object ExpiryDate {
+object DateTimeNoMillis {
   val formatter = ISODateTimeFormat.dateTimeNoMillis()
   def apply(s: String) = formatter.parseDateTime(s)
   def unapply(dt: DateTime): String = dt.toString(formatter)
+}
+
+object TimeNoSecs {
+  val formatter = ISODateTimeFormat.hourMinute()
+  def apply(s: String) = formatter.parseLocalTime(s)
+  def unapply(dt: LocalTime): String = formatter.print(dt)
 }
 
 object TokenRepresentation extends Enumeration{
@@ -188,4 +142,5 @@ object TokenSubType {
 
   case class Unknown(id: Int) extends Value
 }
+
 

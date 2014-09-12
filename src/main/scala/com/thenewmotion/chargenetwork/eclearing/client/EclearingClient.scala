@@ -6,7 +6,7 @@ import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
-import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card}
+import com.thenewmotion.chargenetwork.eclearing.api.{ChargePoint, CDR, Card}
 import com.typesafe.scalalogging.slf4j.Logging
 import eu.ochp._1._
 import eu.ochp._1_2.OCHP12
@@ -61,6 +61,32 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     req.getCdrInfoArray.addAll(cdrs.map(implicitly[CDRInfo](_)).asJava)
     val resp = cxfClient.addCDRs(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
+
+  def setChargePointList(info: Seq[ChargePoint]): Result = {
+    val req = new SetChargePointListRequest()
+    req.getChargepointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
+    val resp = cxfClient.setChargepointList(req)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
+
+  def chargePointList() = {
+    val resp = cxfClient.getChargePointList(
+      new GetChargePointListRequest)
+    resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
+  }
+
+  def setChargePointListUpdate(info: Seq[ChargePoint]): Result = {
+    val req = new UpdateChargePointListRequest()
+    req.getChargePointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
+    val resp = cxfClient.updateChargePointList(req)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
+
+  def chargePointListUpdate() = {
+    val resp = cxfClient.getChargePointListUpdates(
+      new GetChargePointListUpdatesRequest)
+    resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
   }
 
 }
