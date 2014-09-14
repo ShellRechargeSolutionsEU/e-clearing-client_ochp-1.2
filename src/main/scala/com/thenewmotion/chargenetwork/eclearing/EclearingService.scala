@@ -1,13 +1,13 @@
 package com.thenewmotion.chargenetwork.eclearing
 
-import com.thenewmotion.chargenetwork.eclearing.api.{ChargePoint, CDR, EclearingApi, Card}
-import com.thenewmotion.chargenetwork.eclearing.client.{Result, EclearingClient}
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card, ChargePoint, EclearingApi}
+import com.thenewmotion.chargenetwork.eclearing.client.{EclearingClient, Result}
 import com.thenewmotion.time.Imports._
-import eu.ochp._1.RoamingAuthorisationInfo
 
 
 /**
  * @author Yaroslav Klymko
+ * @author Christoph Zwirello
  */
 trait EclearingService extends EclearingApi {
   def client: EclearingClient
@@ -24,4 +24,5 @@ trait EclearingService extends EclearingApi {
 
   def sendCdrs(cdrs: List[CDR]): Result = client.addCdrs(cdrs)
   def recvCdrs():List[CDR] = client.getCdrs()
+  def confCdrs(approvedCdrs: List[CDR], declinedCdrs: List[CDR]) = client.confirmCdrs(approvedCdrs, declinedCdrs)
 }

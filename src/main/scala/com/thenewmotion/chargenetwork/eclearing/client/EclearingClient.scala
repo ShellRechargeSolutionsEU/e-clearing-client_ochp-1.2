@@ -63,6 +63,14 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
   }
 
+  def confirmCdrs(approvedCdrs: Seq[CDR], declinedCdrs: Seq[CDR]) = {
+    val req = new ConfirmCDRsRequest()
+    req.getApproved.addAll(approvedCdrs.map(implicitly[CDRInfo](_)).asJava)
+    req.getDeclined.addAll(declinedCdrs.map(implicitly[CDRInfo](_)).asJava)
+    val resp = cxfClient.confirmCDRs(req)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+  }
+
   def setChargePointList(info: Seq[ChargePoint]): Result = {
     val req = new SetChargePointListRequest()
     req.getChargepointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
