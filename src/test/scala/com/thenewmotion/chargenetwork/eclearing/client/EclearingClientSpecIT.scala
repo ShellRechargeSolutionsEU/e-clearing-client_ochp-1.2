@@ -18,17 +18,19 @@ import org.specs2.mutable.SpecificationWithJUnit
  *
  * @author Christoph Zwirello
  */
-class EclearingClientSpecIT extends SpecificationWithJUnit with CardTestScope with CpTestScope{
+class EclearingClientSpecIT extends SpecificationWithJUnit with CardTestScope with CpTestScope
+with CdrTestScope{
   args(sequential = true)
 
 
   "EclearingClient" should {
 
 
-//    "receive cdrs" >> {
-//      client.cdrs()
-//      success
-//    }.pendingUntilFixed
+    " receive cdrs" >> {
+      val cdrs = client.getCdrs()
+      cdrs(0).cdrId === "123456someId123456"
+      success
+    }
 
 //    "add CDRs" >> {
 //      client.addCdrs(Seq(CDRInfo(
