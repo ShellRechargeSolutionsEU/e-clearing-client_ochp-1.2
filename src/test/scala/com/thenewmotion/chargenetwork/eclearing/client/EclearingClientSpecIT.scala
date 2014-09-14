@@ -37,6 +37,11 @@ with CdrTestScope{
       result.resultCode === "ok"
     }
 
+    " confirm CDRs" >> {
+      val result = client.confirmCdrs(Seq(cdr1), Seq(cdr2))
+      result.resultCode === "ok"
+    }
+
 
     " receive roamingAuthorisationList" >> {
       val authList = client.roamingAuthorisationList()
