@@ -11,17 +11,17 @@ import org.joda.time.format.ISODateTimeFormat
  */
 trait EclearingApi {
   def recvAllCards(): List[Card]
-  def sendAllCards(cards: List[Card]): Result
+  def sendAllCards(cards: List[Card]): Result[Card]
   def recvNewCards(lastUpdate: DateTime): List[Card]
-  def sendNewCards(cards: List[Card]): Result
+  def sendNewCards(cards: List[Card]): Result[Card]
 
-  def sendAllChargePoints(chargePoints: List[ChargePoint]): Result
+  def sendAllChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
   def recvAllChargePoints():List[ChargePoint]
-  def sendNewChargePoints(chargePoints: List[ChargePoint]): Result
+  def sendNewChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
   def recvNewChargePoints(lastUpdate: DateTime):List[ChargePoint]
 
   def recvCdrs(): List[CDR]
-  def sendCdrs(cards: List[CDR]): Result
+  def sendCdrs(cards: List[CDR]): Result[CDR]
 
 }
 
@@ -67,8 +67,8 @@ object ConnectorStandard extends Enumeration{
   val `TESLA-R` = Value("TESLA-R")
 }
 
-object CdrStatusType extends Enumeration{
-  type CdrStatusType = Value
+object CdrStatus extends Enumeration{
+  type CdrStatus = Value
   val `new` = Value("new")
   val accepted = Value("accepted")
   val rejected = Value("rejected")

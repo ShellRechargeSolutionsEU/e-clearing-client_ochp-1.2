@@ -32,30 +32,10 @@ with CdrTestScope{
       success
     }
 
-//    "add CDRs" >> {
-//      client.addCdrs(Seq(CDRInfo(
-//        cdrId = "01001851_139038927377890",
-//        startDatetime = "2014-01-22 10:16:38",
-//        endDatetime = "2014-01-22 12:14:33",
-//        duration = "7074",
-//        volume = "4.6400",
-//        chargePointAddress = "Roggestraat 111-163",
-//        chargePointZip = "7311",
-//        chargePointCity = "Apeldoorn",
-//        chargePointCountry = "NLD",
-//        chargePointType = "2",
-//        productType = "0",
-//        tariffType = "A0",
-//        authenticationId = "",
-//        evcoId = "NL-ANW-133094-6",
-//        meterId = "01000851",
-//        obisCode = "",
-//        chargePointId = "01000851",
-//        serviceProviderId = "ANWB",
-//        infraProviderId = "TheNewMotion",
-//        evseId = "01000851")))
-//      success
-//    }.pendingUntilFixed("CDR operations giving inexplicable errors")
+    " add CDRs" >> {
+      val result = client.addCdrs(Seq(cdr1))
+      result.resultCode === "ok"
+    }
 
 
     " receive roamingAuthorisationList" >> {

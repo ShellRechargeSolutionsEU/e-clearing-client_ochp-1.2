@@ -104,7 +104,7 @@ object Converters{
       ),
       contractId = cdrinfo.getContractId,
       liveAuthId = toOption(cdrinfo.getLiveAuthId),
-      status = CdrStatusType.withName(cdrinfo.getStatus.getCdrStatusType),
+      status = CdrStatus.withName(cdrinfo.getStatus.getCdrStatusType),
       startDateTime = DateTimeNoMillis(cdrinfo.getStartDateTime.getLocalDateTime),
       endDateTime = DateTimeNoMillis(cdrinfo.getEndDateTime.getLocalDateTime),
       duration = toOption(cdrinfo.getDuration),
@@ -212,12 +212,6 @@ object Converters{
   }
 
   implicit def cpInfoToChargePoint(genCp: ChargePointInfo): ChargePoint = {
-//    println("--\n" + genCp)
-//    Thread.sleep(100)
-//    println(genCp.getGeoLocation)
-//    Thread.sleep(100)
-//    println(genCp.getGeoLocation.getLat)
-//    Thread.sleep(100)
     ChargePoint(
       evseId = genCp.getEvseId,
       locationId = genCp.getLocationId,

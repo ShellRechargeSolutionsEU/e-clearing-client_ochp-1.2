@@ -14,25 +14,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTestScope{
    "Converter " should {
      " translate CDRinfo into CDR" >> {
-       val cdrinfo = new CDRInfo()
-       val emtId = new GenEmtId()
-       cdrinfo.setContractId("DE-LND-C00001516-E")
-       emtId.setInstance("96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0")
-       emtId.setTokenType("rfid")
-       emtId.setTokenSubType("mifareCls")
-       emtId.setRepresentation("plain")
-       cdrinfo.setEmtId(emtId)
-       val status = new GenCdrStatusType()
-        status.setCdrStatusType("new")
-       cdrinfo.setStatus(status)
 
-       val startDate = new LocalDateTimeType()
-       startDate.setLocalDateTime("2014-08-08T10:10:10+01:00")
-       cdrinfo.setStartDateTime(startDate)
-       val endDate = new LocalDateTimeType()
-       endDate.setLocalDateTime("2014-08-08T18:10:10+01:00")
-       cdrinfo.setEndDateTime(endDate)
-       cdrinfo.setConnectorType(teslaSocketConnector)
 
 
 
@@ -55,7 +37,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
 
 
-       val cdrinfo: CDRInfo = cdrToCdrInfo(cdr)
+       val cdrinfo: CDRInfo = cdrToCdrInfo(cdr1)
        cdrinfo.getCdrId === "123456someId123456"
        cdrinfo.getEvseId === "FR*A23*E45B*78C"
        cdrinfo.getEmtId.getInstance === "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"
@@ -190,8 +172,28 @@ trait CpTestScope {
 }
 
 
-trait CdrTestScope {
-  val cdr = CDR(
+trait CdrTestScope extends CpTestScope{
+  val cdrinfo = new CDRInfo()
+  val emtId = new GenEmtId()
+  cdrinfo.setContractId("DE-LND-C00001516-E")
+  emtId.setInstance("96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0")
+  emtId.setTokenType("rfid")
+  emtId.setTokenSubType("mifareCls")
+  emtId.setRepresentation("plain")
+  cdrinfo.setEmtId(emtId)
+  val status = new GenCdrStatusType()
+  status.setCdrStatusType("new")
+  cdrinfo.setStatus(status)
+
+  val startDate = new LocalDateTimeType()
+  startDate.setLocalDateTime("2014-08-08T10:10:10+01:00")
+  cdrinfo.setStartDateTime(startDate)
+  val endDate = new LocalDateTimeType()
+  endDate.setLocalDateTime("2014-08-08T18:10:10+01:00")
+  cdrinfo.setEndDateTime(endDate)
+  cdrinfo.setConnectorType(teslaSocketConnector)
+
+  val cdr1 = CDR(
     cdrId = "123456someId123456",
     evseId = "FR*A23*E45B*78C",
     emtId = EmtId(
@@ -201,7 +203,7 @@ trait CdrTestScope {
     ),
     contractId = "DE-LND-C00001516-E",
     liveAuthId = Some("wtf"),
-    status = CdrStatusType.withName("new"),
+    status = CdrStatus.withName("new"),
     startDateTime = DateTimeNoMillis("2014-08-08T10:10:10+01:00"),
     endDateTime = DateTimeNoMillis("2014-08-08T18:10:10+01:00"),
     duration = Some("200"),

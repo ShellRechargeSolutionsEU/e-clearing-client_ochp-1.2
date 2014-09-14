@@ -24,11 +24,12 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
   import scala.collection.JavaConverters._
   import com.thenewmotion.chargenetwork.eclearing.Converters._
 
-  def setRoamingAuthorisationList(info: Seq[Card]): Result = {
+  def setRoamingAuthorisationList(info: Seq[Card]): Result[Card] = {
     val req = new SetRoamingAuthorisationListRequest()
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.setRoamingAuthorisationList(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
+      resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_)))
   }
 
   def roamingAuthorisationList() = {
@@ -37,11 +38,12 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     resp.getRoamingAuthorisationInfoArray.asScala.toList.map(implicitly[Card](_))
   }
 
-  def setRoamingAuthorisationListUpdate(info: Seq[Card]): Result = {
+  def setRoamingAuthorisationListUpdate(info: Seq[Card]): Result[Card] = {
     val req = new UpdateRoamingAuthorisationListRequest()
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.updateRoamingAuthorisationList(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
+        resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_)))
   }
 
   def roamingAuthorisationListUpdate() = {
@@ -60,7 +62,8 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     val req: AddCDRsRequest = new AddCDRsRequest()
     req.getCdrInfoArray.addAll(cdrs.map(implicitly[CDRInfo](_)).asJava)
     val resp = cxfClient.addCDRs(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result[CDR](resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
+      resp.getImplausibleCdrsArray.asScala.toList.map(implicitly[CDR](_)))
   }
 
   def confirmCdrs(approvedCdrs: Seq[CDR], declinedCdrs: Seq[CDR]) = {
@@ -68,14 +71,15 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     req.getApproved.addAll(approvedCdrs.map(implicitly[CDRInfo](_)).asJava)
     req.getDeclined.addAll(declinedCdrs.map(implicitly[CDRInfo](_)).asJava)
     val resp = cxfClient.confirmCDRs(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription, List())
   }
 
-  def setChargePointList(info: Seq[ChargePoint]): Result = {
+  def setChargePointList(info: Seq[ChargePoint]): Result[ChargePoint] = {
     val req = new SetChargePointListRequest()
     req.getChargepointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
     val resp = cxfClient.setChargepointList(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result[ChargePoint](resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
+        resp.getRefusedChargePointInfo.asScala.toList.map(implicitly[ChargePoint](_)))
   }
 
   def chargePointList() = {
@@ -84,11 +88,12 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
     resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
   }
 
-  def setChargePointListUpdate(info: Seq[ChargePoint]): Result = {
+  def setChargePointListUpdate(info: Seq[ChargePoint]): Result[ChargePoint] = {
     val req = new UpdateChargePointListRequest()
     req.getChargePointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
     val resp = cxfClient.updateChargePointList(req)
-    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription)
+    Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
+        resp.getRefusedChargePointInfo.asScala.toList.map(implicitly[ChargePoint](_)))
   }
 
   def chargePointListUpdate() = {
@@ -99,8 +104,10 @@ class EclearingClient(cxfClient: OCHP12) extends Logging {
 
 }
 
-case class Result(resultCode: String,
-  resultDescription: String)
+case class Result[A](
+  resultCode: String,
+  resultDescription: String,
+  refusedData: List[A])
 
 object EclearingClient {
 

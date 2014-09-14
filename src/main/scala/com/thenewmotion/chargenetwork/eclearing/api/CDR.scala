@@ -14,7 +14,7 @@ case class CDR(
   emtId: EmtId,
   contractId: String,
   liveAuthId: Option[String] = None,
-  status: CdrStatusType.Value,
+  status: CdrStatus.Value,
   startDateTime: DateTime,
   endDateTime: DateTime,
   duration: Option[String] = None,
