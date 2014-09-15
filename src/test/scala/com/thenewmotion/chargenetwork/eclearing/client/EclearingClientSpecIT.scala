@@ -29,7 +29,6 @@ with CdrTestScope{
     " receive cdrs" >> {
       val cdrs = client.getCdrs()
       cdrs(0).cdrId === "123456someId123456"
-      success
     }
 
     " add CDRs" >> {
@@ -64,7 +63,7 @@ with CdrTestScope{
     }
 
     " receive roamingAuthorisationListUpdate" >> {
-      val authList = client.roamingAuthorisationListUpdate()
+      val authList = client.roamingAuthorisationListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
       val cards = authList
       cards.length === 1
       cards(0).contractId === "YYABCC00000001"
@@ -80,18 +79,26 @@ with CdrTestScope{
     " receive chargepointList" >> {
       val cps = client.chargePointList()
       cps(0).evseId === chargePoint1.evseId
-      success
     }
 
     " set charge point list" >> {
       val result = client.setChargePointList(Seq(chargePoint1))
       result.resultCode === "ok"
-      success
+    }
+
+    " receive chargepointListUpdate" >> {
+      val cps = client.chargePointListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
+      cps(0).evseId === "DE*823*E1234*7890"
+    }
+
+    " set charge point list update" >> {
+      val result = client.setChargePointListUpdate(Seq(chargePoint1))
+      result.resultCode === "ok"
     }
 
   }
 
-  "Eclearing live client " should {
+  "Eclearing live client" should {
 
     val conf: Config = ConfigFactory.load()
 

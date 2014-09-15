@@ -1877,7 +1877,29 @@ information that is more actual than the given value.</s:documentation>
          </ns:ttl>
       </ns:UpdateStatusRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="specs_request"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/></con:call><con:call name="Specs"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="eCHS-OCHP_1.2" type="wsdl" bindingName="{http://ochp.eu/1.2}eCHS-OCHP_1.2" soapVersion="1_1" anonymous="optional" definition="/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl"><con:part><con:url>file:/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl</con:url><con:content><![CDATA[<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl"?>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Specs"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-7d694661-6d11-4e95-a201-732536ad4626">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Malt3Z3r?</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateStatusRequest xmlns="http://ochp.eu/1.2">
+         <evse major="available" minor="reserved">
+            <evseId>DE*823*E1234*5678</evseId>
+         </evse>
+         <evse major="not-available" minor="blocked">
+            <evseId>DE*823*E1234*6789</evseId>
+         </evse>
+         <ttl>
+            <DateTime>2014-07-14T02:00:00.000+02:00</DateTime>
+         </ttl>
+      </UpdateStatusRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="eCHS-OCHP_1.2" type="wsdl" bindingName="{http://ochp.eu/1.2}eCHS-OCHP_1.2" soapVersion="1_1" anonymous="optional" definition="/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl"><con:part><con:url>file:/Users/czwirello/Projects/e-clearing-client_ochp-1.2/src/main/resources/wsdl/ochp-1.2.wsdl</con:url><con:content><![CDATA[<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl"?>
 <!--===================================================================
 
                   OCHP 1.2 Web Service Description
@@ -4671,7 +4693,7 @@ information that is more actual than the given value.</s:documentation>
          </ns:chargePointInfoArray>
       </ns:UpdateChargePointListRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateRoamingAuthorisationListRequest>
@@ -5639,153 +5661,39 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
       <ns:GetChargePointListUpdatesResponse>
          <ns:result>
             <ns:resultCode>
-               <ns:resultCode>?</ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
             </ns:resultCode>
-            <ns:resultDescription>?</ns:resultDescription>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
          </ns:result>
          <!--Zero or more repetitions:-->
-         <ns:chargePointInfoArray>
-            <ns:evseId>?</ns:evseId>
-            <ns:locationId>?</ns:locationId>
-            <!--Optional:-->
-            <ns:timestamp>
-               <ns:DateTime>?</ns:DateTime>
-            </ns:timestamp>
-            <ns:locationName>?</ns:locationName>
-            <ns:locationNameLang>?</ns:locationNameLang>
-            <!--Zero or more repetitions:-->
-            <ns:images>
-               <ns:uri>?</ns:uri>
-               <!--Optional:-->
-               <ns:thumbUri>?</ns:thumbUri>
-               <ns:class>?</ns:class>
-               <ns:type>?</ns:type>
-               <!--Optional:-->
-               <ns:width>?</ns:width>
-               <!--Optional:-->
-               <ns:height>?</ns:height>
-            </ns:images>
-            <!--Optional:-->
-            <ns:houseNumber>?</ns:houseNumber>
-            <ns:address>?</ns:address>
-            <ns:city>?</ns:city>
-            <ns:zipCode>?</ns:zipCode>
-            <ns:country>?</ns:country>
+            <ns:chargePointInfoArray>
+            <ns:evseId>DE*823*E1234*7890</ns:evseId>
+            <ns:locationId>Wereld</ns:locationId>
+            <ns:locationName/>
+            <ns:locationNameLang>NL</ns:locationNameLang>
             <ns:geoLocation>
-               <ns:lat>?</ns:lat>
-               <ns:lon>?</ns:lon>
+               <ns:lat>52.36420822143555</ns:lat>
+               <ns:lon>4.891792297363281</ns:lon>
             </ns:geoLocation>
-            <!--Optional:-->
-            <ns:geoUserInterface>
-               <ns:lat>?</ns:lat>
-               <ns:lon>?</ns:lon>
-            </ns:geoUserInterface>
-            <!--Zero or more repetitions:-->
-            <ns:geoSiteEntrance>
-               <ns:lat>?</ns:lat>
-               <ns:lon>?</ns:lon>
-            </ns:geoSiteEntrance>
-            <!--Zero or more repetitions:-->
-            <ns:geoSiteExit>
-               <ns:lat>?</ns:lat>
-               <ns:lon>?</ns:lon>
-            </ns:geoSiteExit>
-            <!--Optional:-->
             <ns:operatingTimes>
-               <!--Zero or more repetitions:-->
                <ns:regularHours>
-                  <ns:weekday>?</ns:weekday>
-                  <ns:periodBegin>?</ns:periodBegin>
-                  <ns:periodEnd>?</ns:periodEnd>
+                  <ns:weekday>1</ns:weekday>
+                  <ns:periodBegin>08:00</ns:periodBegin>
+                  <ns:periodEnd>18:00</ns:periodEnd>
                </ns:regularHours>
-               <!--Zero or more repetitions:-->
-               <ns:exceptionalOpenings>
-                  <ns:periodBegin>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodBegin>
-                  <ns:periodEnd>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodEnd>
-               </ns:exceptionalOpenings>
-               <!--Zero or more repetitions:-->
-               <ns:exceptionalClosings>
-                  <ns:periodBegin>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodBegin>
-                  <ns:periodEnd>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodEnd>
-               </ns:exceptionalClosings>
             </ns:operatingTimes>
-            <!--Optional:-->
-            <ns:accessTimes>
-               <!--Zero or more repetitions:-->
-               <ns:regularHours>
-                  <ns:weekday>?</ns:weekday>
-                  <ns:periodBegin>?</ns:periodBegin>
-                  <ns:periodEnd>?</ns:periodEnd>
-               </ns:regularHours>
-               <!--Zero or more repetitions:-->
-               <ns:exceptionalOpenings>
-                  <ns:periodBegin>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodBegin>
-                  <ns:periodEnd>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodEnd>
-               </ns:exceptionalOpenings>
-               <!--Zero or more repetitions:-->
-               <ns:exceptionalClosings>
-                  <ns:periodBegin>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodBegin>
-                  <ns:periodEnd>
-                     <ns:DateTime>?</ns:DateTime>
-                  </ns:periodEnd>
-               </ns:exceptionalClosings>
-            </ns:accessTimes>
-            <!--Optional:-->
-            <ns:status>
-               <ns:ChargePointStatusType>?</ns:ChargePointStatusType>
-            </ns:status>
-            <!--Zero or more repetitions:-->
-            <ns:statusSchedule>
-               <ns:startDate>
-                  <ns:DateTime>?</ns:DateTime>
-               </ns:startDate>
-               <!--Optional:-->
-               <ns:endDate>
-                  <ns:DateTime>?</ns:DateTime>
-               </ns:endDate>
-               <ns:status>
-                  <ns:ChargePointStatusType>?</ns:ChargePointStatusType>
-               </ns:status>
-            </ns:statusSchedule>
-            <!--Optional:-->
-            <ns:telephoneNumber>?</ns:telephoneNumber>
-            <!--Optional:-->
-            <ns:floorLevel>?</ns:floorLevel>
-            <!--Optional:-->
-            <ns:parkingSlotNumber>?</ns:parkingSlotNumber>
-            <!--Zero or more repetitions:-->
-            <ns:parkingRestriction>
-               <ns:ParkingRestrictionType>?</ns:ParkingRestrictionType>
-            </ns:parkingRestriction>
-            <!--1 or more repetitions:-->
+            <ns:accessTimes/>
             <ns:authMethods>
-               <ns:AuthMethodType>?</ns:AuthMethodType>
+               <ns:AuthMethodType>RfidMifareCls</ns:AuthMethodType>
             </ns:authMethods>
-            <!--1 or more repetitions:-->
             <ns:connectors>
                <ns:connectorStandard>
-                  <ns:ConnectorStandard>?</ns:ConnectorStandard>
+                  <ns:ConnectorStandard>TESLA-R</ns:ConnectorStandard>
                </ns:connectorStandard>
                <ns:connectorFormat>
-                  <ns:ConnectorFormat>?</ns:ConnectorFormat>
+                  <ns:ConnectorFormat>Socket</ns:ConnectorFormat>
                </ns:connectorFormat>
             </ns:connectors>
-            <!--Zero or more repetitions:-->
-            <ns:userInterfaceLang>?</ns:userInterfaceLang>
          </ns:chargePointInfoArray>
       </ns:GetChargePointListUpdatesResponse>
    </soapenv:Body>
@@ -6219,7 +6127,13 @@ declare namespace ns1='http://ochp.eu/1.2';
 declare namespace wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
 declare namespace wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd';
 declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
-//roamingAuthorisationInfoArray[0]/EmtId/instance</con:query><con:match>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</con:match><con:response>specs2_send_roamingAuthorisationList_ok</con:response></con:query><con:query><con:name>nok</con:name><con:response>specs2_send_roamingAuthorisationList_nok</con:response></con:query></con:dispatchConfig></con:mockOperation><con:mockOperation name="UpdateChargePointList" interface="eCHS-OCHP_1.2" operation="UpdateChargePointList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+//roamingAuthorisationInfoArray[0]/EmtId/instance</con:query><con:match>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</con:match><con:response>specs2_send_roamingAuthorisationList_ok</con:response></con:query><con:query><con:name>nok</con:name><con:response>specs2_send_roamingAuthorisationList_nok</con:response></con:query></con:dispatchConfig></con:mockOperation><con:mockOperation name="UpdateChargePointList" interface="eCHS-OCHP_1.2" operation="UpdateChargePointList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+def req = new XmlSlurper().parseText(mockRequest.requestContent)
+def evseid = req.Body.UpdateChargePointListRequest.chargePointInfoArray[0].evseId
+log.info("evseid: " + evseid)
+
+if (evseid == "DE*823*E1234*5678")
+ return "ok"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateChargePointListResponse>
@@ -6373,6 +6287,19 @@ declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
             <!--Zero or more repetitions:-->
             <ns:userInterfaceLang>?</ns:userInterfaceLang>
          </ns:refusedChargePointInfo>
+      </ns:UpdateChargePointListResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:response name="ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:UpdateChargePointListResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
+         </ns:result>
+    
       </ns:UpdateChargePointListResponse>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="UpdateRoamingAuthorisationList"><con:settings/><con:defaultResponse>specs2_updateRoamingAuthList_ok</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>

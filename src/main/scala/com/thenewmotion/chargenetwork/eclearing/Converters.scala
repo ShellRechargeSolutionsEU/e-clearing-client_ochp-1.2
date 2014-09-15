@@ -383,4 +383,10 @@ object Converters{
     cpi.getUserInterfaceLang.addAll(cp.userInterfaceLang asJavaCollection)
     cpi
   }
+
+  implicit def toDateTimeType(date: DateTime): DateTimeType = {
+      val genTtl = new DateTimeType()
+      genTtl.setDateTime(date.toString)
+      genTtl
+  }
 }

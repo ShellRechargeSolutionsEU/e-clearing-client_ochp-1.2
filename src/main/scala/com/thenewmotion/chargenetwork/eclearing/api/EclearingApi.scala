@@ -81,10 +81,15 @@ case class Card(contractId: String,
                 printedNumber: Option[String],
                 expiryDate: DateTime)
 
+case class DateTimeNoMillis(
+  dateTime: DateTime
+){
+  override def toString = DateTimeNoMillis.formatter.print(dateTime)
+}
+
 object DateTimeNoMillis {
   val formatter = ISODateTimeFormat.dateTimeNoMillis()
   def apply(s: String) = formatter.parseDateTime(s)
-  def unapply(dt: DateTime): String = dt.toString(formatter)
 }
 
 case class TimeNoSecs(

@@ -7,6 +7,7 @@ import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
 import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card, ChargePoint, EvseStatus}
+import com.thenewmotion.time.Imports._
 import eu.ochp._1._
 import eu.ochp._1_2.{OCHP12, OCHP12Live}
 import org.apache.cxf.endpoint.{Client, Endpoint}
@@ -46,9 +47,10 @@ class EclearingClient(cxfClient: OCHP12) {
         resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_)))
   }
 
-  def roamingAuthorisationListUpdate() = {
-    val resp = cxfClient.getRoamingAuthorisationListUpdates(
-      new GetRoamingAuthorisationListUpdatesRequest)
+  def roamingAuthorisationListUpdate(lastUpdate: DateTime) = {
+    val req = new GetRoamingAuthorisationListUpdatesRequest
+    req.setLastUpdate(toDateTimeType(lastUpdate))
+    val resp = cxfClient.getRoamingAuthorisationListUpdates( req )
     resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_))
   }
 
@@ -96,9 +98,10 @@ class EclearingClient(cxfClient: OCHP12) {
         resp.getRefusedChargePointInfo.asScala.toList.map(implicitly[ChargePoint](_)))
   }
 
-  def chargePointListUpdate() = {
-    val resp = cxfClient.getChargePointListUpdates(
-      new GetChargePointListUpdatesRequest)
+  def chargePointListUpdate(lastUpdate: DateTime) = {
+    val req = new GetChargePointListUpdatesRequest
+    req.setLastUpdate(toDateTimeType(lastUpdate))
+    val resp = cxfClient.getChargePointListUpdates(req)
     resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
   }
 
@@ -109,6 +112,7 @@ class EclearingClient(cxfClient: OCHP12) {
 
 class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
   import scala.collection.JavaConverters.asJavaCollectionConverter
+  import com.thenewmotion.chargenetwork.eclearing.Converters.toDateTimeType
 
   /**
    * Only implements setting the timeToLive for the whole list,
@@ -127,11 +131,8 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
     }
     val req  = new UpdateStatusRequest
     req.getEvse.addAll(evseStats map toStatusType asJavaCollection)
-    timeToLive foreach {ttl=>
-      val genTtl = new DateTimeType()
-      timeToLive foreach {ttl => genTtl.setDateTime(ttl.toString)}
-      req.setTtl(genTtl)
-    }
+    timeToLive foreach {ttl=>req.setTtl(toDateTimeType(ttl))}
+
     val resp = cxfLiveClient.updateStatus(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription, List())
   }
