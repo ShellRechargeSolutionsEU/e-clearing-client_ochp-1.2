@@ -154,3 +154,25 @@ object TokenSubType {
 }
 
 
+case class EvseStatus(
+  evseId: String,
+  majorStatus: EvseStatusMajor.Value,
+  minorStatus: Option[EvseStatusMinor.Value] = None
+)
+
+object EvseStatusMajor extends Enumeration {
+  type EvseStatusMajor = Value
+  val available = Value("available")
+  val `not-available` = Value("not-available")
+  val unknown = Value("unknown")
+}
+
+
+object EvseStatusMinor extends Enumeration {
+  type EvseStatusMinor = Value
+  val available = Value("available")
+  val reserved = Value("reserved")
+  val charging = Value("charging")
+  val blocked = Value("blocked")
+  val outoforder = Value("outoforder")
+}

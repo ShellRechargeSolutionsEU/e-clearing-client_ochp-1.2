@@ -1853,7 +1853,7 @@ information that is more actual than the given value.</s:documentation>
       <soap:address location="https://echs-q.e-clearing.net/live/ochp/v1.2"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:endpoint>https://echs.e-clearing.net/live/ochp/v1.2</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://ochp.e-clearing.net/service/GetStatus" name="GetStatus" bindingOperationName="GetStatus" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:endpoint>https://echs.e-clearing.net/live/ochp/v1.2</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://ochp.e-clearing.net/service/GetStatus" name="GetStatus" bindingOperationName="GetStatus" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:GetStatusRequest>
@@ -1863,7 +1863,7 @@ information that is more actual than the given value.</s:documentation>
          </ns:startDateTime>
       </ns:GetStatusRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/GetStatus"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.e-clearing.net/service/UpdateStatus" name="UpdateStatus" bindingOperationName="UpdateStatus" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/GetStatus"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.e-clearing.net/service/UpdateStatus" name="UpdateStatus" bindingOperationName="UpdateStatus" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateStatusRequest>
@@ -3802,7 +3802,78 @@ information that is more actual than the given value.</s:documentation>
          </ns:cdrInfoArray>
       </ns:AddCDRsRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="realRequest"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="formattingDummy"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="ok"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:AddCDRsRequest>
+         <!--1 or more repetitions:-->
+         <ns:cdrInfoArray>
+            <ns:CdrId>123456someId123456</ns:CdrId>
+            <ns:evseId>?</ns:evseId>
+            <ns:emtId representation="sha-160">
+               <ns:instance>?</ns:instance>
+               <ns:tokenType>?</ns:tokenType>
+               <!--Optional:-->
+               <ns:tokenSubType>?</ns:tokenSubType>
+            </ns:emtId>
+            <ns:contractId>?</ns:contractId>
+            <!--Optional:-->
+            <ns:liveAuthId>?</ns:liveAuthId>
+            <ns:status>
+               <ns:CdrStatusType>?</ns:CdrStatusType>
+            </ns:status>
+            <ns:startDateTime>
+               <ns:LocalDateTime>?</ns:LocalDateTime>
+            </ns:startDateTime>
+            <ns:endDateTime>
+               <ns:LocalDateTime>?</ns:LocalDateTime>
+            </ns:endDateTime>
+            <!--Optional:-->
+            <ns:duration>?</ns:duration>
+            <!--Optional:-->
+            <ns:houseNumber>?</ns:houseNumber>
+            <!--Optional:-->
+            <ns:address>?</ns:address>
+            <!--Optional:-->
+            <ns:zipCode>?</ns:zipCode>
+            <!--Optional:-->
+            <ns:city>?</ns:city>
+            <ns:country>?</ns:country>
+            <ns:chargePointType>?</ns:chargePointType>
+            <ns:connectorType>
+               <ns:connectorStandard>
+                  <ns:ConnectorStandard>?</ns:ConnectorStandard>
+               </ns:connectorStandard>
+               <ns:connectorFormat>
+                  <ns:ConnectorFormat>?</ns:ConnectorFormat>
+               </ns:connectorFormat>
+            </ns:connectorType>
+            <ns:maxSocketPower>?</ns:maxSocketPower>
+            <!--Optional:-->
+            <ns:productType>?</ns:productType>
+            <!--Optional:-->
+            <ns:meterId>?</ns:meterId>
+            <!--1 or more repetitions:-->
+            <ns:chargingPeriods>
+               <ns:startDateTime>
+                  <ns:LocalDateTime>?</ns:LocalDateTime>
+               </ns:startDateTime>
+               <ns:endDateTime>
+                  <ns:LocalDateTime>?</ns:LocalDateTime>
+               </ns:endDateTime>
+               <ns:billingItem>
+                  <ns:BillingItemType>?</ns:BillingItemType>
+               </ns:billingItem>
+               <ns:billingValue>?</ns:billingValue>
+               <ns:currency>?</ns:currency>
+               <ns:itemPrice>?</ns:itemPrice>
+               <!--Optional:-->
+               <ns:periodCost>?</ns:periodCost>
+            </ns:chargingPeriods>
+         </ns:cdrInfoArray>
+      </ns:AddCDRsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/><con:wsrmConfig version="1.2"/></con:call><con:call name="formattingDummy"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
@@ -4600,7 +4671,7 @@ information that is more actual than the given value.</s:documentation>
          </ns:chargePointInfoArray>
       </ns:UpdateChargePointListRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:UpdateRoamingAuthorisationListRequest>
@@ -5241,7 +5312,13 @@ information that is more actual than the given value.</s:documentation>
       </ns:UpdateRoamingAuthorisationListRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:mockService port="8088" path="/mockeCHS-OCHP_1.2" host="localhost" name="eCHS-OCHP_1.2 MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:onRequestScript>log.info("request headers are: "+mockRequest.getRequestHeaders())
-log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><con:mockOperation name="AddCDRs" interface="eCHS-OCHP_1.2" operation="AddCDRs"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><con:mockOperation name="AddCDRs" interface="eCHS-OCHP_1.2" operation="AddCDRs"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+def req = new XmlSlurper().parseText(mockRequest.requestContent)
+def cdrId = req.Body.AddCDRsRequest.cdrInfoArray[0].CdrId
+log.info("cdrId: " + cdrId)
+
+if (cdrId == "123456someId123456")
+ return "ok"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:AddCDRsResponse>
@@ -5318,15 +5395,46 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
          </ns:implausibleCdrsArray>
       </ns:AddCDRsResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="ConfirmCDRs" interface="eCHS-OCHP_1.2" operation="ConfirmCDRs"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/></con:response><con:response name="ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:AddCDRsResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
+         </ns:result>
+      </ns:AddCDRsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/AddCDRs"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="ConfirmCDRs" interface="eCHS-OCHP_1.2" operation="ConfirmCDRs"><con:settings/><con:defaultResponse>ok</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+def req = new XmlSlurper().parseText(mockRequest.requestContent)
+def cdrId = req.Body.ConfirmCDRsRequest.approved[0].CdrId
+def cdrId2 = req.Body.ConfirmCDRsRequest.approved[0].CdrId
+log.info("cdrId: " + cdrId)
+
+if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
+ return "ok"</con:dispatchPath><con:response name="ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:ConfirmCDRsResponse>
          <ns:result>
             <ns:resultCode>
-               <ns:resultCode>?</ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
             </ns:resultCode>
-            <ns:resultDescription>?</ns:resultDescription>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
+         </ns:result>
+      </ns:ConfirmCDRsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/ConfirmCDRs"/></con:response><con:response name="nok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:ConfirmCDRsResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>nok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
          </ns:result>
       </ns:ConfirmCDRsResponse>
    </soapenv:Body>
@@ -6093,15 +6201,15 @@ else
          <ns:refusedRoamingAuthorisationInfo>
             <ns:EmtId representation="sha-160">
                <ns:instance>?</ns:instance>
-               <ns:tokenType>?</ns:tokenType>
+               <ns:tokenType>rfid</ns:tokenType>
                <!--Optional:-->
-               <ns:tokenSubType>?</ns:tokenSubType>
+               <ns:tokenSubType>mifareCls</ns:tokenSubType>
             </ns:EmtId>
             <ns:contractId>?</ns:contractId>
             <!--Optional:-->
             <ns:printedNumber>?</ns:printedNumber>
             <ns:expiryDate>
-               <ns:DateTime>?</ns:DateTime>
+               <ns:DateTime>2014-08-08T10:10:10+01:00</ns:DateTime>
             </ns:expiryDate>
          </ns:refusedRoamingAuthorisationInfo>
       </ns:SetRoamingAuthorisationListResponse>
@@ -6299,4 +6407,16 @@ else
          </ns:result>
       </ns:UpdateRoamingAuthorisationListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer><con:outgoing><con:name>echs-q</con:name><con:username>backend.tnm</con:username><con:password>T683f2L03d</con:password><con:entry type="Username"><con:configuration><addCreated>true</addCreated><addNonce>true</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService port="8088" path="/mockeCHS-OCHP_1.2/live" host="localhost" name="eCHS-OCHP_1.2 live mockservice" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="UpdateStatus" interface="eCHS-OCHP_1.2-live" operation="UpdateStatus"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:UpdateStatusResponse>
+         <ns:result>
+            <ns:resultCode>
+               <ns:resultCode>ok</ns:resultCode>
+            </ns:resultCode>
+            <ns:resultDescription>Data accepted and processed.</ns:resultDescription>
+         </ns:result>
+      </ns:UpdateStatusResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer><con:outgoing><con:name>echs-q</con:name><con:username>backend.tnm</con:username><con:password>T683f2L03d</con:password><con:entry type="Username"><con:configuration><addCreated>true</addCreated><addNonce>true</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

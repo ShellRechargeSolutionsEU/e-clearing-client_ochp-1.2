@@ -13,7 +13,11 @@ import org.joda.time.DateTime
 
 
 /**
+ *
+ * Convert between cxf-generated java classes and nice scala case classes
+ *
  * @author Yaroslav Klymko
+ * @author Christoph Zwirello
  */
 object Converters{
   import scala.collection.JavaConverters._
@@ -347,32 +351,32 @@ object Converters{
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId)
     cpi.setLocationId(cp.locationId)
-    cpi.timestamp map {t =>
+    cp.timestamp foreach {t =>
       val ts = new DateTimeType()
       ts.setDateTime(t.toString)
       cpi.setTimestamp(ts)}
     cpi.setLocationName(cp.locationName)
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
-    cp.address.houseNumber map {hn => cpi.setAddress(hn)}
+    cp.address.houseNumber foreach {hn => cpi.setAddress(hn)}
     cpi.setAddress(cp.address.address)
     cpi.setZipCode(cp.address.zipCode)
     cpi.setCity(cp.address.city)
     cpi.setCountry(cp.address.country)
     cpi.setGeoLocation(geoPointToGenGeoPoint(cp.geoLocation))
-    cp.geoUserInterface map {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
+    cp.geoUserInterface foreach {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
     cpi.getGeoSiteEntrance.addAll(cp.geoSiteEntrance.map {geoPointToGenGeoPoint} asJavaCollection)
     cpi.getGeoSiteExit.addAll(cp.geoSiteExit.map {geoPointToGenGeoPoint} asJavaCollection)
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
-    cp.status map {st =>
+    cp.status foreach {st =>
       val status = new ChargePointStatusType()
       status.setChargePointStatusType(st.toString)
       cpi.setStatus(status)}
     cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
-    cp.telephoneNumber map cpi.setTelephoneNumber
-    cp.floorLevel map cpi.setFloorLevel
-    cp.parkingSlotNumber map cpi.setParkingSlotNumber
+    cp.telephoneNumber foreach cpi.setTelephoneNumber
+    cp.floorLevel foreach cpi.setFloorLevel
+    cp.parkingSlotNumber foreach cpi.setParkingSlotNumber
     cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)
     cpi.getAuthMethods.addAll(cp.authMethods.map {authMethodToGenAuthMethod} asJavaCollection)
     cpi.getConnectors.addAll(cp.connectors.map {connToGenConn} asJavaCollection)

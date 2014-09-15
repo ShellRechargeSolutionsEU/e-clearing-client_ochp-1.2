@@ -96,16 +96,18 @@ trait CardTestScope {
 
   val conf: Config = ConfigFactory.load()
 
-  val client = EclearingClient(
+  val client = EclearingClient.createCxfClient(
     new EclearingConfig(
       conf.getString("e-clearing.service-uri"),
+      "",
       conf.getString("e-clearing.user"),
       conf.getString("e-clearing.password"))
   )
 
-  val faultyClient = EclearingClient(
+  val faultyClient = EclearingClient.createCxfClient(
     new EclearingConfig(
       "http://localhost:8",
+      "",
       conf.getString("e-clearing.user"),
       conf.getString("e-clearing.password"))
   )
