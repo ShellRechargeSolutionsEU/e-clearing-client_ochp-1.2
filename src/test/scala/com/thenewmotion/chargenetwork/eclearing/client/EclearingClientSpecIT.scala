@@ -1,6 +1,6 @@
 package com.thenewmotion.chargenetwork.eclearing.client
 
-import com.thenewmotion.chargenetwork.eclearing.api.{EmtId, DateTimeNoMillis, TokenSubType, Card}
+import com.thenewmotion.chargenetwork.eclearing.api._
 import com.thenewmotion.chargenetwork.eclearing.{EclearingConfig}
 import com.typesafe.config._
 import org.specs2.mutable.SpecificationWithJUnit
@@ -90,7 +90,39 @@ with CdrTestScope{
     }
 
   }
+
+  "Eclearing live client " should {
+
+    val conf: Config = ConfigFactory.load()
+
+    val liveClient = EclearingClient.createCxfLiveClient(
+      new EclearingConfig(
+        "",
+        conf.getString("e-clearing.live-service-uri"),
+        conf.getString("e-clearing.user"),
+        conf.getString("e-clearing.password"))
+    )
+
+    " update evse status" >> {
+      val evseStats = List(
+        EvseStatus(
+          "DE*823*E1234*5678",
+          EvseStatusMajor.available,
+          Some(EvseStatusMinor.reserved)
+        ),
+        EvseStatus(
+          "DE*823*E1234*6789",
+          EvseStatusMajor.`not-available`,
+          Some(EvseStatusMinor.blocked)
+        )
+      )
+      val result = liveClient.updateStatus(evseStats, Some(DateTimeNoMillis("2014-07-14T00:00:00Z")))
+      result.resultCode === "ok"
+    }
+  }
 }
+
+
 
 trait CardTestScope {
 

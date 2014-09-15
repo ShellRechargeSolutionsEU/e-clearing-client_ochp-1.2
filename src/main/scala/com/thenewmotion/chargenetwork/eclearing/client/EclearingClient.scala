@@ -6,11 +6,9 @@ import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
-import com.thenewmotion.chargenetwork.eclearing.api.{EvseStatus, ChargePoint, CDR, Card}
-import com.typesafe.scalalogging.slf4j.Logging
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card, ChargePoint, EvseStatus}
 import eu.ochp._1._
-import eu.ochp._1_2.{OCHP12Live, OCHP12}
-import org.apache.cxf.aegis.`type`.java5.XMLGregorianCalendarType
+import eu.ochp._1_2.{OCHP12, OCHP12Live}
 import org.apache.cxf.endpoint.{Client, Endpoint}
 import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor
@@ -23,8 +21,8 @@ import org.joda.time.DateTime
  */
 class EclearingClient(cxfClient: OCHP12) {
 
-  import scala.collection.JavaConverters._
   import com.thenewmotion.chargenetwork.eclearing.Converters._
+  import scala.collection.JavaConverters._
 
   def setRoamingAuthorisationList(info: Seq[Card]): Result[Card] = {
     val req = new SetRoamingAuthorisationListRequest()
@@ -119,19 +117,19 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
    * @param evseStats
    * @param timeToLive
    */
-  def updateStatus(evseStats: List[EvseStatus], timeToLive: Option[DateTime]) = {
+  def updateStatus(evseStats: List[EvseStatus], timeToLive: Option[DateTime] = None) = {
     def toStatusType(evseStat: EvseStatus): EvseStatusType = {
       val est = new EvseStatusType
       est.setEvseId(evseStat.evseId)
       est.setMajor(evseStat.majorStatus.toString)
-      est.setMinor(evseStat.minorStatus.toString)
+      evseStat.minorStatus foreach {minStat=> est.setMinor(minStat.toString)}
       est
     }
     val req  = new UpdateStatusRequest
     req.getEvse.addAll(evseStats map toStatusType asJavaCollection)
     timeToLive foreach {ttl=>
       val genTtl = new DateTimeType()
-      genTtl.setDateTime(timeToLive.toString)
+      timeToLive foreach {ttl => genTtl.setDateTime(ttl.toString)}
       req.setTtl(genTtl)
     }
     val resp = cxfLiveClient.updateStatus(req)
@@ -142,7 +140,7 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
 case class Result[A](
   resultCode: String,
   resultDescription: String,
-  refusedData: List[A])
+  resultPayload: List[A])
 
 
 
@@ -161,14 +159,14 @@ object EclearingClient {
 //  }
 
   def createCxfClient(conf: EclearingConfig): EclearingClient = {
-    require(conf.wsUri ne "")
+    require(conf.wsUri ne "", "need endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.wsUri)
     val cxfClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12]))
     new EclearingClient(cxfClient)
   }
 
   def createCxfLiveClient(conf: EclearingConfig): EclearingLiveClient = {
-    require(conf.liveWsUri ne "")
+    require(conf.liveWsUri ne "", "need live endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.liveWsUri)
     val cxfLiveClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12Live]))
     new EclearingLiveClient(cxfLiveClient)
@@ -207,7 +205,8 @@ object EclearingClient {
   }
 
   import javax.security.auth.callback.{Callback, CallbackHandler}
-  import org.apache.wss4j.common.ext.WSPasswordCallback
+
+import org.apache.wss4j.common.ext.WSPasswordCallback
 
   private class PwCallbackHandler  extends CallbackHandler {
 
