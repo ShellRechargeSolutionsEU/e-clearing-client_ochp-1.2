@@ -4,14 +4,14 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
 ## Includes
 
-* Open Clearing House Protocol v1.2 generated client and bean classes with help of [scalaxb](http://scalaxb.org)
+* Open Clearing House Protocol v1.2 generated client and bean classes with help of [cxf](http://cxf.apache.org)
 
-* Service-like trait to manipulate with Cards
+* Service-like trait to communicate with the clearing house
 ```scala
     trait EclearingApi {
-        def cards(): Seq[Card]
-        def addCard(card: Card)
-        def removeCard(card: Card)
+      def recvNewCards(lastUpdate: DateTime): List[Card]
+      def sendNewCards(cards: List[Card]): Result[Card]
+      ...
     }
 ```
 
