@@ -5830,12 +5830,24 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
          </result>
          <roamingAuthorisationInfo>
             <EmtId representation="plain">
-               <instance>04917CF2293180</instance>
+               <instance>04197DF2293180</instance>
                <tokenType>rfid</tokenType>
                <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000001</contractId>
             <printedNumber>YYABCC00000001K</printedNumber>
+            <expiryDate>
+               <DateTime>2014-08-20T15:23:32Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfo>
+         <roamingAuthorisationInfo>
+            <EmtId representation="plain">
+               <instance>04197DF2293181</instance>
+               <tokenType>rfid</tokenType>
+               <tokenSubType>mifareCls</tokenSubType>
+            </EmtId>
+            <contractId>YYABCC00000007</contractId>
+            <printedNumber>YYABCC00000007K</printedNumber>
             <expiryDate>
                <DateTime>2014-08-20T15:23:32Z</DateTime>
             </expiryDate>

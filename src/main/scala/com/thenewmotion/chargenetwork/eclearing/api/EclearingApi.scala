@@ -150,6 +150,11 @@ object TokenSubType {
     override val toString = "msisdn"
   }
 
+  case object Calypso extends Value {
+    val id = 4
+    override val toString = "calypso"
+  }
+
   case object Other extends Value {
     val id = 0
     override val toString = "Other"
