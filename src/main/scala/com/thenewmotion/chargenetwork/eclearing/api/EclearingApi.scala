@@ -20,9 +20,9 @@ trait EclearingApi {
   def sendNewChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
   def recvNewChargePoints(lastUpdate: DateTime):List[ChargePoint]
 
-  def recvCdrs(): List[CDR]
   def sendCdrs(cards: List[CDR]): Result[CDR]
-
+  def recvCdrs(): List[CDR]
+  def confCdrs(approvedCdrs: List[CDR], declinedCdrs: List[CDR])
 }
 
 
