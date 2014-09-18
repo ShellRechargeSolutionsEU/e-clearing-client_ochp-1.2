@@ -4714,7 +4714,93 @@ information that is more actual than the given value.</s:documentation>
          </ns:roamingAuthorisationInfoArray>
       </ns:UpdateRoamingAuthorisationListRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="eCHS-OCHP_1.2-live TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetStatus TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="GetStatus"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>eCHS-OCHP_1.2-live</con:interface><con:operation>GetStatus</con:operation><con:request name="GetStatus"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="from_test_db"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-b977f5de-aedb-4cd9-8308-423353b85054">
+            <wsse:Username>""</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">""</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2">
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04B8D702CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM0001753945</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3A814F66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000009843F</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>4922592213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000463373V</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+      </UpdateRoamingAuthorisationListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Copy of from_test_db"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-d231cb95-689e-40ad-a854-7c7a9e91faba">
+            <wsse:Username>""</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">""</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2">
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04B8D702CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM0001753945</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3A814F66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000009843F</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>4922592213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NLTNM000463373V</contractId>
+            <expiryDate>
+               <DateTime>2100-01-01T01:00:00.000+01:00</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+      </UpdateRoamingAuthorisationListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="eCHS-OCHP_1.2-live TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetStatus TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="GetStatus"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>eCHS-OCHP_1.2-live</con:interface><con:operation>GetStatus</con:operation><con:request name="GetStatus"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:GetStatusRequest>
