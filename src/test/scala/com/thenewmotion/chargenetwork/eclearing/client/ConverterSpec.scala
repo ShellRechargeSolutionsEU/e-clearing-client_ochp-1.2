@@ -34,8 +34,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " translate CDR into CDRInfo" >> {
 
-
-
+       import com.thenewmotion.time.Imports._
 
        val cdrinfo: CDRInfo = cdrToCdrInfo(cdr1)
        cdrinfo.getCdrId === "123456someId123456"
@@ -44,14 +43,14 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        cdrinfo.getContractId === "DE-LND-C00001516-E"
        cdrinfo.getLiveAuthId === "wtf"
        cdrinfo.getStatus.getCdrStatusType === "new"
-       cdrinfo.getStartDateTime.getLocalDateTime === "2014-08-08T11:10:10.000+02:00"
+       cdrinfo.getStartDateTime.getLocalDateTime === new DateTime("2014-08-08T11:10:10.000+02:00").toString
        cdrinfo.getConnectorType.getConnectorStandard.getConnectorStandard === "TESLA-R"
        cdrinfo.getMaxSocketPower === 16
        cdrinfo.getProductType === "wtf"
        import scala.collection.JavaConverters._
        val chargePeriod: _1.CdrPeriodType = cdrinfo.getChargingPeriods.asScala.head
        chargePeriod.getBillingItem.getBillingItemType === "power"
-       chargePeriod.getStartDateTime.getLocalDateTime === "2014-08-08T11:10:10.000+02:00"
+       chargePeriod.getStartDateTime.getLocalDateTime === new DateTime("2014-08-08T11:10:10.000+02:00").toString
        chargePeriod.getPeriodCost === 5
        chargePeriod.getItemPrice === 6
      }
