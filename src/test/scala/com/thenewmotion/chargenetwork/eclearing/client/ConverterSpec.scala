@@ -4,6 +4,7 @@ import com.thenewmotion.chargenetwork.eclearing.Converters._
 import com.thenewmotion.chargenetwork.eclearing.api.{BillingItem, CdrPeriod, _}
 import eu.ochp._1
 import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, ConnectorType => GenConnectorType, EmtId => GenEmtId, _}
+import org.joda.time.format.ISODateTimeFormat
 import org.specs2.mutable.SpecificationWithJUnit
 
 /**
@@ -34,7 +35,6 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " translate CDR into CDRInfo" >> {
 
-       import com.thenewmotion.time.Imports._
 
        val cdrinfo: CDRInfo = cdrToCdrInfo(cdr1)
        cdrinfo.getCdrId === "123456someId123456"
@@ -43,14 +43,18 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        cdrinfo.getContractId === "DE-LND-C00001516-E"
        cdrinfo.getLiveAuthId === "wtf"
        cdrinfo.getStatus.getCdrStatusType === "new"
-       cdrinfo.getStartDateTime.getLocalDateTime === new DateTime("2014-08-08T11:10:10.000+02:00").toString
+       val formatter = ISODateTimeFormat.dateTime()
+       cdrinfo.getStartDateTime.getLocalDateTime ===
+         formatter.print(formatter.parseDateTime("2014-08-08T09:10:10.000Z"))
        cdrinfo.getConnectorType.getConnectorStandard.getConnectorStandard === "TESLA-R"
        cdrinfo.getMaxSocketPower === 16
        cdrinfo.getProductType === "wtf"
        import scala.collection.JavaConverters._
+
        val chargePeriod: _1.CdrPeriodType = cdrinfo.getChargingPeriods.asScala.head
        chargePeriod.getBillingItem.getBillingItemType === "power"
-       chargePeriod.getStartDateTime.getLocalDateTime === new DateTime("2014-08-08T11:10:10.000+02:00").toString
+       chargePeriod.getStartDateTime.getLocalDateTime ===
+         formatter.print(formatter.parseDateTime("2014-08-08T09:10:10.000Z"))
        chargePeriod.getPeriodCost === 5
        chargePeriod.getItemPrice === 6
      }
