@@ -5,6 +5,7 @@ import com.thenewmotion.chargenetwork.eclearing.api.{BillingItem, CdrPeriod, _}
 import eu.ochp._1
 import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, ConnectorType => GenConnectorType, EmtId => GenEmtId, _}
 import org.joda.time.format.ISODateTimeFormat
+import org.specs2.mock.Mockito
 import org.specs2.mutable.SpecificationWithJUnit
 
 /**
@@ -14,11 +15,13 @@ import org.specs2.mutable.SpecificationWithJUnit
  */
 class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTestScope{
    "Converter " should {
+
+     " translate Card into RoamingAuthorisationInfo" in new CardTestScope{
+       val rai = cardToRoamingAuthorisationInfo(card1)
+       rai.getExpiryDate.getDateTime mustEqual  "2014-07-14T00:00:00Z"
+     }
+
      " translate CDRinfo into CDR" >> {
-
-
-
-
        val cdr:CDR = cdrInfoToCdr(cdrinfo)
        cdr.contractId === "DE-LND-C00001516-E"
        cdr.emtId.tokenId === "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"
@@ -83,7 +86,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
      }
 
      " translate ChargePoint into ChargePointInfo" >> {
-       val chargePointInfo = chargePointToGenCp(chargePoint1)
+       val chargePointInfo = chargePointToCpInfo(chargePoint1)
        chargePointInfo.getEvseId === chargePoint1.evseId
        chargePointInfo.getLocationId === chargePoint1.locationId
        chargePointInfo.getLocationName === chargePoint1.locationName

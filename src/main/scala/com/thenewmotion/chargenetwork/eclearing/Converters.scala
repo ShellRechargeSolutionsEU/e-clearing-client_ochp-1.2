@@ -3,6 +3,7 @@ package com.thenewmotion.chargenetwork.eclearing
 import java.util
 
 import api._
+import com.thenewmotion.time.Imports._
 import com.thenewmotion.chargenetwork.eclearing.api.BillingItem
 import com.thenewmotion.chargenetwork.eclearing.api.CdrPeriod
 import com.thenewmotion.chargenetwork.eclearing.api.ChargePointStatus.ChargePointStatus
@@ -10,6 +11,7 @@ import com.thenewmotion.chargenetwork.eclearing.api.ConnectorFormat
 import com.thenewmotion.chargenetwork.eclearing.api.ConnectorStandard
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, _}
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 
 
 /**
@@ -45,9 +47,7 @@ object Converters{
     card.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
-    val expDate = new DateTimeType()
-    expDate.setDateTime(expiryDate.toString)
-    rai.setExpiryDate(expDate)
+    rai.setExpiryDate(toDateTimeType(expiryDate))
     rai
   }
 
@@ -293,12 +293,8 @@ object Converters{
     }
     def excPeriodToExcPeriodType(ep: ExceptionalPeriod): ExceptionalPeriodType = {
       val ept = new ExceptionalPeriodType()
-      val begin = new DateTimeType
-      begin.setDateTime(ep.periodBegin.toString)
-      ept.setPeriodBegin(begin)
-      val end = new DateTimeType
-      end.setDateTime(ep.periodEnd.toString)
-      ept.setPeriodEnd(end)
+      ept.setPeriodBegin(toDateTimeType(ep.periodBegin))
+      ept.setPeriodEnd(toDateTimeType(ep.periodEnd))
       ept
     }
     val hoursType = new HoursType()
@@ -315,12 +311,8 @@ object Converters{
     val status = new ChargePointStatusType()
     status.setChargePointStatusType(schedule.status.toString)
     cpst.setStatus(status)
-    val startDate = new DateTimeType()
-    startDate.setDateTime(schedule.startDate.toString)
-    cpst.setStartDate(startDate)
-    val endDate = new DateTimeType()
-    endDate.setDateTime(schedule.endDate.toString)
-    cpst.setEndDate(endDate)
+    cpst.setStartDate(toDateTimeType(schedule.startDate))
+    cpst.setEndDate(toDateTimeType(schedule.endDate))
     cpst
   }
 
@@ -347,14 +339,12 @@ object Converters{
     ct
   }
 
-  implicit def chargePointToGenCp(cp: ChargePoint): ChargePointInfo = {
+  implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId)
     cpi.setLocationId(cp.locationId)
     cp.timestamp foreach {t =>
-      val ts = new DateTimeType()
-      ts.setDateTime(t.toString)
-      cpi.setTimestamp(ts)}
+      cpi.setTimestamp(toDateTimeType(t))}
     cpi.setLocationName(cp.locationName)
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
@@ -386,7 +376,7 @@ object Converters{
 
   implicit def toDateTimeType(date: DateTime): DateTimeType = {
       val genTtl = new DateTimeType()
-      genTtl.setDateTime(date.toString)
+      genTtl.setDateTime(date.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()))
       genTtl
   }
 }
