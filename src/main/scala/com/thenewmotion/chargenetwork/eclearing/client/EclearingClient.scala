@@ -139,9 +139,9 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
 }
 
 case class Result[A](
-  resultCode: String,
-  resultDescription: String,
-  resultPayload: List[A])
+  code: String,
+  description: String,
+  refusedItems: List[A])
 
 
 
