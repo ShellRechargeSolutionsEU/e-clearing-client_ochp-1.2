@@ -19,7 +19,7 @@ import org.specs2.specification.Scope
  *
  * @author Christoph Zwirello
  */
-class EclearingClientSpecIT extends SpecificationWithJUnit with CardTestScope with CpTestScope
+class EclearingClientSpecIT extends SpecificationWithJUnit with TokenTestScope with CpTestScope
 with CdrTestScope{
   args(sequential = true)
 
@@ -45,34 +45,34 @@ with CdrTestScope{
 
     " receive roamingAuthorisationList" >> {
       val authList = client.roamingAuthorisationList()
-      val cards = authList
-      cards.length === 7
-      cards(0).contractId === "YYABCC00000003"
+      val tokens = authList
+      tokens.length === 7
+      tokens(0).contractId === "YYABCC00000003"
     }
 
     " send roamingAuthorisationList" >> {
-      val cards = List(card1)
-      val rais = cards
+      val tokens = List(token1)
+      val rais = tokens
       val result = client.setRoamingAuthorisationList(rais)
       result.code === "ok"
     }
 
     " return an error for rejected roamingAuthorisationList" >> {
-      val cards = List(card2)
-      val result = client.setRoamingAuthorisationList(cards)
+      val tokens = List(token2)
+      val result = client.setRoamingAuthorisationList(tokens)
       result.code === "nok"
     }
 
     " receive roamingAuthorisationListUpdate" >> {
       val authList = client.roamingAuthorisationListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
-      val cards = authList
-      cards.length === 2
-      cards(0).contractId === "YYABCC00000001"
+      val tokens = authList
+      tokens.length === 2
+      tokens(0).contractId === "YYABCC00000001"
     }
 
     " send roamingAuthorisationListUpdate" >> {
-      val cards = List(card2)
-      val result = client.setRoamingAuthorisationListUpdate(cards)
+      val tokens = List(token2)
+      val result = client.setRoamingAuthorisationListUpdate(tokens)
       result.code === "ok"
     }
 
@@ -132,7 +132,7 @@ with CdrTestScope{
 
 
 
-trait CardTestScope extends Scope{
+trait TokenTestScope extends Scope{
 
   val conf: Config = ConfigFactory.load()
 
@@ -152,7 +152,7 @@ trait CardTestScope extends Scope{
       conf.getString("e-clearing.password"))
   )
 
-  val card1 = Card(
+  val token1 = ChargeToken(
     contractId = "YYABCC00000003",
     emtId=EmtId(
       tokenSubType = Some(TokenSubType.withName("mifareCls")),
@@ -161,7 +161,7 @@ trait CardTestScope extends Scope{
     expiryDate = DateTimeNoMillis("2014-07-14T02:00:00+02:00")
   )
 
-  val card2 = Card(
+  val token2 = ChargeToken(
     contractId = "YYABCC00000003",
     emtId=EmtId(
       tokenSubType = Some(TokenSubType.withName("mifareCls")),

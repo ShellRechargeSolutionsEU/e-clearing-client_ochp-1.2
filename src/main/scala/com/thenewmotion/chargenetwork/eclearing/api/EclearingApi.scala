@@ -10,17 +10,17 @@ import org.joda.time.format.ISODateTimeFormat
  * @author Yaroslav Klymko
  */
 trait EclearingApi {
-  def recvAllCards(): List[Card]
-  def sendAllCards(cards: List[Card]): Result[Card]
-  def recvNewCards(lastUpdate: DateTime): List[Card]
-  def sendNewCards(cards: List[Card]): Result[Card]
+  def recvAllTokens(): List[ChargeToken]
+  def sendAllTokens(tokens: List[ChargeToken]): Result[ChargeToken]
+  def recvNewTokens(lastUpdate: DateTime): List[ChargeToken]
+  def sendNewTokens(tokens: List[ChargeToken]): Result[ChargeToken]
 
   def sendAllChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
   def recvAllChargePoints():List[ChargePoint]
   def sendNewChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
   def recvNewChargePoints(lastUpdate: DateTime):List[ChargePoint]
 
-  def sendCdrs(cards: List[CDR]): Result[CDR]
+  def sendCdrs(cdrs: List[CDR]): Result[CDR]
   def recvCdrs(): List[CDR]
   def confCdrs(approvedCdrs: List[CDR], declinedCdrs: List[CDR])
 }
@@ -76,7 +76,7 @@ object CdrStatus extends Enumeration{
   val approved = Value("approved")
 }
 
-case class Card(contractId: String,
+case class ChargeToken(contractId: String,
                 emtId: EmtId,
                 printedNumber: Option[String],
                 expiryDate: DateTime)

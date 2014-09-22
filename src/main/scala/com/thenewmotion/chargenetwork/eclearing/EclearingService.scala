@@ -1,6 +1,6 @@
 package com.thenewmotion.chargenetwork.eclearing
 
-import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card, ChargePoint, EclearingApi}
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, ChargeToken, ChargePoint, EclearingApi}
 import com.thenewmotion.chargenetwork.eclearing.client.{EclearingClient, Result}
 import com.thenewmotion.time.Imports._
 
@@ -12,10 +12,10 @@ import com.thenewmotion.time.Imports._
 trait EclearingService extends EclearingApi {
   def client: EclearingClient
 
-  def sendAllCards(cards: List[Card]): Result[Card] = client.setRoamingAuthorisationList(cards)
-  def recvAllCards():List[Card] = client.roamingAuthorisationList()
-  def sendNewCards(cards: List[Card]): Result[Card] = client.setRoamingAuthorisationListUpdate(cards)
-  def recvNewCards(lastUpdate: DateTime):List[Card] = client.roamingAuthorisationListUpdate(lastUpdate)
+  def sendAllTokens(tokens: List[ChargeToken]): Result[ChargeToken] = client.setRoamingAuthorisationList(tokens)
+  def recvAllTokens():List[ChargeToken] = client.roamingAuthorisationList()
+  def sendNewTokens(tokens: List[ChargeToken]): Result[ChargeToken] = client.setRoamingAuthorisationListUpdate(tokens)
+  def recvNewTokens(lastUpdate: DateTime):List[ChargeToken] = client.roamingAuthorisationListUpdate(lastUpdate)
 
   def sendAllChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint] = client.setChargePointList(chargePoints)
   def recvAllChargePoints():List[ChargePoint] = client.chargePointList()

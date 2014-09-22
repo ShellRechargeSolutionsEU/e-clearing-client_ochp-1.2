@@ -16,8 +16,8 @@ import org.specs2.mutable.SpecificationWithJUnit
 class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTestScope{
    "Converter " should {
 
-     " translate Card into RoamingAuthorisationInfo" in new CardTestScope{
-       val rai = cardToRoamingAuthorisationInfo(card1)
+     " translate Token into RoamingAuthorisationInfo" in new TokenTestScope{
+       val rai = tokenToRoamingAuthorisationInfo(token1)
        rai.getExpiryDate.getDateTime mustEqual  "2014-07-14T00:00:00Z"
      }
 

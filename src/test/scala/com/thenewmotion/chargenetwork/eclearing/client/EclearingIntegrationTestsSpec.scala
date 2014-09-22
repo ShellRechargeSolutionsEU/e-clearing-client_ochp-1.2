@@ -13,7 +13,7 @@ import org.specs2.mutable.SpecificationWithJUnit
  *
  * @author Christoph Zwirello
  */
-class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with CardIntegrationTestScope{
+class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenIntegrationTestScope{
   args(sequential = true)
 
 
@@ -38,28 +38,28 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with CardInte
 //
 //    " receive roamingAuthorisationList" >> {
 //      val authList = client.roamingAuthorisationList()
-//      val cards = authList
-//      cards.length === 7
-//      cards(0).contractId === "YYABCC00000003"
+//      val tokens = authList
+//      tokens.length === 7
+//      tokens(0).contractId === "YYABCC00000003"
 //    }
 
 //    " send roamingAuthorisationList" >> {
-//      val cards = List(card1, card2, card3)
-//      val result = client.setRoamingAuthorisationList(cards)
+//      val tokens = List(token1, token2, token3)
+//      val result = client.setRoamingAuthorisationList(tokens)
 //      result.resultCode === "ok"
 //    }
 
 
 //    " receive roamingAuthorisationListUpdate" >> {
 //      val authList = client.roamingAuthorisationListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
-//      val cards = authList
-//      cards.length === 2
-//      cards(0).contractId === "YYABCC00000001"
+//      val tokens = authList
+//      tokens.length === 2
+//      tokens(0).contractId === "YYABCC00000001"
 //    }
 
 //    " send roamingAuthorisationListUpdate" >> {
-//      val cards = List(card1, card2, card3)
-//      val result = client.setRoamingAuthorisationListUpdate(cards)
+//      val tokens = List(token1, token2, token3)
+//      val result = client.setRoamingAuthorisationListUpdate(tokens)
 //      println(result.resultCode)
 //      println(result.resultDescription)
 //      println(result.resultPayload)
@@ -121,7 +121,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with CardInte
 }
 
 
-trait CardIntegrationTestScope {
+trait TokenIntegrationTestScope {
 
   val conf: Config = ConfigFactory.load()
 
@@ -141,7 +141,7 @@ trait CardIntegrationTestScope {
       conf.getString("e-clearing.password"))
   )
 
-  val card1 = Card(
+  val token1 = ChargeToken(
     contractId = "DE-TNM-000000001",
     emtId=EmtId(
       tokenType = TokenType.rfid,
@@ -151,7 +151,7 @@ trait CardIntegrationTestScope {
     expiryDate = new DateTime()
   )
 
-  val card2 = Card(
+  val token2 = ChargeToken(
     contractId = "DE-TNM-000000002",
     emtId=EmtId(
       tokenType = TokenType.rfid,
@@ -161,7 +161,7 @@ trait CardIntegrationTestScope {
     expiryDate = new DateTime().plusDays(1)
   )
 
-  val card3 = Card(
+  val token3 = ChargeToken(
     contractId = "DE-TNM-000000003",
     emtId=EmtId(
       tokenType = TokenType.rfid,

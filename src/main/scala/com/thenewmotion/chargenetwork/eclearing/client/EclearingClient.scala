@@ -6,7 +6,7 @@ import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
-import com.thenewmotion.chargenetwork.eclearing.api.{CDR, Card, ChargePoint, EvseStatus}
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, ChargeToken, ChargePoint, EvseStatus}
 import com.thenewmotion.time.Imports._
 import eu.ochp._1._
 import eu.ochp._1_2.{OCHP12, OCHP12Live}
@@ -25,33 +25,33 @@ class EclearingClient(cxfClient: OCHP12) {
   import com.thenewmotion.chargenetwork.eclearing.Converters._
   import scala.collection.JavaConverters._
 
-  def setRoamingAuthorisationList(info: Seq[Card]): Result[Card] = {
+  def setRoamingAuthorisationList(info: Seq[ChargeToken]): Result[ChargeToken] = {
     val req = new SetRoamingAuthorisationListRequest()
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.setRoamingAuthorisationList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
-      resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_)))
+      resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[ChargeToken](_)))
   }
 
   def roamingAuthorisationList() = {
     val resp = cxfClient.getRoamingAuthorisationList(
       new GetRoamingAuthorisationListRequest)
-    resp.getRoamingAuthorisationInfoArray.asScala.toList.map(implicitly[Card](_))
+    resp.getRoamingAuthorisationInfoArray.asScala.toList.map(implicitly[ChargeToken](_))
   }
 
-  def setRoamingAuthorisationListUpdate(info: Seq[Card]): Result[Card] = {
+  def setRoamingAuthorisationListUpdate(info: Seq[ChargeToken]): Result[ChargeToken] = {
     val req = new UpdateRoamingAuthorisationListRequest()
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.updateRoamingAuthorisationList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
-        resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_)))
+        resp.getRefusedRoamingAuthorisationInfo.asScala.toList.map(implicitly[ChargeToken](_)))
   }
 
   def roamingAuthorisationListUpdate(lastUpdate: DateTime) = {
     val req = new GetRoamingAuthorisationListUpdatesRequest
     req.setLastUpdate(toDateTimeType(lastUpdate))
     val resp = cxfClient.getRoamingAuthorisationListUpdates( req )
-    resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[Card](_))
+    resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[ChargeToken](_))
   }
 
   def getCdrs() = {

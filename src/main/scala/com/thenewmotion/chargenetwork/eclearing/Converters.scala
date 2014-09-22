@@ -24,8 +24,8 @@ import org.joda.time.format.ISODateTimeFormat
 object Converters{
   import scala.collection.JavaConverters._
 
-  implicit def roamingAuthorisationInfoToCard(rai: RoamingAuthorisationInfo): Card = {
-    Card(
+  implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
+    ChargeToken(
       contractId = rai.getContractId,
       emtId = EmtId(
         tokenId = rai.getEmtId.getInstance,
@@ -36,15 +36,15 @@ object Converters{
     )
   }
 
-  implicit def cardToRoamingAuthorisationInfo(card: Card): RoamingAuthorisationInfo = {
-    import card._
+  implicit def tokenToRoamingAuthorisationInfo(token: ChargeToken): RoamingAuthorisationInfo = {
+    import token._
 
     val rai = new RoamingAuthorisationInfo()
     val emtId = new GenEmtId()
     rai.setContractId(contractId)
-    emtId.setInstance(card.emtId.tokenId)
-    emtId.setTokenType(card.emtId.tokenType.toString)
-    card.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
+    emtId.setInstance(token.emtId.tokenId)
+    emtId.setTokenType(token.emtId.tokenType.toString)
+    token.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
     rai.setExpiryDate(toDateTimeType(expiryDate))

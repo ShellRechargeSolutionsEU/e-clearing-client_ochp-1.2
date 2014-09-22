@@ -9,8 +9,8 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 * Service-like trait to communicate with the clearing house
 ```scala
     trait EclearingApi {
-      def recvNewCards(lastUpdate: DateTime): List[Card]
-      def sendNewCards(cards: List[Card]): Result[Card]
+      def recvNewTokens(lastUpdate: DateTime): List[ChargeCard]
+      def sendNewTokens(tokens: List[ChargeToken]): Result[ChargeCard]
       ...
     }
 ```
