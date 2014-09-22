@@ -1882,7 +1882,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-7d694661-6d11-4e95-a201-732536ad4626">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Malt3Z3r?</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4411,7 +4411,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-f03ccec8-433b-4eee-8000-3593b7f08ade">
             <wsse:Username>"backend.tnm"</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4465,7 +4465,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-b6a75cf0-8132-455b-bb40-3d1e6fa09f12">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Malt3Z3r?</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4532,7 +4532,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-c44ceff1-73d8-4a5c-b366-aadecc8dc870">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Malt3Z3r?</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4770,7 +4770,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-2e0fc8c9-caba-4535-9112-0502e957b2b8">
             <wsse:Username>"backend.tnm"</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">"T683f2L03d"</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -7289,4 +7289,4 @@ log.info("request is: "+mockRequest.getRequestContent())</con:onRequestScript><c
          </ns:result>
       </ns:UpdateStatusResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer><con:outgoing><con:name>echs-q</con:name><con:username>backend.tnm</con:username><con:password>T683f2L03d</con:password><con:entry type="Username"><con:configuration><addCreated>true</addCreated><addNonce>true</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer><con:outgoing><con:name>echs-q</con:name><con:username>backend.tnm</con:username><con:password></con:password><con:entry type="Username"><con:configuration><addCreated>true</addCreated><addNonce>true</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
