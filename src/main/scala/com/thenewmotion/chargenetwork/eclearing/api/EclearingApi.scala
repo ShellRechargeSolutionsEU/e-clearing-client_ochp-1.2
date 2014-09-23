@@ -46,7 +46,8 @@ object ConnectorFormat extends Enumeration{
 
 object ConnectorStandard extends Enumeration{
   type ConnectorStandard = Value
-  val `CHADEMO IEC-62196-T1` = Value("CHADEMO IEC-62196-T1")
+  val `CHADEMO` = Value("CHADEMO")
+  val `IEC-62196-T1` = Value("IEC-62196-T1")
   val `IEC-62196-T1-COMBO` = Value("IEC-62196-T1-COMBO")
   val `IEC-62196-T2` = Value("IEC-62196-T2")
   val `IEC-62196-T2-COMBO` = Value("IEC-62196-T2-COMBO")
@@ -65,6 +66,11 @@ object ConnectorStandard extends Enumeration{
   val `DOMESTIC-K` = Value("DOMESTIC-K")
   val `DOMESTIC-L` = Value("DOMESTIC-L")
   val `TESLA-R` = Value("TESLA-R")
+  val `TESLA-S` = Value("TESLA-S")
+  val `IEC-60309-2-single-16` = Value("IEC-60309-2-single-16")
+  val `IEC-60309-2-three-16` = Value("IEC-60309-2-three-16")
+  val `IEC-60309-2-three-32` = Value("IEC-60309-2-three-32")
+  val `IEC-60309-2-three-64` = Value("IEC-60309-2-three-64")
 }
 
 object CdrStatus extends Enumeration{
