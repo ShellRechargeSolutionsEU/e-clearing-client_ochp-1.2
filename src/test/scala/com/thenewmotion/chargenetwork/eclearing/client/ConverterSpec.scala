@@ -168,13 +168,14 @@ trait CpTestScope {
     authMethods = List(AuthMethod.RfidMifareCls),
     connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
     operatingTimes = Some(Hours(
-    regularHours = List(RegularHours(
-       weekday = 1,
-       periodBegin = TimeNoSecs("08:00"),
-       periodEnd = TimeNoSecs("18:00")
-    )),
-    exceptionalOpenings = List(),
-    exceptionalClosings = List())))
+      regularHours = List(RegularHours(
+         weekday = 1,
+         periodBegin = TimeNoSecs("08:00"),
+         periodEnd = TimeNoSecs("18:00")
+      )),
+      exceptionalOpenings = List(),
+      exceptionalClosings = List()))
+  )
 }
 
 
