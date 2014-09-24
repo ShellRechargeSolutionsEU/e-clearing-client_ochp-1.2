@@ -27,12 +27,12 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //
 //    " add CDRs" >> {
 //      val result = client.addCdrs(Seq(cdr1))
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 //
 //    " confirm CDRs" >> {
 //      val result = client.confirmCdrs(Seq(cdr1), Seq(cdr2))
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 //
 //
@@ -46,7 +46,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //    " send roamingAuthorisationList" >> {
 //      val tokens = List(token1, token2, token3)
 //      val result = client.setRoamingAuthorisationList(tokens)
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 
 
@@ -60,10 +60,10 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //    " send roamingAuthorisationListUpdate" >> {
 //      val tokens = List(token1, token2, token3)
 //      val result = client.setRoamingAuthorisationListUpdate(tokens)
-//      println(result.resultCode)
+//      println(result.success)
 //      println(result.resultDescription)
 //      println(result.resultPayload)
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 
 
@@ -74,7 +74,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //
 //    " set charge point list" >> {
 //      val result = client.setChargePointList(Seq(chargePoint1))
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 //
 //    " receive chargepointListUpdate" >> {
@@ -84,7 +84,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //
 //    " set charge point list update" >> {
 //      val result = client.setChargePointListUpdate(Seq(chargePoint1))
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 
   }
@@ -115,7 +115,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //        )
 //      )
 //      val result = liveClient.updateStatus(evseStats, Some(DateTimeNoMillis("2014-07-14T00:00:00Z")))
-//      result.resultCode === "ok"
+//      result.success must beTrue
 //    }
 //  }
 }

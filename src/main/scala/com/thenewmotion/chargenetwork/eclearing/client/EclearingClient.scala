@@ -139,9 +139,15 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
 }
 
 case class Result[A](
-  code: String,
+  success: Boolean,
   description: String,
   refusedItems: List[A])
+
+object Result  {
+  def apply[A](code: String, desc: String, ref: List[A]) = {
+    new Result(code == "ok", desc, ref)
+  }
+}
 
 
 
