@@ -1,7 +1,7 @@
 package com.thenewmotion.chargenetwork.eclearing
 
-import com.thenewmotion.chargenetwork.eclearing.api.{CDR, ChargeToken, ChargePoint, EclearingApi}
-import com.thenewmotion.chargenetwork.eclearing.client.{EclearingClient, Result}
+import com.thenewmotion.chargenetwork.eclearing.api._
+import com.thenewmotion.chargenetwork.eclearing.client.{EclearingLiveClient, EclearingClient, Result}
 import com.thenewmotion.time.Imports._
 
 
@@ -25,4 +25,10 @@ trait EclearingService extends EclearingApi {
   def sendCdrs(cdrs: List[CDR]): Result[CDR] = client.addCdrs(cdrs)
   def recvCdrs():List[CDR] = client.getCdrs()
   def confCdrs(approvedCdrs: List[CDR], declinedCdrs: List[CDR]) = client.confirmCdrs(approvedCdrs, declinedCdrs)
+}
+
+trait EclearingLiveService {
+  def client: EclearingLiveClient
+
+  def updateStatus(statuses: List[EvseStatus]) = client.updateStatus(statuses)
 }
