@@ -67,7 +67,7 @@ case class ExceptionalPeriod (
   periodBegin: DateTime,
   periodEnd: DateTime)
 
-object ChargePointStatus extends Enumeration{
+object ChargePointStatus extends QueryableEnumeration{
   type ChargePointStatus = Value
   val Unknown = Value("Unknown")
   val Operative = Value("Operative")
@@ -82,7 +82,7 @@ case class ChargePointSchedule (
   endDate: DateTime,
   status: ChargePointStatus.Value)
 
-object ParkingRestriction extends Enumeration{
+object ParkingRestriction extends QueryableEnumeration{
   type parkingRestriction = Value
   val evonly = Value("evonly")
   val plugged = Value("plugged")
@@ -90,7 +90,7 @@ object ParkingRestriction extends Enumeration{
   val customers = Value("customers")
   val motorcycles = Value("motorcycles")}
 
-object AuthMethod extends Enumeration {
+object AuthMethod extends QueryableEnumeration {
   type AuthMethod = Value
   val Public = Value("Public")
   val LocalKey = Value("LocalKey")

@@ -38,13 +38,13 @@ case class Connector (
   connectorFormat: ConnectorFormat.Value
 )
 
-object ConnectorFormat extends Enumeration{
+object ConnectorFormat extends QueryableEnumeration{
   type ConnectorFormat = Value
   val Socket = Value("Socket")
   val Cable = Value("Cable")
 }
 
-object ConnectorStandard extends Enumeration{
+object ConnectorStandard extends QueryableEnumeration{
   type ConnectorStandard = Value
   val `CHADEMO` = Value("CHADEMO")
   val `IEC-62196-T1` = Value("IEC-62196-T1")
@@ -73,7 +73,7 @@ object ConnectorStandard extends Enumeration{
   val `IEC-60309-2-three-64` = Value("IEC-60309-2-three-64")
 }
 
-object CdrStatus extends Enumeration{
+object CdrStatus extends QueryableEnumeration{
   type CdrStatus = Value
   val `new` = Value("new")
   val accepted = Value("accepted")
@@ -109,21 +109,21 @@ object TimeNoSecs {
   def apply(s: String): TimeNoSecs = TimeNoSecs(formatter.parseLocalTime(s))
 }
 
-object TokenRepresentation extends Enumeration{
+object TokenRepresentation extends QueryableEnumeration{
   type TokenRepresentation = Value
   val plain = Value("plain")
   val sha160 = Value("sha-160")
   val sha256 = Value("sha-256")
 }
 
-object TokenType extends Enumeration{
+object TokenType extends QueryableEnumeration{
   type TokenType = Value
   val rfid = Value("rfid")
   val remote = Value("remote")
   val `15118` = Value("15118")
 }
 
-object TokenSubType extends Enumeration{
+object TokenSubType extends QueryableEnumeration{
   type TokenSubType = Value
   val Public = Value("Public")
   val LocalKey = Value("LocalKey")
@@ -136,6 +136,10 @@ object TokenSubType extends Enumeration{
   val Iec15118 = Value("Iec15118")
 }
 
+class QueryableEnumeration extends Enumeration {
+  def exists(name: String) = values.exists(_.toString == name)
+}
+
 
 case class EvseStatus(
   evseId: String,
@@ -143,7 +147,7 @@ case class EvseStatus(
   minorStatus: Option[EvseStatusMinor.Value] = None
 )
 
-object EvseStatusMajor extends Enumeration {
+object EvseStatusMajor extends QueryableEnumeration {
   type EvseStatusMajor = Value
   val available = Value("available")
   val `not-available` = Value("not-available")
@@ -151,7 +155,7 @@ object EvseStatusMajor extends Enumeration {
 }
 
 
-object EvseStatusMinor extends Enumeration {
+object EvseStatusMinor extends QueryableEnumeration {
   type EvseStatusMinor = Value
   val available = Value("available")
   val reserved = Value("reserved")

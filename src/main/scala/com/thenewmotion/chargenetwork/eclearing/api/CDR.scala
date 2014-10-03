@@ -41,7 +41,7 @@ case class CdrPeriod (
   periodCost: Option[Float]
 )
 
-object BillingItem extends Enumeration{
+object BillingItem extends QueryableEnumeration{
   type BillingItemType = Value
   val parkingtime = Value("parkingtime")
   val usagetime = Value("usagetime")
