@@ -6587,7 +6587,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
                <ns:instance>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</ns:instance>
                <ns:tokenType>rfid</ns:tokenType>
                <!--Optional:-->
-               <ns:tokenSubType>RfidMifareCls</ns:tokenSubType>
+               <ns:tokenSubType>mifareCls</ns:tokenSubType>
             </ns:emtId>
             <ns:contractId>DE-LND-C00001516-E</ns:contractId>
             <!--Optional:-->
@@ -6769,7 +6769,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="sha-160">
                <instance>96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000003</contractId>
             <printedNumber>YYABCC00000003J</printedNumber>
@@ -6781,7 +6781,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="plain">
                <instance>969D4A200B4AEF</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000004</contractId>
             <printedNumber>YYABCC00000004</printedNumber>
@@ -6793,7 +6793,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="sha-160">
                <instance>2381FBAC836B7CDB0935909F2B7D762C07A52511B41</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000005</contractId>
             <printedNumber>YYABCC00000005</printedNumber>
@@ -6805,7 +6805,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="plain">
                <instance>04197DF2293181</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000002</contractId>
             <printedNumber>YYABCC00000002Q</printedNumber>
@@ -6817,7 +6817,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="plain">
                <instance>04E57EF2293180</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000003</contractId>
             <printedNumber>YYABCC00000003J</printedNumber>
@@ -6829,7 +6829,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="sha-160">
                <instance>534B7B27939F5C96365B77C75EBEE6F847FAC4F2</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000001</contractId>
             <printedNumber>YYABCC00000001K</printedNumber>
@@ -6841,7 +6841,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="sha-160">
                <instance>7531D54C76187294F4F351164E2092BA3BBA50FB</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000002</contractId>
             <printedNumber>YYABCC00000002Q</printedNumber>
@@ -6864,7 +6864,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="plain">
                <instance>04197DF2293180</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000001</contractId>
             <printedNumber>YYABCC00000001K</printedNumber>
@@ -6876,7 +6876,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
             <EmtId representation="plain">
                <instance>04197DF2293181</instance>
                <tokenType>rfid</tokenType>
-               <tokenSubType>RfidMifareCls</tokenSubType>
+               <tokenSubType>mifareCls</tokenSubType>
             </EmtId>
             <contractId>YYABCC00000007</contractId>
             <printedNumber>YYABCC00000007K</printedNumber>
@@ -7159,7 +7159,7 @@ else
                <ns:instance>?</ns:instance>
                <ns:tokenType>rfid</ns:tokenType>
                <!--Optional:-->
-               <ns:tokenSubType>RfidMifareCls</ns:tokenSubType>
+               <ns:tokenSubType>mifareCls</ns:tokenSubType>
             </ns:EmtId>
             <ns:contractId>?</ns:contractId>
             <!--Optional:-->

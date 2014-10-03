@@ -26,7 +26,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        cdr.contractId === "DE-LND-C00001516-E"
        cdr.emtId.tokenId === "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"
        cdr.emtId.tokenType.toString === "rfid"
-       cdr.emtId.tokenSubType.get.toString === "RfidMifareCls"
+       cdr.emtId.tokenSubType.get.toString === "mifareCls"
        cdr.status.toString === "new"
        cdr.maxSocketPower === 0
        cdr.liveAuthId === None
@@ -185,7 +185,7 @@ trait CdrTestScope extends CpTestScope{
   cdrinfo.setContractId("DE-LND-C00001516-E")
   emtId.setInstance("96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0")
   emtId.setTokenType("rfid")
-  emtId.setTokenSubType("RfidMifareCls")
+  emtId.setTokenSubType("mifareCls")
   emtId.setRepresentation("plain")
   cdrinfo.setEmtId(emtId)
   val status = new GenCdrStatusType()
@@ -206,7 +206,7 @@ trait CdrTestScope extends CpTestScope{
     emtId = EmtId(
       tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0",
       tokenType = TokenType.withName("rfid"),
-      tokenSubType = Some(TokenSubType.withName("RfidMifareCls"))
+      tokenSubType = Some(TokenSubType.withName("mifareCls"))
     ),
     contractId = "DE-LND-C00001516-E",
     liveAuthId = Some("wtf"),
@@ -243,7 +243,7 @@ trait CdrTestScope extends CpTestScope{
     emtId = EmtId(
       tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1",
       tokenType = TokenType.withName("rfid"),
-      tokenSubType = Some(TokenSubType.withName("RfidMifareCls"))
+      tokenSubType = Some(TokenSubType.withName("mifareCls"))
     ),
     contractId = "DE-LND-C00001516-E",
     liveAuthId = Some("wtf"),

@@ -125,15 +125,9 @@ object TokenType extends QueryableEnumeration{
 
 object TokenSubType extends QueryableEnumeration{
   type TokenSubType = Value
-  val Public = Value("Public")
-  val LocalKey = Value("LocalKey")
-  val DirectCash = Value("DirectCash")
-  val DirectCreditcard = Value("DirectCreditcard")
-  val DirectDebitcard = Value("DirectDebitcard")
-  val RfidMifareCls = Value("RfidMifareCls")
-  val RfidMifareDes = Value("RfidMifareDes")
-  val RfidCalypso = Value("RfidCalypso")
-  val Iec15118 = Value("Iec15118")
+  val mifareCls = Value("mifareCls")
+  val mifareDes = Value("mifareDes")
+  val calypso = Value("calypso")
 }
 
 class QueryableEnumeration extends Enumeration {
