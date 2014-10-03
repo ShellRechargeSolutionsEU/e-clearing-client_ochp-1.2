@@ -123,50 +123,17 @@ object TokenType extends Enumeration{
   val `15118` = Value("15118")
 }
 
-object TokenSubType {
-  val Known = Seq(MifareCl, MifareDes, Msisdn, Other)
-  def apply(id: Int): Value = Known.find(_.id == id) getOrElse Unknown(id)
-  def withName(name: String): Value = Known.find(_.toString == name) getOrElse Other
-
-  def forRfid(rfid: String): TokenSubType.Value = {
-    require(rfid.matches("[0-9A-Fa-f]+"), "Rfid '%s' doesn't comply pattern '[0-9A-Fa-f]+'".format(rfid))
-    rfid.size match {
-      case 8 => MifareCl
-      case 10 => MifareDes
-      case _ => Other
-    }
-  }
-
-  sealed abstract class Value {
-    def id: Int
-  }
-
-  case object MifareCl extends Value {
-    val id = 1
-    override val toString = "mifareCls"
-  }
-
-  case object MifareDes extends Value {
-    val id = 2
-    override val toString = "mifareDes"
-  }
-
-  case object Msisdn extends Value {
-    val id = 3
-    override val toString = "msisdn"
-  }
-
-  case object Calypso extends Value {
-    val id = 4
-    override val toString = "calypso"
-  }
-
-  case object Other extends Value {
-    val id = 0
-    override val toString = "Other"
-  }
-
-  case class Unknown(id: Int) extends Value
+object TokenSubType extends Enumeration{
+  type TokenSubType = Value
+  val Public = Value("Public")
+  val LocalKey = Value("LocalKey")
+  val DirectCash = Value("DirectCash")
+  val DirectCreditcard = Value("DirectCreditcard")
+  val DirectDebitcard = Value("DirectDebitcard")
+  val RfidMifareCls = Value("RfidMifareCls")
+  val RfidMifareDes = Value("RfidMifareDes")
+  val RfidCalypso = Value("RfidCalypso")
+  val Iec15118 = Value("Iec15118")
 }
 
 

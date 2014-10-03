@@ -105,6 +105,7 @@ object Converters{
         tokenId = cdrinfo.getEmtId.getInstance,
         tokenType = TokenType.withName(cdrinfo.getEmtId.getTokenType),
         tokenSubType = Some(TokenSubType.withName(cdrinfo.getEmtId.getTokenSubType))
+
       ),
       contractId = cdrinfo.getContractId,
       liveAuthId = toOption(cdrinfo.getLiveAuthId),
