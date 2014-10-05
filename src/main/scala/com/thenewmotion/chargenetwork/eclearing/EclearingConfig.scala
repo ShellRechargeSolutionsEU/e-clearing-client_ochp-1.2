@@ -9,7 +9,7 @@ package com.thenewmotion.chargenetwork.eclearing
 case class EclearingConfig(
 
   wsUri: String,
-  liveWsUri: String,
+  liveWsUri: String = "",
   user: String,
   password: String
 ) {

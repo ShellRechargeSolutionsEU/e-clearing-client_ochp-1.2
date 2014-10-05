@@ -166,14 +166,14 @@ object EclearingClient {
 //  }
 
   def createCxfClient(conf: EclearingConfig): EclearingClient = {
-    require(conf.wsUri ne "", "need endpoint uri!")
+    require(conf.wsUri != "", "need endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.wsUri)
     val cxfClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12]))
     new EclearingClient(cxfClient)
   }
 
   def createCxfLiveClient(conf: EclearingConfig): EclearingLiveClient = {
-    require(conf.liveWsUri ne "", "need live endpoint uri!")
+    require(conf.liveWsUri != "", "need live endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.liveWsUri)
     val cxfLiveClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12Live]))
     new EclearingLiveClient(cxfLiveClient)
