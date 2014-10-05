@@ -128,10 +128,20 @@ object TokenSubType extends QueryableEnumeration{
   val mifareCls = Value("mifareCls")
   val mifareDes = Value("mifareDes")
   val calypso = Value("calypso")
+
+  def forRfid(rfid: String): Option[TokenSubType.Value] = {
+       require(rfid.matches("[0-9A-Fa-f]+"), "Rfid '%s' doesn't comply pattern '[0-9A-Fa-f]+'".format(rfid))
+       rfid.size match {
+         case 8 => Some(mifareCls)
+         case 10 => Some(mifareDes)
+         case _ => None
+       }
+  }
 }
 
 class QueryableEnumeration extends Enumeration {
   def exists(name: String) = values.exists(_.toString == name)
+  def withNameOpt(name: String) = if (exists(name)) Some(name) else None
 }
 
 
