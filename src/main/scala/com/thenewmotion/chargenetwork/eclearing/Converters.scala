@@ -30,8 +30,8 @@ object Converters{
       emtId = EmtId(
         tokenId = rai.getEmtId.getInstance,
         tokenType = TokenType.withName(rai.getEmtId.getTokenType),
-        tokenSubType = Some(TokenSubType.withName(rai.getEmtId.getTokenSubType))),
-      printedNumber = Some(rai.getPrintedNumber),
+        tokenSubType = Option(rai.getEmtId.getTokenSubType) map {TokenSubType.withName}),
+      printedNumber = Option(rai.getPrintedNumber),
       expiryDate = DateTimeNoMillis(rai.getExpiryDate.getDateTime)
     )
   }
@@ -52,7 +52,7 @@ object Converters{
   }
 
   private def toOption (value: String):Option[String] = {
-    value match {case null => None; case s if !s.isEmpty => Some(s); case _ => None}
+    value match {case null => None; case s if s.nonEmpty => Some(s); case _ => None}
   }
 
   private def toDateTimeOption (value: DateTimeType):Option[DateTime] = {
@@ -104,7 +104,7 @@ object Converters{
       emtId = EmtId(
         tokenId = cdrinfo.getEmtId.getInstance,
         tokenType = TokenType.withName(cdrinfo.getEmtId.getTokenType),
-        tokenSubType = Some(TokenSubType.withName(cdrinfo.getEmtId.getTokenSubType))
+        tokenSubType = Option(cdrinfo.getEmtId.getTokenSubType) map {TokenSubType.withName}
 
       ),
       contractId = cdrinfo.getContractId,
@@ -135,7 +135,7 @@ object Converters{
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Some(cdrPeriod.getPeriodCost)
+          periodCost = Option(cdrPeriod.getPeriodCost)
         )
 
       )
