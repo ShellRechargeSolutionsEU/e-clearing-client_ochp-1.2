@@ -117,10 +117,24 @@ object AuthMethod extends QueryableEnumeration {
   val Iec15118 = Value("Iec15118")
 }
 
+object ImageClass extends QueryableEnumeration {
+  type ImageClass = Value
+  val networkLogo = Value("networkLogo")
+  val operatorLogo = Value("operatorLogo")
+  val ownerLogo = Value("ownerLogo")
+  val stationPhoto = Value("stationPhoto")
+  val locationPhoto = Value("locationPhoto")
+  val entrancePhoto = Value("entrancePhoto")
+  val otherPhoto = Value("otherPhoto")
+  val otherLogo = Value("otherLogo")
+  val otherGraphic = Value("otherGraphic")
+
+}
+
 case class EvseImageUrl (
   uri: String,
   thumbUri: Option[String] = None,
-  clazz: String,
+  clazz: ImageClass.Value,
   `type`: String,
   width: Option[Integer] = None,
   height: Option[Integer] = None

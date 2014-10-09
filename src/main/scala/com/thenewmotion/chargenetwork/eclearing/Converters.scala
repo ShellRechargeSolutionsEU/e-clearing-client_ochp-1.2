@@ -226,10 +226,10 @@ object Converters{
       images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
         uri = genImage.getUri,
         thumbUri = toOption(genImage.getThumbUri),
-        clazz = genImage.getClazz,
+        clazz = ImageClass.withName(genImage.getClazz),
         `type` = genImage.getType,
-        width = Some(genImage.getWidth),
-        height = Some(genImage.getHeight)
+        width = Option(genImage.getWidth),
+        height = Option(genImage.getHeight)
       )},
       address = CpAddress(
         houseNumber = toOption(genCp.getHouseNumber),
@@ -272,7 +272,7 @@ object Converters{
 
   private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
     val iut = new GenEvseImageUrlType()
-    iut.setClazz(image.clazz)
+    iut.setClazz(image.clazz.toString)
     image.height map iut.setHeight
     image.width map iut.setWidth
     image.thumbUri map iut.setThumbUri
