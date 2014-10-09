@@ -7,6 +7,7 @@ import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConn
 import org.joda.time.format.ISODateTimeFormat
 import org.specs2.mock.Mockito
 import org.specs2.mutable.SpecificationWithJUnit
+import org.specs2.specification.Scope
 
 /**
  * Created with IntelliJ IDEA.
@@ -106,10 +107,15 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePointInfo.getOperatingTimes.getRegularHours.get(0).getPeriodEnd ===
          chargePoint1.operatingTimes.get.regularHours(0).periodEnd.toString
      }
+
+     " require properly formatted evseIds" in new CpTestScope {
+       chargePoint1.copy(
+         evseId = "DE*823*E14020122_10401.1A*0") must throwA[IllegalArgumentException]
+     }
    }
 }
 
-trait CpTestScope {
+trait CpTestScope extends Scope {
   /*
    * Using cxf-generated java code:
    */
