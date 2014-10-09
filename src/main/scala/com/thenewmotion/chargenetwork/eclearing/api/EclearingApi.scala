@@ -46,7 +46,7 @@ object ConnectorFormat extends QueryableEnumeration{
 
 object ConnectorStandard extends QueryableEnumeration{
   type ConnectorStandard = Value
-  val `CHADEMO` = Value("CHADEMO")
+  val `CHADEMO` = Value("Chademo")
   val `IEC-62196-T1` = Value("IEC-62196-T1")
   val `IEC-62196-T1-COMBO` = Value("IEC-62196-T1-COMBO")
   val `IEC-62196-T2` = Value("IEC-62196-T2")
