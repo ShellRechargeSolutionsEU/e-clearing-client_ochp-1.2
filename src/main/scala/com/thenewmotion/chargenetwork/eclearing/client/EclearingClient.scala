@@ -41,6 +41,7 @@ class EclearingClient(cxfClient: OCHP12) {
 
   def setRoamingAuthorisationListUpdate(info: Seq[ChargeToken]): Result[ChargeToken] = {
     val req = new UpdateRoamingAuthorisationListRequest()
+    require(info.nonEmpty, "need at least one ChargeToken to send!")
     req.getRoamingAuthorisationInfoArray.addAll(info.map(implicitly[RoamingAuthorisationInfo](_)).asJava)
     val resp = cxfClient.updateRoamingAuthorisationList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
