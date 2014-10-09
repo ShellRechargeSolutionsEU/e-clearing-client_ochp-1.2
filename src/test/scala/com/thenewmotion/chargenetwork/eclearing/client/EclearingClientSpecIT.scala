@@ -66,8 +66,8 @@ with CdrTestScope{
     " receive roamingAuthorisationListUpdate" >> {
       val authList = client.roamingAuthorisationListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
       val tokens = authList
-      tokens.length === 2
-      tokens(0).contractId === "YYABCC00000001"
+      tokens.length === 10
+      tokens(0).contractId === "YYABCC00000003"
     }
 
     " send roamingAuthorisationListUpdate" >> {
