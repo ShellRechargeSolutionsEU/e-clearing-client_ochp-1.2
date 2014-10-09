@@ -47,10 +47,18 @@ object CpTimestamp {
   def unapply(dt: DateTime): String = dt.toString(formatter)
 }
 
-case class GeoPoint(
-   lat: String,
-   lon: String
+class GeoPoint(
+   val lat: String,
+   val lon: String
 )
+
+object GeoPoint {
+  def apply(lat: String, lon: String) = {
+    val ECLEARING_GEODATA_PRECISION = 6
+    new GeoPoint(lat.substring(0, lat.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION),
+      lon.substring(0, lon.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION))
+  }
+}
 
 case class Hours (
   regularHours: List[RegularHours],
