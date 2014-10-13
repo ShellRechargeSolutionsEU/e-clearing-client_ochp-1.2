@@ -1877,26 +1877,20 @@ information that is more actual than the given value.</s:documentation>
          </ns:ttl>
       </ns:UpdateStatusRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Specs"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Specs"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-7d694661-6d11-4e95-a201-732536ad4626">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
    <soap:Body>
       <UpdateStatusRequest xmlns="http://ochp.eu/1.2">
          <evse major="available" minor="reserved">
-            <evseId>DE*823*E1234*5678</evseId>
+            <evseId>NL*TNM*E02000001*0</evseId>
          </evse>
-         <evse major="not-available" minor="blocked">
-            <evseId>DE*823*E1234*6789</evseId>
-         </evse>
-         <ttl>
-            <DateTime>2014-07-14T02:00:00.000+02:00</DateTime>
-         </ttl>
       </UpdateStatusRequest>
    </soap:Body>
 </soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="boskiller"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -1904,7 +1898,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-ab58f1c4-b49f-4637-a68b-6791d57f94ab">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -1923,7 +1917,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-9f4f01e9-5506-4770-a4b7-19ccc9ef8f85">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -1931,6 +1925,22 @@ information that is more actual than the given value.</s:documentation>
       <UpdateStatusRequest xmlns="http://ochp.eu/1.2">
          <evse major="available">
             <evseId>FR*TNM*ELAFONTECH00433*0</evseId>
+         </evse>
+      </UpdateStatusRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.e-clearing.net/service/UpdateStatus"/><con:wsrmConfig version="1.2"/></con:call><con:call name="02000001"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2/live</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-0cd9447b-b228-46ac-bbbf-ce2c713180d8">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateStatusRequest xmlns="http://ochp.eu/1.2">
+         <evse major="not-available" minor="charging">
+            <evseId>DE*TNM*E02000001*0</evseId>
          </evse>
       </UpdateStatusRequest>
    </soap:Body>
@@ -4434,14 +4444,14 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
    <soapenv:Body>
       <ns:GetCDRsRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
+</soapenv:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
    <soapenv:Body>
       <ns:GetChargePointListRequest/>
@@ -4463,13 +4473,119 @@ information that is more actual than the given value.</s:documentation>
       </ns:GetChargePointListUpdatesRequest>
    </soapenv:Body>
 </soap:Envelope>
-]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointListUpdates"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointListUpdates"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetRoamingAuthorisationList" name="GetRoamingAuthorisationList" bindingOperationName="GetRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
- xmlns:ns="http://ochp.eu/1.2">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ns:GetRoamingAuthorisationListRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointListUpdates"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointListUpdates"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetRoamingAuthorisationList" name="GetRoamingAuthorisationList" bindingOperationName="GetRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-cf340fca-88bd-4e80-ba45-efbb2190b9f2">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <SetChargePointListRequest xmlns="http://ochp.eu/1.2">
+         <chargepointInfoArray>
+            <evseId>DE*823*E1234*5678</evseId>
+            <locationId>WERELD</locationId>
+            <locationName>Keizersgracht-585</locationName>
+            <locationNameLang>NLD</locationNameLang>
+            <address>Keizersgracht 585</address>
+            <city>Amsterdam</city>
+            <zipCode>1017DR</zipCode>
+            <country>NLD</country>
+            <geoLocation>
+               <lat>52.364208</lat>
+               <lon>4.891792</lon>
+            </geoLocation>
+            <operatingTimes>
+               <regularHours>
+                  <weekday>1</weekday>
+                  <periodBegin>08:00</periodBegin>
+                  <periodEnd>18:00</periodEnd>
+               </regularHours>
+            </operatingTimes>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>TESLA-R</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*823*E1234*5679</evseId>
+            <locationId>WERELD</locationId>
+            <locationName>Keizersgracht-585</locationName>
+            <locationNameLang>NLD</locationNameLang>
+            <address>Keizersgracht 585</address>
+            <city>Amsterdam</city>
+            <zipCode>1017DR</zipCode>
+            <country>NLD</country>
+            <geoLocation>
+               <lat>52.364208</lat>
+               <lon>4.891792</lon>
+            </geoLocation>
+            <operatingTimes>
+               <regularHours>
+                  <weekday>1</weekday>
+                  <periodBegin>08:00</periodBegin>
+                  <periodEnd>18:00</periodEnd>
+               </regularHours>
+            </operatingTimes>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>TESLA-R</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*823*E1234*5680</evseId>
+            <locationId>WERELD</locationId>
+            <locationName>Keizersgracht-585</locationName>
+            <locationNameLang>NLD</locationNameLang>
+            <address>Keizersgracht 585</address>
+            <city>Amsterdam</city>
+            <zipCode>1017DR</zipCode>
+            <country>NLD</country>
+            <geoLocation>
+               <lat>52.364208</lat>
+               <lon>4.891792</lon>
+            </geoLocation>
+            <operatingTimes>
+               <regularHours>
+                  <weekday>1</weekday>
+                  <periodBegin>08:00</periodBegin>
+                  <periodEnd>18:00</periodEnd>
+               </regularHours>
+            </operatingTimes>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>TESLA-R</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+      </SetChargePointListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
    &lt;soap:Body>
       &lt;GetRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2"/>
    &lt;/soap:Body>
@@ -4483,7 +4599,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4510,9 +4626,9 @@ information that is more actual than the given value.</s:documentation>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/RequestLiveRoamingAuthorisation"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/SetChargepointList" name="SetChargepointList" bindingOperationName="SetChargepointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken wsu:Id="UsernameToken-bcb8bf3d-9ac7-46e8-a1c0-d23b5e36e331">
+         <wsse:UsernameToken wsu:Id="UsernameToken-1b01d7b3-d358-4f73-b4e5-c7071f5924f5">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4521,15 +4637,136 @@ information that is more actual than the given value.</s:documentation>
          <chargepointInfoArray>
             <evseId>NL*TNM*E02000001*0</evseId>
             <locationId>02000001</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
             <locationName>Egelantiersstraat-122</locationName>
             <locationNameLang>NLD</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
             <address>Egelantiersstraat</address>
             <city>Amsterdam</city>
             <zipCode>1015 PR</zipCode>
             <country>NLD</country>
             <geoLocation>
-               <lat>52.37681217651477</lat>
-               <lon>4.882321359473281</lon>
+               <lat>52.376812</lat>
+               <lon>4.882321</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*0</evseId>
+            <locationId>14020122104011A</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2-COMBO</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Cable</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*1</evseId>
+            <locationId>14020122104011A</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>Chademo</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Cable</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*2</evseId>
+            <locationId>14020122104011A</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
             </geoLocation>
             <operatingTimes/>
             <accessTimes/>
@@ -4548,8 +4785,18 @@ information that is more actual than the given value.</s:documentation>
          <chargepointInfoArray>
             <evseId>FR*TNM*ELAFONTECH00433*0</evseId>
             <locationId>LAFONTECH00433</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
             <locationName>Av. Lucien Victor Meunier-44</locationName>
             <locationNameLang>FRA</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
             <address>Av. Lucien Victor Meunier</address>
             <city>Bassens</city>
             <zipCode>33530</zipCode>
@@ -4571,17 +4818,199 @@ information that is more actual than the given value.</s:documentation>
                   <ConnectorFormat>Cable</ConnectorFormat>
                </connectorFormat>
             </connectors>
+         </chargepointInfoArray>
+      </SetChargePointListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="onlyDE"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-bb9dbfd8-a926-4159-a2b0-15beea1f2f43">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <SetChargePointListRequest xmlns="http://ochp.eu/1.2">
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E02000001*0</evseId>
+            <locationId>02000001</locationId>
+            <locationName>Egelantiersstraat-122</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Egelantiersstraat</address>
+            <city>Amsterdam</city>
+            <zipCode>1015 PR</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>52.376812</lat>
+               <lon>4.882321</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <status>
+               <ChargePointStatusType>Operative</ChargePointStatusType>
+            </status>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
             <connectors>
                <connectorStandard>
-                  <ConnectorStandard>CHADEMO</ConnectorStandard>
+                  <ConnectorStandard>IEC-62196-T2</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*0</evseId>
+            <locationId>14020122104011A</locationId>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <status>
+               <ChargePointStatusType>Operative</ChargePointStatusType>
+            </status>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2-COMBO</ConnectorStandard>
                </connectorStandard>
                <connectorFormat>
                   <ConnectorFormat>Cable</ConnectorFormat>
                </connectorFormat>
             </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*1</evseId>
+            <locationId>14020122104011A</locationId>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <status>
+               <ChargePointStatusType>Operative</ChargePointStatusType>
+            </status>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>Chademo</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Cable</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>DE*TNM*E14020122*10401*1A*2</evseId>
+            <locationId>14020122104011A</locationId>
+            <locationName>Plan-8</locationName>
+            <locationNameLang>DEU</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Plan</address>
+            <city>Hamburg</city>
+            <zipCode>20095</zipCode>
+            <country>DEU</country>
+            <geoLocation>
+               <lat>53.551084</lat>
+               <lon>9.993681</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <status>
+               <ChargePointStatusType>Operative</ChargePointStatusType>
+            </status>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
             <connectors>
                <connectorStandard>
                   <ConnectorStandard>IEC-62196-T2</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </chargepointInfoArray>
+         <chargepointInfoArray>
+            <evseId>FR*TNM*ELAFONTECH00433*0</evseId>
+            <locationId>LAFONTECH00433</locationId>
+            <locationName>Av. Lucien Victor Meunier-44</locationName>
+            <locationNameLang>FRA</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Av. Lucien Victor Meunier</address>
+            <city>Bassens</city>
+            <zipCode>33530</zipCode>
+            <country>FRA</country>
+            <geoLocation>
+               <lat>44.900706</lat>
+               <lon>-0.521962</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <status>
+               <ChargePointStatusType>Operative</ChargePointStatusType>
+            </status>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2-COMBO</ConnectorStandard>
                </connectorStandard>
                <connectorFormat>
                   <ConnectorFormat>Cable</ConnectorFormat>
@@ -4640,7 +5069,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-a23f1c31-9a8c-40b2-bc1e-614210cf5ff1">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4686,7 +5115,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-fb8ec0ec-fdb3-4b66-8a3d-9fe2cfa4ffd3">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4817,7 +5246,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-7bf93937-5be0-4e19-a18a-b1c5d33b58d1">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">T683f2L03d</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -6179,7 +6608,7 @@ def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def evseid = req.Body.SetChargePointListRequest.chargepointInfoArray[0].evseId
 log.info("evseid: " + evseid)
 
-if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0")
+if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0"|| evseid == "DE*TNM*E02000001*0")
  return "ok"
 else
  return "Response 1"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
@@ -6350,7 +6779,92 @@ else
          </ns:result>
       </ns:SetChargePointListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="SetRoamingAuthorisationList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:response name="nok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <SetChargePointListResponse xmlns="http://ochp.eu/1.2">
+         <result>
+            <resultCode>
+               <resultCode>ok</resultCode>
+            </resultCode>
+            <resultDescription>User is not authorized to upload data for operatorId 'NLTNM';User is not authorized to upload data for operatorId 'FRTNM';</resultDescription>
+         </result>
+         <refusedChargePointInfo>
+            <evseId>NL*TNM*E02000001*0</evseId>
+            <locationId>02000001</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
+            <locationName>Egelantiersstraat-122</locationName>
+            <locationNameLang>NLD</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Egelantiersstraat</address>
+            <city>Amsterdam</city>
+            <zipCode>1015 PR</zipCode>
+            <country>NLD</country>
+            <geoLocation>
+               <lat>52.376812</lat>
+               <lon>4.882321</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Socket</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </refusedChargePointInfo>
+         <refusedChargePointInfo>
+            <evseId>FR*TNM*ELAFONTECH00433*0</evseId>
+            <locationId>LAFONTECH00433</locationId>
+            <timestamp>
+               <DateTime>2014-10-09T15:08:52Z</DateTime>
+            </timestamp>
+            <locationName>Av. Lucien Victor Meunier-44</locationName>
+            <locationNameLang>FRA</locationNameLang>
+            <images>
+               <uri>http://www.thenewmotion.com/wp-content/uploads/2013/06/TNM_logo_descr.jpg</uri>
+               <class>networkLogo</class>
+               <type>jpg</type>
+               <width>2488</width>
+               <height>443</height>
+            </images>
+            <address>Av. Lucien Victor Meunier</address>
+            <city>Bassens</city>
+            <zipCode>33530</zipCode>
+            <country>FRA</country>
+            <geoLocation>
+               <lat>44.900706</lat>
+               <lon>-0.521962</lon>
+            </geoLocation>
+            <operatingTimes/>
+            <accessTimes/>
+            <authMethods>
+               <AuthMethodType>RfidMifareCls</AuthMethodType>
+            </authMethods>
+            <connectors>
+               <connectorStandard>
+                  <ConnectorStandard>IEC-62196-T2-COMBO</ConnectorStandard>
+               </connectorStandard>
+               <connectorFormat>
+                  <ConnectorFormat>Cable</ConnectorFormat>
+               </connectorFormat>
+            </connectors>
+         </refusedChargePointInfo>
+      </SetChargePointListResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:header><con:name>Transfer-Encoding</con:name><con:value>chunked</con:value></con:header><con:header><con:name>Date</con:name><con:value>Fri, 10 Oct 2014 09:24:49 GMT</con:value></con:header><con:header><con:name>Vary</con:name><con:value>Accept-Encoding</con:value></con:header><con:header><con:name>#status#</con:name><con:value>HTTP/1.1 200 OK</con:value></con:header><con:header><con:name>Content-Encoding</con:name><con:value>gzip</con:value></con:header><con:header><con:name>server</con:name><con:value>nginx</con:value></con:header><con:header><con:name>Content-Type</con:name><con:value>text/xml;charset=UTF-8</con:value></con:header><con:header><con:name>Connection</con:name><con:value>keep-alive</con:value></con:header><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="SetRoamingAuthorisationList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
 def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def emtId = req.Body.SetRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].EmtId.instance
 log.info("emtid: " + emtId)

@@ -13,17 +13,18 @@ import org.specs2.mutable.SpecificationWithJUnit
  *
  * @author Christoph Zwirello
  */
-class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenIntegrationTestScope{
+class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenIntegrationTestScope
+  with CpTestScope {
   args(sequential = true)
 
 
   "EclearingClient for integration tests" should {
 
 
-    " receive cdrs" >> {
-      val cdrs = client.getCdrs()
-      cdrs(0).cdrId === "123456someId123456"
-    }
+//    " receive cdrs" >> {
+//      val cdrs = client.getCdrs()
+//      cdrs(0).cdrId === "123456someId123456"
+//    }
 //
 //    " add CDRs" >> {
 //      val result = client.addCdrs(Seq(cdr1))
@@ -35,11 +36,11 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //      result.success must beTrue
 //    }
 //
-//
+////
 //    " receive roamingAuthorisationList" >> {
 //      val authList = client.roamingAuthorisationList()
 //      val tokens = authList
-//      tokens.length === 7
+//      tokens.length === 18
 //      tokens(0).contractId === "YYABCC00000003"
 //    }
 
@@ -69,11 +70,14 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 
 //    " receive chargepointList" >> {
 //      val cps = client.chargePointList()
-//      cps(0).evseId === chargePoint1.evseId
+//      println(cps)
+//      success
 //    }
-//
+
 //    " set charge point list" >> {
-//      val result = client.setChargePointList(Seq(chargePoint1))
+//      val result = client.setChargePointList(Seq(chargePoint1, chargePoint1.copy(evseId = "DE*823*E1234*5679"),
+//        chargePoint1.copy(evseId = "DE*823*E1234*5680")))
+//      println(result)
 //      result.success must beTrue
 //    }
 //
@@ -93,31 +97,28 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
 //
 //    val conf: Config = ConfigFactory.load()
 //
-//    val liveClient = EclearingClient.createCxfLiveClient(
-//      new EclearingConfig(
-//        "",
-//        conf.getString("e-clearing.live-service-uri"),
-//        conf.getString("e-clearing.user"),
-//        conf.getString("e-clearing.password"))
-//    )
-//
-//    " update evse status" >> {
-//      val evseStats = List(
-//        EvseStatus(
-//          "DE*823*E1234*5678",
-//          EvseStatusMajor.available,
-//          Some(EvseStatusMinor.reserved)
-//        ),
-//        EvseStatus(
-//          "DE*823*E1234*6789",
-//          EvseStatusMajor.`not-available`,
-//          Some(EvseStatusMinor.blocked)
-//        )
-//      )
-//      val result = liveClient.updateStatus(evseStats, Some(DateTimeNoMillis("2014-07-14T00:00:00Z")))
-//      result.success must beTrue
-//    }
-//  }
+    val liveClient = EclearingClient.createCxfLiveClient(
+      new EclearingConfig(
+        "",
+        conf.getString("e-clearing.live-service-uri"),
+        conf.getString("e-clearing.user"),
+        conf.getString("e-clearing.password"))
+    )
+
+    " update evse status" >> {
+      val evseStats = List(
+        EvseStatus(
+          "DE*TNM*E02000001*0",
+          EvseStatusMajor.available,
+          Some(EvseStatusMinor.available)
+        )
+
+      )
+      val result = liveClient.updateStatus(evseStats, None)
+
+      result.success must beTrue
+
+    }
 }
 
 
@@ -145,7 +146,6 @@ trait TokenIntegrationTestScope {
     contractId = "DE-TNM-000000001",
     emtId=EmtId(
       tokenType = TokenType.rfid,
-//      tokenSubType = Some(TokenSubType.MifareCl),
       tokenId = "C1"),
     printedNumber = Some("Number 01"),
     expiryDate = new DateTime()
@@ -155,7 +155,6 @@ trait TokenIntegrationTestScope {
     contractId = "DE-TNM-000000002",
     emtId=EmtId(
       tokenType = TokenType.rfid,
-//      tokenSubType = Some(TokenSubType.MifareCl),
       tokenId = "C2"),
     printedNumber = Some("Number 02"),
     expiryDate = new DateTime().plusDays(1)
@@ -165,7 +164,6 @@ trait TokenIntegrationTestScope {
     contractId = "DE-TNM-000000003",
     emtId=EmtId(
       tokenType = TokenType.rfid,
-//      tokenSubType = Some(TokenSubType.MifareCl),
       tokenId = "C3"),
     printedNumber = Some("Number 03"),
     expiryDate = new DateTime().plusYears(1)
