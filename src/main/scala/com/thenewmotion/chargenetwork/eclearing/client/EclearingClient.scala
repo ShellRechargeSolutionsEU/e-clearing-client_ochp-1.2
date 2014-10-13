@@ -6,12 +6,13 @@ import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
 
 import com.thenewmotion.chargenetwork.eclearing.EclearingConfig
-import com.thenewmotion.chargenetwork.eclearing.api.{CDR, ChargeToken, ChargePoint, EvseStatus}
-import com.thenewmotion.time.Imports._
+import com.thenewmotion.chargenetwork.eclearing.api.{CDR, ChargePoint, ChargeToken, EvseStatus}
 import eu.ochp._1._
 import eu.ochp._1_2.{OCHP12, OCHP12Live}
-import org.apache.cxf.endpoint.{Client, Endpoint}
+import org.apache.cxf.endpoint.Endpoint
 import org.apache.cxf.frontend.ClientProxy
+import org.apache.cxf.transport.http.HTTPConduit
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor
 import org.apache.wss4j.dom.WSConstants
 import org.apache.wss4j.dom.handler.WSHandlerConstants
@@ -23,7 +24,8 @@ import org.joda.time.DateTime
 class EclearingClient(cxfClient: OCHP12) {
 
   import com.thenewmotion.chargenetwork.eclearing.Converters._
-  import scala.collection.JavaConverters._
+
+import scala.collection.JavaConverters._
 
   def setRoamingAuthorisationList(info: Seq[ChargeToken]): Result[ChargeToken] = {
     val req = new SetRoamingAuthorisationListRequest()
@@ -55,7 +57,7 @@ class EclearingClient(cxfClient: OCHP12) {
     resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[ChargeToken](_))
   }
 
-  def getCdrs() = {
+  def getCdrs = {
     val resp: GetCDRsResponse = cxfClient.getCDRs(
       new GetCDRsRequest)
     resp.getCdrInfoArray.asScala.toList.map(implicitly[CDR](_))
@@ -112,8 +114,9 @@ class EclearingClient(cxfClient: OCHP12) {
 
 
 class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
-  import scala.collection.JavaConverters.asJavaCollectionConverter
   import com.thenewmotion.chargenetwork.eclearing.Converters.toDateTimeType
+
+import scala.collection.JavaConverters.asJavaCollectionConverter
 
   /**
    * Only implements setting the timeToLive for the whole list,
@@ -159,24 +162,17 @@ object EclearingClient {
   // able to instantiate it
   var password = ""
 
-//  def apply(conf: EclearingConfig):EclearingClient = {
-//    password = conf.password
-//
-//    lazy val cxfClient = EclearingClient.createCxfClient(conf)
-//    new EclearingClient(cxfClient)
-//  }
-
   def createCxfClient(conf: EclearingConfig): EclearingClient = {
     require(conf.wsUri != "", "need endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.wsUri)
-    val cxfClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12]))
+    val cxfClient = addConfig(addWssHeaders(conf, service.getPort(servicePort, classOf[OCHP12])))
     new EclearingClient(cxfClient)
   }
 
   def createCxfLiveClient(conf: EclearingConfig): EclearingLiveClient = {
     require(conf.liveWsUri != "", "need live endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.liveWsUri)
-    val cxfLiveClient = addWSSHeaders(conf, service.getPort(servicePort, classOf[OCHP12Live]))
+    val cxfLiveClient = addConfig(addWssHeaders(conf, service.getPort(servicePort, classOf[OCHP12Live])))
     new EclearingLiveClient(cxfLiveClient)
   }
 
@@ -188,20 +184,8 @@ object EclearingClient {
     (servicePort, service)
   }
 
-  private def addWSSHeaders(conf: EclearingConfig, port: OCHP12): OCHP12 = {
-    val client = ClientProxy.getClient(port)
-    doAddWssHeaders(conf, client)
-    port
-  }
-
-  private def addWSSHeaders(conf: EclearingConfig, port: OCHP12Live): OCHP12Live = {
-    val client = ClientProxy.getClient(port)
-    doAddWssHeaders(conf, client)
-    port
-  }
-
-  private def doAddWssHeaders(conf: EclearingConfig, client: Client) {
-    val cxfEndpoint: Endpoint = client.getEndpoint
+  private def addWssHeaders[T](conf: EclearingConfig, port: T): T = {
+    val cxfEndpoint: Endpoint = ClientProxy.getClient(port).getEndpoint
     val outProps = new util.HashMap[String, Object]()
     outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN)
     outProps.put(WSHandlerConstants.USER, conf.user)
@@ -210,6 +194,16 @@ object EclearingClient {
       new PwCallbackHandler().getClass.getName)
     val wssOut = new WSS4JOutInterceptor(outProps)
     cxfEndpoint.getOutInterceptors.add(wssOut)
+    port
+  }
+
+  private def addConfig[T](port: T): T = {
+    val client = ClientProxy.getClient(port)
+    val http: HTTPConduit = client.getConduit.asInstanceOf[HTTPConduit]
+    val httpClientPolicy: HTTPClientPolicy = new HTTPClientPolicy()
+    httpClientPolicy.setAllowChunking(false)
+    http.setClient(httpClientPolicy)
+    port
   }
 
   import javax.security.auth.callback.{Callback, CallbackHandler}
