@@ -131,7 +131,7 @@ trait CpTestScope extends Scope {
   val chargePointInfo1 = new ChargePointInfo()
   chargePointInfo1.setEvseId("DE*823*E1234*5678")
   chargePointInfo1.setLocationId("Wereld")
-  chargePointInfo1.setLocationName("")
+  chargePointInfo1.setLocationName("Keizersgracht-585")
   chargePointInfo1.setLocationNameLang("NL")
   chargePointInfo1.setAddress("Keizersgracht 585")
   chargePointInfo1.setCity("Amsterdam")
@@ -158,18 +158,18 @@ trait CpTestScope extends Scope {
    */
   val chargePoint1 = ChargePoint(
     evseId = "DE*823*E1234*5678",
-    locationId = "Wereld",
-    locationName = "",
-    locationNameLang = "NL",
+    locationId = "WERELD",
+    locationName = "Keizersgracht-585",
+    locationNameLang = "NLD",
     address = CpAddress(
       address = "Keizersgracht 585",
       city = "Amsterdam",
       zipCode = "1017DR",
-      country = "NL"
+      country = "NLD"
     ),
     geoLocation = GeoPoint(
-      lat = "52.36420822143555",
-      lon = "4.891792297363281"
+      lat = "52.364208",
+      lon = "4.891792"
     ),
     authMethods = List(AuthMethod.RfidMifareCls),
     connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
