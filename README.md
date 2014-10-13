@@ -15,6 +15,18 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     }
 ```
 
+* create an instance of the service like this:
+```
+     val service = new EclearingService {
+       val conf = EclearingConfig(
+         wsUri = "http://localhost:8088/mockeCHS-OCHP_1.2",
+         user = "me",
+         password = "mypass"
+       )
+       val client = EclearingClient.createCxfClient(conf)
+     }
+```
+
 ## Setup
 
 1. Add this repository to your pom.xml:
