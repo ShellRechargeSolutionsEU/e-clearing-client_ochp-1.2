@@ -57,7 +57,7 @@ import scala.collection.JavaConverters._
     resp.getRoamingAuthorisationInfo.asScala.toList.map(implicitly[ChargeToken](_))
   }
 
-  def getCdrs = {
+  def getCdrs() = {
     val resp: GetCDRsResponse = cxfClient.getCDRs(
       new GetCDRsRequest)
     resp.getCdrInfoArray.asScala.toList.map(implicitly[CDR](_))
