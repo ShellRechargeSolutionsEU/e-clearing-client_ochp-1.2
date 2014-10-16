@@ -61,8 +61,11 @@ class GeoPoint(
 object GeoPoint {
   def apply(lat: String, lon: String) = {
     val ECLEARING_GEODATA_PRECISION = 6
-    new GeoPoint(lat.substring(0, lat.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION),
-      lon.substring(0, lon.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION))
+    val latLonPattern = """\d+\.\d+"""
+    require(lat.matches(latLonPattern), s"latitude must match pattern $latLonPattern")
+    require(lon.matches(latLonPattern), s"longitude must match pattern $latLonPattern")
+    new GeoPoint(lat.take(lat.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION),
+      lon.take(lon.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION))
   }
 }
 

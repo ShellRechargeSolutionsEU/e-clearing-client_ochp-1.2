@@ -94,6 +94,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePointInfo.getLocationNameLang === chargePoint1.locationNameLang
        chargePointInfo.getAddress === chargePoint1.address.address
        chargePointInfo.getZipCode === chargePoint1.address.zipCode
+       chargePointInfo.getGeoLocation.getLat === chargePoint1.geoLocation.lat
        chargePointInfo.getAuthMethods.get(0).getAuthMethodType ===
          chargePoint1.authMethods(0).toString
        chargePointInfo.getConnectors.get(0).getConnectorFormat.getConnectorFormat ===
@@ -106,6 +107,13 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
          chargePoint1.operatingTimes.get.regularHours(0).periodBegin.toString
        chargePointInfo.getOperatingTimes.getRegularHours.get(0).getPeriodEnd ===
          chargePoint1.operatingTimes.get.regularHours(0).periodEnd.toString
+     }
+
+     " deal with different and empty lat/lon string" >> {
+       GeoPoint("", "") must throwA[IllegalArgumentException]
+       GeoPoint("0", "0") must throwA[IllegalArgumentException]
+       GeoPoint("4.23424", "4.23424324234").lat === "4.23424"
+       GeoPoint("4.23424", "4.23424324234").lon === "4.234243"
      }
 
      " require properly formatted evseIds" in new CpTestScope {

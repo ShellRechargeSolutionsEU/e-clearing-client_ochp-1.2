@@ -10,7 +10,7 @@
 
     <groupId>com.thenewmotion.chargenetwork</groupId>
     <artifactId>e-clearing-client_ochp-1.2_2.10</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
 
     <name>e-clearing Client, OCHP 1.2</name>
     <url>http://github.com/thenewmotion/e-clearing-client_ochp-1.2</url>
@@ -138,6 +138,13 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <maxmemory>800m</maxmemory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
