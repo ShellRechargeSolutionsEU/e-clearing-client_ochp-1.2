@@ -111,9 +111,10 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " deal with different and empty lat/lon string" >> {
        GeoPoint("", "") must throwA[IllegalArgumentException]
-       GeoPoint("0", "0") must throwA[IllegalArgumentException]
-       GeoPoint("4.23424", "4.23424324234").lat === "4.23424"
-       GeoPoint("4.23424", "4.23424324234").lon === "4.234243"
+       GeoPoint("-123.1234567", "123.1234567").lat === "-123.123457"
+       GeoPoint("-123.1234567", "123.1234567").lon === "123.123457"
+       GeoPoint("-0.0004567", ".0004567").lat === "-0.000457"
+       GeoPoint("-0.0004567", ".0004567").lon === "0.000457"
      }
 
      " require properly formatted evseIds" in new CpTestScope {

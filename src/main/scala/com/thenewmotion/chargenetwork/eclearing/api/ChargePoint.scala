@@ -59,15 +59,9 @@ class GeoPoint private(
 )
 
 object GeoPoint {
-  private val EclearingGeodataPrecision = 6
-  private val coordPattern = """\d+\.\d+"""
-  private def crop(s: String) = s.take(s.indexOf(".") + EclearingGeodataPrecision + 1)
+  private def crop(s: String) = "%3.6f".formatLocal(java.util.Locale.US, s.toDouble)
 
-  def apply(lat: String, lon: String) = {
-    require(lat.matches(coordPattern), s"latitude must match pattern $coordPattern")
-    require(lon.matches(coordPattern), s"longitude must match pattern $coordPattern")
-    new GeoPoint(crop(lat), crop(lon))
-  }
+  def apply(lat: String, lon: String) = new GeoPoint(crop(lat), crop(lon))
 }
 
 case class Hours (
