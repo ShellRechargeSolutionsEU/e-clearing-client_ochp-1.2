@@ -53,19 +53,20 @@ object CpTimestamp {
   def unapply(dt: DateTime): String = dt.toString(formatter)
 }
 
-class GeoPoint(
-   val lat: String,
-   val lon: String
+class GeoPoint private(
+  val lat: String,
+  val lon: String
 )
 
 object GeoPoint {
+  private val EclearingGeodataPrecision = 6
+  private val coordPattern = """\d+\.\d+"""
+  private def crop(s: String) = s.take(s.indexOf(".") + EclearingGeodataPrecision + 1)
+
   def apply(lat: String, lon: String) = {
-    val ECLEARING_GEODATA_PRECISION = 6
-    val latLonPattern = """\d+\.\d+"""
-    require(lat.matches(latLonPattern), s"latitude must match pattern $latLonPattern")
-    require(lon.matches(latLonPattern), s"longitude must match pattern $latLonPattern")
-    new GeoPoint(lat.take(lat.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION),
-      lon.take(lon.indexOf(".") + 1 + ECLEARING_GEODATA_PRECISION))
+    require(lat.matches(coordPattern), s"latitude must match pattern $coordPattern")
+    require(lon.matches(coordPattern), s"longitude must match pattern $coordPattern")
+    new GeoPoint(crop(lat), crop(lon))
   }
 }
 
