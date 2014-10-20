@@ -143,16 +143,26 @@ import scala.collection.JavaConverters.asJavaCollectionConverter
 }
 
 case class Result[A](
-  success: Boolean,
+  status: ResultCode.Value,
   description: String,
   refusedItems: List[A])
 
 object Result  {
   def apply[A](code: String, desc: String, ref: List[A]) = {
-    new Result(code == "ok", desc, ref)
+    new Result(
+      if (code == "ok" && ref.isEmpty) ResultCode.success
+      else if (code == "ok") ResultCode.partialSuccess
+      else ResultCode.failure,
+      desc, ref)
   }
 }
 
+object ResultCode extends Enumeration {
+  type ResultCode = Value
+  val success = Value("success")
+  val partialSuccess = Value("partialSuccess")
+  val failure = Value("failure")
+}
 
 
 object EclearingClient {
