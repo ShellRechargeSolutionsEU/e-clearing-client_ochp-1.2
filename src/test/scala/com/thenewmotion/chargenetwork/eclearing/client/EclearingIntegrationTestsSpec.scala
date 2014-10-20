@@ -116,7 +116,7 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
       )
       val result = liveClient.updateStatus(evseStats, None)
 
-      result.success must beTrue
+      result.status === ResultCode.success
 
     }
 }

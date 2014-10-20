@@ -3945,7 +3945,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
             <wsse:Username>""</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">""</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -4439,7 +4439,7 @@ information that is more actual than the given value.</s:documentation>
          </ns:declined>
       </ns:ConfirmCDRsRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/ConfirmCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetCDRs" name="GetCDRs" bindingOperationName="GetCDRs" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ns="http://ochp.eu/1.2" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/ConfirmCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetCDRs" name="GetCDRs" bindingOperationName="GetCDRs" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
@@ -4448,15 +4448,23 @@ information that is more actual than the given value.</s:documentation>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
-   <soapenv:Body>
-      <ns:GetCDRsRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ns:GetChargePointListRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointListUpdates" name="GetChargePointListUpdates" bindingOperationName="GetChargePointListUpdates" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body xmlns="http://ochp.eu/1.2">
+      <GetCDRsRequest/>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body xmlns="http://ochp.eu/1.2">
+	<GetChargePointListRequest/>
+   </soap:Body>
+</soap:Envelope>
+]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetChargePointList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointListUpdates" name="GetChargePointListUpdates" bindingOperationName="GetChargePointListUpdates" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-f03ccec8-433b-4eee-8000-3593b7f08ade">
@@ -4606,7 +4614,7 @@ information that is more actual than the given value.</s:documentation>
    <soap:Body xmlns="http://ochp.eu/1.2">
       <GetRoamingAuthorisationListUpdatesRequest>
          <lastUpdate>
-            <DateTime>2014-10-08T11:00:00Z</DateTime>
+            <DateTime>2010-10-08T11:00:00Z</DateTime>
          </lastUpdate>
       </GetRoamingAuthorisationListUpdatesRequest>
    </soap:Body>
@@ -5177,33 +5185,35 @@ information that is more actual than the given value.</s:documentation>
          </chargepointInfoArray>
       </SetChargePointListRequest>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ns:UpdateRoamingAuthorisationListRequest>
-         <!--1 or more repetitions:-->
-         <ns:roamingAuthorisationInfoArray>
-            <ns:EmtId representation="sha-160">
-               <ns:instance>?</ns:instance>
-               <ns:tokenType>?</ns:tokenType>
-               <!--Optional:-->
-               <ns:tokenSubType>?</ns:tokenSubType>
-            </ns:EmtId>
-            <ns:contractId>?</ns:contractId>
-            <!--Optional:-->
-            <ns:printedNumber>?</ns:printedNumber>
-            <ns:expiryDate>
-               <ns:DateTime>?</ns:DateTime>
-            </ns:expiryDate>
-         </ns:roamingAuthorisationInfoArray>
-      </ns:UpdateRoamingAuthorisationListRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="from_test_db"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList" name="UpdateRoamingAuthorisationList" bindingOperationName="UpdateRoamingAuthorisationList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
+            <wsse:Username>thenewmotion.backend.0</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2">
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>DAC5FE2A</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000005908</contractId>
+            <expiryDate>
+               <DateTime>2014-10-16T21:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+      </UpdateRoamingAuthorisationListRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="from_test_db"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8088/mockeCHS-OCHP_1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-b977f5de-aedb-4cd9-8308-423353b85054">
             <wsse:Username>""</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">""</wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -6603,7 +6613,7 @@ if (cdrId == "123456someId123456" &amp;&amp; cdrId2 == "123456someId123457")
          <ns:liveAuthId>?</ns:liveAuthId>
       </ns:RequestLiveRoamingAuthorisationResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/RequestLiveRoamingAuthorisation"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetChargepointList" interface="eCHS-OCHP_1.2" operation="SetChargepointList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/RequestLiveRoamingAuthorisation"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetChargepointList" interface="eCHS-OCHP_1.2" operation="SetChargepointList"><con:settings/><con:defaultResponse>not_authorized</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
 def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def evseid = req.Body.SetChargePointListRequest.chargepointInfoArray[0].evseId
 log.info("evseid: " + evseid)
@@ -6863,6 +6873,13 @@ else
             </connectors>
          </refusedChargePointInfo>
       </SetChargePointListResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:header><con:name>Transfer-Encoding</con:name><con:value>chunked</con:value></con:header><con:header><con:name>Date</con:name><con:value>Fri, 10 Oct 2014 09:24:49 GMT</con:value></con:header><con:header><con:name>Vary</con:name><con:value>Accept-Encoding</con:value></con:header><con:header><con:name>#status#</con:name><con:value>HTTP/1.1 200 OK</con:value></con:header><con:header><con:name>Content-Encoding</con:name><con:value>gzip</con:value></con:header><con:header><con:name>server</con:name><con:value>nginx</con:value></con:header><con:header><con:name>Content-Type</con:name><con:value>text/xml;charset=UTF-8</con:value></con:header><con:header><con:name>Connection</con:name><con:value>keep-alive</con:value></con:header><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:response name="not_authorized" httpResponseStatus="500" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <soap:Fault>
+         <faultcode xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">ns1:FailedAuthentication</faultcode>
+         <faultstring>The security token could not be authenticated or authorized</faultstring>
+      </soap:Fault>
    </soap:Body>
 </soap:Envelope>]]></con:responseContent><con:header><con:name>Transfer-Encoding</con:name><con:value>chunked</con:value></con:header><con:header><con:name>Date</con:name><con:value>Fri, 10 Oct 2014 09:24:49 GMT</con:value></con:header><con:header><con:name>Vary</con:name><con:value>Accept-Encoding</con:value></con:header><con:header><con:name>#status#</con:name><con:value>HTTP/1.1 200 OK</con:value></con:header><con:header><con:name>Content-Encoding</con:name><con:value>gzip</con:value></con:header><con:header><con:name>server</con:name><con:value>nginx</con:value></con:header><con:header><con:name>Content-Type</con:name><con:value>text/xml;charset=UTF-8</con:value></con:header><con:header><con:name>Connection</con:name><con:value>keep-alive</con:value></con:header><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/SetChargepointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="SetRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="SetRoamingAuthorisationList"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
 def req = new XmlSlurper().parseText(mockRequest.requestContent)

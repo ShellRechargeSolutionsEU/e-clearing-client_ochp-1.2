@@ -34,12 +34,12 @@ with CdrTestScope{
 
     " add CDRs" >> {
       val result = client.addCdrs(Seq(cdr1))
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
     " confirm CDRs" >> {
       val result = client.confirmCdrs(Seq(cdr1), Seq(cdr2))
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
 
@@ -54,13 +54,13 @@ with CdrTestScope{
       val tokens = List(token1)
       val rais = tokens
       val result = client.setRoamingAuthorisationList(rais)
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
     " return an error for rejected roamingAuthorisationList" >> {
       val tokens = List(token2)
       val result = client.setRoamingAuthorisationList(tokens)
-      result.success must beFalse
+      result.status === ResultCode.success
     }
 
     " receive roamingAuthorisationListUpdate" >> {
@@ -73,7 +73,7 @@ with CdrTestScope{
     " send roamingAuthorisationListUpdate" >> {
       val tokens = List(token2)
       val result = client.setRoamingAuthorisationListUpdate(tokens)
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
 
@@ -84,7 +84,7 @@ with CdrTestScope{
 
     " set charge point list" >> {
       val result = client.setChargePointList(Seq(chargePoint1))
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
     " receive chargepointListUpdate" >> {
@@ -94,7 +94,7 @@ with CdrTestScope{
 
     " set charge point list update" >> {
       val result = client.setChargePointListUpdate(Seq(chargePoint1))
-      result.success must beTrue
+      result.status === ResultCode.success
     }
 
   }
@@ -125,7 +125,7 @@ with CdrTestScope{
         )
       )
       val result = liveClient.updateStatus(evseStats, Some(DateTimeNoMillis("2014-07-14T00:00:00Z")))
-      result.success must beTrue
+      result.status === ResultCode.success
     }
   }
 }
