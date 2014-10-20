@@ -1,5 +1,5 @@
 language: scala
 scala:
-  - "2.10.4"
+  - 2.10.4
 notifications:
-  slack: thenewmotion:FzdJDwvOndN2WjkQwmAAqzY1
+  slack: thenewmotion:AXSluctig1mmZbeKRDeeY41s
