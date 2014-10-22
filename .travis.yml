@@ -3,3 +3,4 @@ scala:
   - 2.10.4
 notifications:
   slack: thenewmotion:AXSluctig1mmZbeKRDeeY41s
+script: mvn integration-test
