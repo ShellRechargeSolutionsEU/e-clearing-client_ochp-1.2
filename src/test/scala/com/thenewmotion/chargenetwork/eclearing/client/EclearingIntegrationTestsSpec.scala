@@ -105,20 +105,20 @@ class EclearingIntegrationTestsSpec extends SpecificationWithJUnit with TokenInt
         conf.getString("e-clearing.password"))
     )
 
-    " update evse status" >> {
-      val evseStats = List(
-        EvseStatus(
-          "DE*TNM*E02000001*0",
-          EvseStatusMajor.available,
-          Some(EvseStatusMinor.available)
-        )
-
-      )
-      val result = liveClient.updateStatus(evseStats, None)
-
-      result.status === ResultCode.success
-
-    }
+//    " update evse status" >> {
+//      val evseStats = List(
+//        EvseStatus(
+//          "DE*TNM*E02000001*0",
+//          EvseStatusMajor.available,
+//          Some(EvseStatusMinor.available)
+//        )
+//
+//      )
+//      val result = liveClient.updateStatus(evseStats, None)
+//
+//      result.status === ResultCode.success
+//
+//    }
 }
 
 
