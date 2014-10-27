@@ -10,7 +10,7 @@
 
     <groupId>com.thenewmotion.chargenetwork</groupId>
     <artifactId>e-clearing-client_ochp-1.2_2.10</artifactId>
-    <version>1.8</version>
+    <version>1.9-SNAPSHOT</version>
 
     <name>e-clearing Client, OCHP 1.2</name>
     <url>http://github.com/thenewmotion/e-clearing-client_ochp-1.2</url>
@@ -34,7 +34,7 @@
         <url>https://github.com/thenewmotion/e-clearing-client_ochp-1.2</url>
         <connection>scm:git:ssh://git@github.com/thenewmotion/e-clearing-client_ochp-1.2.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/thenewmotion/e-clearing-client_ochp-1.2.git</developerConnection>
-      <tag>e-clearing-client_ochp-1.2_2.10-1.8</tag>
+      <tag>HEAD</tag>
     </scm>
 
     <dependencies>
