@@ -47,6 +47,7 @@ object Converters{
     token.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
+    token.printedNumber map {pn => rai.setPrintedNumber(pn.toString)}
     rai.setExpiryDate(toDateTimeType(expiryDate))
     rai
   }

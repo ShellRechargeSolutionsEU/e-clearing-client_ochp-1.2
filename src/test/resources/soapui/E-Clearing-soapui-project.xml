@@ -7553,7 +7553,8 @@ def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def evseid = req.Body.SetChargePointListRequest.chargepointInfoArray[0].evseId
 log.info("evseid: " + evseid)
 
-if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0"|| evseid == "DE*TNM*E02000001*0")
+if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0"
+| evseid == "DE*TNM*E02000001*0" || evseid == "NL*TNM*E000551036510*0")
  return "ok"
 else
  return "Response 1"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
@@ -8078,11 +8079,14 @@ if (evseid == "DE*823*E1234*5678" || evseid == "00055103977E")
 </soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="UpdateRoamingAuthorisationList"><con:settings/><con:defaultResponse>specs2_updateRoamingAuthList_ok</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
 def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def emtId = req.Body.UpdateRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].EmtId.instance
+def printedNumber = req.Body.UpdateRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].printedNumber
 log.info("emtid: " + emtId)
+log.info("printedNumber: " + printedNumber)
 
-if (emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1" || emtId == "")
+if ((emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1") 
+	&amp;&amp; printedNumber == 'YYABCC00000003J')
  return "specs2_updateRoamingAuthList_ok"
-else if (emtId == "C2")
+else if (emtId == "C2" || emtId == "")
  return "specs2_updateRoamingAuthList_ok"
 else
  return "specs2_updateRoamingAuthList_nok"</con:dispatchPath><con:response name="specs2_updateRoamingAuthList_ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
