@@ -60,7 +60,7 @@ with CdrTestScope{
     " return an error for rejected roamingAuthorisationList" >> {
       val tokens = List(token2)
       val result = client.setRoamingAuthorisationList(tokens)
-      result.status === ResultCode.success
+      result.status === ResultCode.failure
     }
 
     " receive roamingAuthorisationListUpdate" >> {

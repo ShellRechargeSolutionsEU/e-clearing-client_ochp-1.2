@@ -47,6 +47,7 @@ object Converters{
     token.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
+    token.printedNumber map {pn => rai.setPrintedNumber(pn.toString)}
     rai.setExpiryDate(toDateTimeType(expiryDate))
     rai
   }
@@ -127,16 +128,18 @@ object Converters{
       maxSocketPower = cdrinfo.getMaxSocketPower,
       productType = toOption(cdrinfo.getProductType),
       meterId = toOption(cdrinfo.getMeterId),
-      chargingPeriods = cdrinfo.getChargingPeriods.asScala.toList.map( cdrPeriod=>
+      chargingPeriods = cdrinfo.getChargingPeriods.asScala.toList.map( cdrPeriod=> {
+        val cost = cdrPeriod.getPeriodCost
         CdrPeriod(
           startDateTime = DateTimeNoMillis(cdrPeriod.getStartDateTime.getLocalDateTime),
           endDateTime = DateTimeNoMillis(cdrPeriod.getEndDateTime.getLocalDateTime),
-          billingItem = BillingItem.withName(cdrPeriod.getBillingItem.getBillingItemType) ,
+          billingItem = BillingItem.withName(cdrPeriod.getBillingItem.getBillingItemType),
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Option(cdrPeriod.getPeriodCost)
+          periodCost = Option(cost).map(implicitly[Float](_))
         )
+      }
 
       )
     )
@@ -228,8 +231,8 @@ object Converters{
         thumbUri = toOption(genImage.getThumbUri),
         clazz = ImageClass.withName(genImage.getClazz),
         `type` = genImage.getType,
-        width = Option(genImage.getWidth),
-        height = Option(genImage.getHeight)
+        width = Option(genImage.getWidth).map(implicitly[Integer](_)),
+        height = Option(genImage.getHeight).map(implicitly[Integer](_))
       )},
       address = CpAddress(
         houseNumber = toOption(genCp.getHouseNumber),

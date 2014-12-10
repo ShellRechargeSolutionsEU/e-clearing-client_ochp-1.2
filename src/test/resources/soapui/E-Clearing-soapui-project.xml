@@ -4442,7 +4442,7 @@ information that is more actual than the given value.</s:documentation>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/ConfirmCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetCDRs" name="GetCDRs" bindingOperationName="GetCDRs" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-         <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
+         <wsse:UsernameToken wsu:Id="UsernameToken-9391db0c-37c3-4c66-9480-cb33d56edbb4">
             <wsse:Username>backend.tnm</wsse:Username>
             <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
@@ -4451,7 +4451,9 @@ information that is more actual than the given value.</s:documentation>
    <soap:Body xmlns="http://ochp.eu/1.2">
       <GetCDRsRequest/>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+</soap:Envelope>
+
+]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/GetCDRs"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://ochp.eu/1.2/GetChargePointList" name="GetChargePointList" bindingOperationName="GetChargePointList" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1" outgoingWss="echs-q"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-85161cbf-4605-434e-b59e-6c78a3a70bc8">
@@ -4469,7 +4471,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-f03ccec8-433b-4eee-8000-3593b7f08ade">
             <wsse:Username>"backend.tnm"</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -5053,7 +5055,7 @@ information that is more actual than the given value.</s:documentation>
       <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
          <wsse:UsernameToken wsu:Id="UsernameToken-c44ceff1-73d8-4a5c-b366-aadecc8dc870">
             <wsse:Username>backend.tnm</wsse:Username>
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"></wsse:Password>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
          </wsse:UsernameToken>
       </wsse:Security>
    </SOAP-ENV:Header>
@@ -5316,6 +5318,939 @@ information that is more actual than the given value.</s:documentation>
             </chargingPeriods>
          </cdrInfoArray>
       </AddCDRsRequest>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/service/ochp/v1.2</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+      <wsse:Security soap:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-9391db0c-37c3-4c66-9480-cb33d56edbb4">
+            <wsse:Username>backend.tnm</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">123456</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </SOAP-ENV:Header>
+   <soap:Body>
+      <UpdateRoamingAuthorisationListRequest xmlns="http://ochp.eu/1.2">
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>040648B2752680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000017527-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>040A47B2752680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000017508-Y</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>040D47B2752680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000017546-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>1234567890ABCDEF</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>AS-DAS-00DASDASD-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2430316738</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007259251-F</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3299060383</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001829884-F</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>456789111</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000438483-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>5095177435</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-006935067-O</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>5635010829</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-008894737-6</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>8315755002</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-006750345-R</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>8939393939</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-008374372-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>02C0D078</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000033963-M</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>040330D28022C0</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000114851-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04167EE2952F81</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000679110-H</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>043071D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-LSC-000025381-4</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>043A6192253180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000384103-Z</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0442E592253180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000385735-V</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0468E592253180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000385726-Z</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>046A16DA2B2B90</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001019097-N</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>046B54B2752680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-00002142X-I</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0470C0E2952F80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000679061-B</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04851BD2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000074625-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>048C4792213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000466650-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04935192213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000466641-V</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0495F692213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000470017-S</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>049675DA2B2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001014470-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>049C9042B32280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000068128-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>049D1B92213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000479343-B</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A354AA213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000269603-E</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A7E342B32280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000070758-S</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A98ACAF52680</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001000042-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04A9A5E2952F80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000679070-A</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04AD4ADA2B2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001010824-Y</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04B77F42B32280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000068119-H</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04B8D702CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000175394-5</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04BB1392253190</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000412785-R</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04C33402CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000175434-R</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04C42C02CE2B80</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>BE-TNM-000001771-7</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04DA6D42B32280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>BE-TNM-000000606-8</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E3C3D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000113673-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E52CC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000132429-H</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E5E0D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-LSC-000020367-2</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E8A0C2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000132398-6</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04E9F0D2802280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000117133-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EC1FC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000122700-Y</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EC2CC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000122045-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EF9CC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-00012345X-K</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFA8C2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000119042-E</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFAAC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000123024-V</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFB0C2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000123223-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFBCC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000123364-Z</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>04EFFAC2552280</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000123297-3</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0A833229</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000009497-P</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0AB64666</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000015456-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0ABC124</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-00A1634T2-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>0ABC125</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-00A1634T3-Y</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>12341234AB</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-AAAAAARGH-C</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>123456789</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-LSC-000038852-5</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>12345679</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007485738-R</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2333801259</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001132657-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2393</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-939393993-F</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2A2F5066</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-00001339X-E</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>2ABD4B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000009482-B</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3125309577</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001753012-S</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3348619040</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007313696-6</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>3A814F66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000009843-F</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>456789123</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007485735-V</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>4922592213180</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000463373-V</contractId>
+            <expiryDate>
+               <DateTime>2020-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>4AE15166</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000015441-R</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>6398183513</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-003967422-O</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>78923342234</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-LSC-000907429-S</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>78923472</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-006543210-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>789456</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007584738-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>7894561254</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-007463549-F</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>7E62CFE1</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-ESS-000003391-T</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>81E4146F121</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-ESS-000198NEW-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>836748392929</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000175358-V</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>8383</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TST-009384736-8</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>8686</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TST-938389222-H</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>876456765</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NU-M87-006456765-P</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>892304</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-009383838-C</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>89230432232323</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-939393939-3</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>9351848824</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-004729649-U</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>AAD64966</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000014769-9</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>ABC12345</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000696682-6</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>C289017D</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000038154-Y</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>C4AF0088</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-001110071-Z</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>DAE14B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000008168-X</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>EAB74B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000014243-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>EAD44B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000005931-P</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>FA163E29</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000011603-W</contractId>
+            <expiryDate>
+               <DateTime>2000-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+         <roamingAuthorisationInfoArray>
+            <EmtId representation="plain">
+               <instance>FA6C4B66</instance>
+               <tokenType>rfid</tokenType>
+            </EmtId>
+            <contractId>NL-TNM-000007715-R</contractId>
+            <expiryDate>
+               <DateTime>2020-01-01T00:00:00Z</DateTime>
+            </expiryDate>
+         </roamingAuthorisationInfoArray>
+      </UpdateRoamingAuthorisationListRequest>
    </soap:Body>
 </soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateRoamingAuthorisationList"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="eCHS-OCHP_1.2-live TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetStatus TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="GetStatus"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>eCHS-OCHP_1.2-live</con:interface><con:operation>GetStatus</con:operation><con:request name="GetStatus"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://echs-q.e-clearing.net/live/ochp/v1.2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
    <soapenv:Header/>
@@ -6618,7 +7553,8 @@ def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def evseid = req.Body.SetChargePointListRequest.chargepointInfoArray[0].evseId
 log.info("evseid: " + evseid)
 
-if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0"|| evseid == "DE*TNM*E02000001*0")
+if (evseid == "DE*823*E1234*5678" || evseid == "NL*TNM*E02000001*0"
+| evseid == "DE*TNM*E02000001*0" || evseid == "NL*TNM*E000551036510*0")
  return "ok"
 else
  return "Response 1"</con:dispatchPath><con:response name="Response 1" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
@@ -7143,11 +8079,14 @@ if (evseid == "DE*823*E1234*5678" || evseid == "00055103977E")
 </soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.2/UpdateChargePointList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="UpdateRoamingAuthorisationList" interface="eCHS-OCHP_1.2" operation="UpdateRoamingAuthorisationList"><con:settings/><con:defaultResponse>specs2_updateRoamingAuthList_ok</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>
 def req = new XmlSlurper().parseText(mockRequest.requestContent)
 def emtId = req.Body.UpdateRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].EmtId.instance
+def printedNumber = req.Body.UpdateRoamingAuthorisationListRequest.roamingAuthorisationInfoArray[0].printedNumber
 log.info("emtid: " + emtId)
+log.info("printedNumber: " + printedNumber)
 
-if (emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1" || emtId == "")
+if ((emtId == "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1") 
+	&amp;&amp; printedNumber == 'YYABCC00000003J')
  return "specs2_updateRoamingAuthList_ok"
-else if (emtId == "C2")
+else if (emtId == "C2" || emtId == "")
  return "specs2_updateRoamingAuthList_ok"
 else
  return "specs2_updateRoamingAuthList_nok"</con:dispatchPath><con:response name="specs2_updateRoamingAuthList_ok" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.2">
