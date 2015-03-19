@@ -53,7 +53,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     ```xml
     <dependency>
         <groupId>com.thenewmotion.chargenetwork</groupId>
-        <artifactId>e-clearing-client_ochp-1.2_2.10</artifactId>
-        <version>1.5</version>
+        <artifactId>e-clearing-client_ochp-1.2_2.11</artifactId>
+        <version>1.14</version>
     </dependency>
     ```
