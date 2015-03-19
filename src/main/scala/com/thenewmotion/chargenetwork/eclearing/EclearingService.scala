@@ -30,5 +30,6 @@ trait EclearingService extends EclearingApi {
 trait EclearingLiveService {
   def client: EclearingLiveClient
 
+  def getStatus(since: Option[DateTime]) = client.getStatus(since)
   def updateStatus(statuses: List[EvseStatus]) = client.updateStatus(statuses)
 }

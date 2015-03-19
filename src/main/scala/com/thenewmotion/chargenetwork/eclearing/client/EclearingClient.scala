@@ -24,8 +24,7 @@ import org.joda.time.DateTime
 class EclearingClient(cxfClient: OCHP12) {
 
   import com.thenewmotion.chargenetwork.eclearing.Converters._
-
-import scala.collection.JavaConverters._
+  import scala.collection.JavaConverters._
 
   def setRoamingAuthorisationList(info: Seq[ChargeToken]): Result[ChargeToken] = {
     val req = new SetRoamingAuthorisationListRequest()
@@ -114,9 +113,8 @@ import scala.collection.JavaConverters._
 
 
 class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
-  import com.thenewmotion.chargenetwork.eclearing.Converters.toDateTimeType
-
-import scala.collection.JavaConverters.asJavaCollectionConverter
+  import com.thenewmotion.chargenetwork.eclearing.Converters._
+  import scala.collection.JavaConverters._
 
   /**
    * Only implements setting the timeToLive for the whole list,
@@ -140,6 +138,14 @@ import scala.collection.JavaConverters.asJavaCollectionConverter
     val resp = cxfLiveClient.updateStatus(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription, List())
   }
+
+  def getStatus(since: Option[DateTime] = None): List[EvseStatus] = {
+    val r   = new GetStatusRequest
+    val req = since.fold(r){x => r.setStartDateTime(toDateTimeType(x));r}
+    val resp = cxfLiveClient.getStatus(req)
+    resp.getEvse.asScala.toList.map(implicitly[EvseStatus](_))
+  }
+
 }
 
 case class Result[A](
@@ -217,8 +223,7 @@ object EclearingClient {
   }
 
   import javax.security.auth.callback.{Callback, CallbackHandler}
-
-import org.apache.wss4j.common.ext.WSPasswordCallback
+  import org.apache.wss4j.common.ext.WSPasswordCallback
 
   private class PwCallbackHandler  extends CallbackHandler {
 

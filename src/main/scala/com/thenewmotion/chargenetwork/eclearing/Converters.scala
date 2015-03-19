@@ -9,7 +9,7 @@ import com.thenewmotion.chargenetwork.eclearing.api.CdrPeriod
 import com.thenewmotion.chargenetwork.eclearing.api.ChargePointStatus.ChargePointStatus
 import com.thenewmotion.chargenetwork.eclearing.api.ConnectorFormat
 import com.thenewmotion.chargenetwork.eclearing.api.ConnectorStandard
-import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, _}
+import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 
@@ -331,7 +331,7 @@ object Converters{
     amt.setAuthMethodType(authMethod.toString)
     amt
   }
-  
+
   private def connToGenConn(connector: Connector): GenConnectorType = {
     val ct = new GenConnectorType()
     val cs = new GenConnectorStandard()
@@ -383,4 +383,12 @@ object Converters{
       genTtl.setDateTime(date.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()))
       genTtl
   }
+
+  implicit def toEvseStatus(s: GetEvseStatusType): EvseStatus = {
+    EvseStatus(
+      evseId = s.getEvseId,
+      majorStatus = EvseStatusMajor.withNameOpt(s.getMajor()).getOrElse(EvseStatusMajor.unknown),
+      minorStatus = Option(s.getMinor()).flatMap(x => EvseStatusMinor.withNameOpt(x)))
+  }
+
 }

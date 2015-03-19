@@ -141,7 +141,7 @@ object TokenSubType extends QueryableEnumeration{
 
 class QueryableEnumeration extends Enumeration {
   def exists(name: String) = values.exists(_.toString == name)
-  def withNameOpt(name: String) = if (exists(name)) Some(name) else None
+  def withNameOpt(name: String) = if (exists(name)) Some(this.withName(name)) else None
 }
 
 
