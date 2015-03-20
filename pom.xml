@@ -10,7 +10,7 @@
 
     <groupId>com.thenewmotion.chargenetwork</groupId>
     <artifactId>e-clearing-client_ochp-1.2_2.11</artifactId>
-    <version>1.15</version>
+    <version>1.16-SNAPSHOT</version>
 
     <name>e-clearing Client, OCHP 1.2</name>
     <url>http://github.com/thenewmotion/e-clearing-client_ochp-1.2</url>
