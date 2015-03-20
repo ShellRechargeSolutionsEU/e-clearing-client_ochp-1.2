@@ -34,7 +34,7 @@
         <url>https://github.com/thenewmotion/e-clearing-client_ochp-1.2</url>
         <connection>scm:git:ssh://git@github.com/thenewmotion/e-clearing-client_ochp-1.2.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/thenewmotion/e-clearing-client_ochp-1.2.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>e-clearing-client_ochp-1.2_2.11-1.15</tag>
     </scm>
 
     <dependencies>
