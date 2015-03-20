@@ -11,7 +11,8 @@ import org.specs2.specification.Scope
  * EclearingClient integration tests.
  * need a soapUI mock service running on 8088.
  * The respective soapui project can be found in
- * test/resources/soapui/E-Clearing-soapui-project.xml (SoauUI v5.0.0) *
+ * test/resources/soapui/E-Clearing-soapui-project.xml (SoauUI v5.1.2;
+ * but seem to work with 5.0.0, too)
  *
  * The mock service will be starting automatically during the pre-integration-test phase
  * so this test can run during integration-test phase
