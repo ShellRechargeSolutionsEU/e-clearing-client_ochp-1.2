@@ -10,7 +10,6 @@ import com.thenewmotion.chargenetwork.eclearing.api.ChargePointStatus.ChargePoin
 import com.thenewmotion.chargenetwork.eclearing.api.ConnectorFormat
 import com.thenewmotion.chargenetwork.eclearing.api.ConnectorStandard
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
-import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import scala.util.{Try, Success, Failure}
@@ -58,8 +57,27 @@ object Converters extends LazyLogging {
   private def toDateTimeOption (value: DateTimeType):Option[DateTime] =
     Option(value).flatMap{v => Try(DateTimeNoMillis(v.getDateTime)) match {
       case Success(x) => Some(x)
-      case Failure(e) => logger.error("Time value parsing failure", e); None
+      case Failure(e) => logger.error("Date and time value parsing failure", e); None
     }}
+
+  private def toRegularHours (rh: RegularHoursType): Option[RegularHours] = {
+
+    val normalize: PartialFunction[String, String] = {
+      case "24:00" => "23:59"
+      case x => x
+    }
+
+    def toTime(t: String): Option[TimeNoSecs] =
+      Option(t).flatMap{v => Try(TimeNoSecs(normalize(v))) match {
+        case Success(x) => Some(x)
+        case Failure(e) => logger.error("Time value parsing failure", e); None
+      }}
+
+    for {
+      beg <- toTime(rh.getPeriodBegin)
+      end <- toTime(rh.getPeriodEnd)
+    } yield RegularHours(rh.getWeekday, beg, end)
+  }
 
   private def toGeoPointOption(value: GeoPointType):Option[GeoPoint] = Try {
     for {
@@ -81,31 +99,21 @@ object Converters extends LazyLogging {
   private def toHoursOption (value: HoursType): Option[Hours] =
     Option(value).map(v =>
       Hours(
-        regularHours = v.getRegularHours.asScala.toList flatMap {rh => Try{
-          RegularHours(
-            rh.getWeekday,
-            TimeNoSecs(rh.getPeriodBegin),
-            TimeNoSecs(rh.getPeriodEnd))
-        } match {
-          case Success(x) => Some(x)
-          case Failure(e) => logger.error("Regular hours parsing failure", e); None
-        }},
-        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo => Try {
-          ExceptionalPeriod(
-            periodBegin = DateTimeNoMillis(eo.getPeriodBegin.getDateTime),
-            periodEnd = DateTimeNoMillis(eo.getPeriodEnd.getDateTime))
-        } match {
-          case Success(x) => Some(x)
-          case Failure(e) => logger.error("Exceptional perion parsing failure", e); None
-        }},
-        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec => Try{
-          ExceptionalPeriod(
-            periodBegin = DateTimeNoMillis(ec.getPeriodBegin.getDateTime),
-            periodEnd = DateTimeNoMillis(ec.getPeriodEnd.getDateTime))
-        } match {
-          case Success(x) => Some(x)
-          case Failure(e) => logger.error("Exceptional perion parsing failure", e); None
-        }}
+        regularHours = v.getRegularHours.asScala.toList flatMap {rh =>
+          toRegularHours(rh)
+        },
+        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
+          for {
+            beg <- toDateTimeOption(eo.getPeriodBegin)
+            end <- toDateTimeOption(eo.getPeriodEnd)
+          } yield ExceptionalPeriod(beg, end)
+        },
+        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
+          for {
+            beg <- toDateTimeOption(ec.getPeriodBegin)
+            end <- toDateTimeOption(ec.getPeriodEnd)
+          } yield ExceptionalPeriod(beg, end)
+        }
       )
     )
 
@@ -147,7 +155,7 @@ object Converters extends LazyLogging {
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Option(cost).map(implicitly[Float](_))
+          periodCost = Option(cost)
         )
       })
     )
@@ -237,8 +245,8 @@ object Converters extends LazyLogging {
         thumbUri = toOption(genImage.getThumbUri),
         clazz = ImageClass.withName(genImage.getClazz),
         `type` = genImage.getType,
-        width = Option(genImage.getWidth).map(implicitly[Integer](_)),
-        height = Option(genImage.getHeight).map(implicitly[Integer](_))
+        width = Option(genImage.getWidth),
+        height = Option(genImage.getHeight)
       )},
       address = CpAddress(
         houseNumber = toOption(genCp.getHouseNumber),
@@ -260,10 +268,16 @@ object Converters extends LazyLogging {
       operatingTimes = toHoursOption(genCp.getOperatingTimes),
       accessTimes = toHoursOption(genCp.getAccessTimes),
       status = toChargePointStatusOption(genCp.getStatus),
-      statusSchedule = genCp.getStatusSchedule.asScala.toList map {cps =>
-        ChargePointSchedule(DateTimeNoMillis(cps.getStartDate.getDateTime),
-          DateTimeNoMillis(cps.getEndDate.getDateTime),
-          ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))},
+      statusSchedule = genCp.getStatusSchedule.asScala.toList flatMap {cps => Try{
+        for {
+          beg <- toDateTimeOption(cps.getStartDate)
+          end <- toDateTimeOption(cps.getEndDate)
+        } yield ChargePointSchedule(beg, end,
+          ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))
+      } match {
+        case Success(x) => x
+        case Failure(e) => logger.error("Status schedule parsing failure", e); None
+      }},
       telephoneNumber = toOption(genCp.getTelephoneNumber),
       floorLevel = toOption(genCp.getFloorLevel),
       parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
@@ -295,9 +309,6 @@ object Converters extends LazyLogging {
     iut
   }
 
-
-
-
   private def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
     def regHoursToRegHoursType(regHours: RegularHours): RegularHoursType = {
       val regularHoursType = new RegularHoursType()
@@ -312,6 +323,7 @@ object Converters extends LazyLogging {
       ept.setPeriodEnd(toDateTimeType(ep.periodEnd))
       ept
     }
+
     val hoursType = new HoursType()
     maybeHours map {hours =>
       hoursType.getRegularHours.addAll(hours.regularHours map regHoursToRegHoursType asJavaCollection)

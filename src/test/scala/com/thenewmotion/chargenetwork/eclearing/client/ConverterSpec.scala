@@ -75,12 +75,14 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePoint.locationNameLang === chargePointInfo1.getLocationNameLang
        chargePoint.address.address === chargePointInfo1.getAddress
        chargePoint.address.city === chargePointInfo1.getCity
+
        chargePoint.authMethods(0).toString === chargePointInfo1.getAuthMethods.get(0).getAuthMethodType
        chargePoint.connectors(0).connectorFormat.toString ===
          chargePointInfo1.getConnectors.get(0).getConnectorFormat.getConnectorFormat
        chargePoint.connectors(0).connectorStandard.toString ===
        chargePointInfo1.getConnectors.get(0).getConnectorStandard.getConnectorStandard
-       chargePoint.operatingTimes.get.regularHours.size === 1
+       chargePoint.operatingTimes.get.regularHours.size === 2
+
        chargePoint.operatingTimes.get.regularHours(0).weekday ===
          chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getWeekday
        chargePoint.operatingTimes.get.regularHours(0).periodBegin.toString ===

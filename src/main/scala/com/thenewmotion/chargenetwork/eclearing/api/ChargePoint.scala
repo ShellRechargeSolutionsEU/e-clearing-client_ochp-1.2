@@ -122,7 +122,6 @@ object ImageClass extends QueryableEnumeration {
   val otherPhoto = Value("otherPhoto")
   val otherLogo = Value("otherLogo")
   val otherGraphic = Value("otherGraphic")
-
 }
 
 case class EvseImageUrl (
