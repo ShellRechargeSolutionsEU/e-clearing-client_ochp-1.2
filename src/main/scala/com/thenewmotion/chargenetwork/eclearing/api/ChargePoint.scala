@@ -9,6 +9,11 @@ import org.joda.time.format.ISODateTimeFormat
  * Date: 11.09.14
  */
 case class ChargePoint (
+  // Must conform to evseId pattern, but it doesn't.
+  // e-clearing is sending smth like YYCBAE22 sometimes.
+  // It's a responsibility of calling code to make sure
+  // CP is valid, so that such CP at least gets to the
+  // calling code.
   evseId: String,
   locationId: String,
   timestamp: Option[DateTime] = None,
@@ -31,13 +36,7 @@ case class ChargePoint (
   authMethods: List[AuthMethod.Value], //must be non-empty
   connectors: List[Connector], //must be non-empty
   userInterfaceLang: List[String] = List()
-) {
-  val pat =
-    """[A-Za-z]{2}\*[A-Za-z0-9]{3}\*[Ee][A-Za-z0-9][A-Za-z0-9\*]{0,30}|[A-Za-z]{2}
-      |[A-Za-z0-9]{3}[Ee][A-Za-z0-9][A-Za-z0-9\*]{0,30}""".stripMargin
-  require(evseId.matches(pat),
-    s"evseId needs to conform to $pat but was $evseId")
-}
+)
 
 case class CpAddress (
   houseNumber: Option[String] = None,

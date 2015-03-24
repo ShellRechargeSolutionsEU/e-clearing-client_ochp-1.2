@@ -122,11 +122,6 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        GeoPoint.fmt(-0.0004567) === "-0.000457"
        GeoPoint.fmt(.0004567) === "0.000457"
      }
-
-     " require properly formatted evseIds" in new CpTestScope {
-       chargePoint1.copy(
-         evseId = "DE*823*E14020122_10401.1A*0") must throwA[IllegalArgumentException]
-     }
    }
 }
 
