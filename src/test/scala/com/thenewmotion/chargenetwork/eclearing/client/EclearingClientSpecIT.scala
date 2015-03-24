@@ -79,8 +79,8 @@ with CdrTestScope{
 
 
     " receive chargepointList" >> {
-      val cps = client.chargePointList()
-      cps(0).evseId === chargePoint1.evseId
+      val result = client.chargePointList()
+      result.items(0).evseId === chargePoint1.evseId
     }
 
     " set charge point list" >> {
@@ -89,8 +89,8 @@ with CdrTestScope{
     }
 
     " receive chargepointListUpdate" >> {
-      val cps = client.chargePointListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
-      cps(0).evseId === "DE*823*E1234*7890"
+      val result = client.chargePointListUpdate(DateTimeNoMillis("2014-07-14T00:00:00Z"))
+      result.items(0).evseId === "DE*823*E1234*7890"
     }
 
     " set charge point list update" >> {

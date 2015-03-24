@@ -65,7 +65,10 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " translate ChargePointInfo into ChargePoint" >> {
 
-       val chargePoint = cpInfoToChargePoint(chargePointInfo1)
+       val chargePointOpt = cpInfoToChargePoint(chargePointInfo1)
+       chargePointOpt must beSome
+
+       val chargePoint = chargePointOpt.get
        chargePoint.evseId === chargePointInfo1.getEvseId
        chargePoint.locationId === chargePointInfo1.getLocationId
        chargePoint.locationName === chargePointInfo1.getLocationName
@@ -76,14 +79,14 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePoint.connectors(0).connectorFormat.toString ===
          chargePointInfo1.getConnectors.get(0).getConnectorFormat.getConnectorFormat
        chargePoint.connectors(0).connectorStandard.toString ===
-         chargePointInfo1.getConnectors.get(0).getConnectorStandard.getConnectorStandard
+       chargePointInfo1.getConnectors.get(0).getConnectorStandard.getConnectorStandard
+       chargePoint.operatingTimes.get.regularHours.size === 1
        chargePoint.operatingTimes.get.regularHours(0).weekday ===
          chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getWeekday
        chargePoint.operatingTimes.get.regularHours(0).periodBegin.toString ===
          chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getPeriodBegin
        chargePoint.operatingTimes.get.regularHours(0).periodEnd.toString ===
          chargePointInfo1.getOperatingTimes.getRegularHours.get(0).getPeriodEnd
-
      }
 
      " translate ChargePoint into ChargePointInfo" >> {
@@ -94,7 +97,8 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePointInfo.getLocationNameLang === chargePoint1.locationNameLang
        chargePointInfo.getAddress === chargePoint1.address.address
        chargePointInfo.getZipCode === chargePoint1.address.zipCode
-       chargePointInfo.getGeoLocation.getLat === chargePoint1.geoLocation.lat
+       chargePointInfo.getGeoLocation.getLat === chargePoint1.geoLocation.lat.toString
+       chargePointInfo.getGeoLocation.getLon === chargePoint1.geoLocation.lon.toString
        chargePointInfo.getAuthMethods.get(0).getAuthMethodType ===
          chargePoint1.authMethods(0).toString
        chargePointInfo.getConnectors.get(0).getConnectorFormat.getConnectorFormat ===
@@ -111,10 +115,10 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " deal with different and empty lat/lon string" >> {
        GeoPoint("", "") must throwA[IllegalArgumentException]
-       GeoPoint("-123.1234567", "123.1234567").lat === "-123.123457"
-       GeoPoint("-123.1234567", "123.1234567").lon === "123.123457"
-       GeoPoint("-0.0004567", ".0004567").lat === "-0.000457"
-       GeoPoint("-0.0004567", ".0004567").lon === "0.000457"
+       GeoPoint.fmt(-123.1234567) === "-123.123457"
+       GeoPoint.fmt(123.1234567)  === "123.123457"
+       GeoPoint.fmt(-0.0004567) === "-0.000457"
+       GeoPoint.fmt(.0004567) === "0.000457"
      }
 
      " require properly formatted evseIds" in new CpTestScope {
@@ -160,6 +164,11 @@ trait CpTestScope extends Scope {
   regularHours.setPeriodBegin("08:00")
   regularHours.setPeriodEnd("18:00")
   operatingTimes.getRegularHours.add(regularHours)
+  val faultyRegularHours = new RegularHoursType()
+  faultyRegularHours.setWeekday(1)
+  faultyRegularHours.setPeriodBegin("08:00")
+  faultyRegularHours.setPeriodEnd("24:00") // not a valid value for joda time
+  operatingTimes.getRegularHours.add(faultyRegularHours)
   chargePointInfo1.setOperatingTimes(operatingTimes)
 
   /*
@@ -177,8 +186,8 @@ trait CpTestScope extends Scope {
       country = "NLD"
     ),
     geoLocation = GeoPoint(
-      lat = "52.364208",
-      lon = "4.891792"
+      lat = 52.364208,
+      lon = 4.891792
     ),
     authMethods = List(AuthMethod.RfidMifareCls),
     connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),

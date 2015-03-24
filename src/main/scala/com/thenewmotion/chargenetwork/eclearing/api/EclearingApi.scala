@@ -16,9 +16,9 @@ trait EclearingApi {
   def sendNewTokens(tokens: List[ChargeToken]): Result[ChargeToken]
 
   def sendAllChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
-  def recvAllChargePoints():List[ChargePoint]
+  def recvAllChargePoints():Result[ChargePoint]
   def sendNewChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint]
-  def recvNewChargePoints(lastUpdate: DateTime):List[ChargePoint]
+  def recvNewChargePoints(lastUpdate: DateTime):Result[ChargePoint]
 
   def sendCdrs(cdrs: List[CDR]): Result[CDR]
   def recvCdrs(): List[CDR]

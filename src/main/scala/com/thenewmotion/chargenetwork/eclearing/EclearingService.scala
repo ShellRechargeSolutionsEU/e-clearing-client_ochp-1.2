@@ -18,9 +18,9 @@ trait EclearingService extends EclearingApi {
   def recvNewTokens(lastUpdate: DateTime):List[ChargeToken] = client.roamingAuthorisationListUpdate(lastUpdate)
 
   def sendAllChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint] = client.setChargePointList(chargePoints)
-  def recvAllChargePoints():List[ChargePoint] = client.chargePointList()
+  def recvAllChargePoints():Result[ChargePoint] = client.chargePointList()
   def sendNewChargePoints(chargePoints: List[ChargePoint]): Result[ChargePoint] = client.setChargePointListUpdate(chargePoints)
-  def recvNewChargePoints(lastUpdate: DateTime):List[ChargePoint] = client.chargePointListUpdate(lastUpdate)
+  def recvNewChargePoints(lastUpdate: DateTime):Result[ChargePoint] = client.chargePointListUpdate(lastUpdate)
 
   def sendCdrs(cdrs: List[CDR]): Result[CDR] = client.addCdrs(cdrs)
   def recvCdrs():List[CDR] = client.getCdrs()

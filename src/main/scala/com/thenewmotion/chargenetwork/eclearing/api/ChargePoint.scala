@@ -53,15 +53,11 @@ object CpTimestamp {
   def unapply(dt: DateTime): String = dt.toString(formatter)
 }
 
-class GeoPoint private(
-  val lat: String,
-  val lon: String
-)
+case class GeoPoint(lat: Double, lon: Double)
 
 object GeoPoint {
-  private def crop(s: String) = "%3.6f".formatLocal(java.util.Locale.US, s.toDouble)
-
-  def apply(lat: String, lon: String) = new GeoPoint(crop(lat), crop(lon))
+  def fmt(x: Double) = "%3.6f".formatLocal(java.util.Locale.US, x)
+  def apply(lat: String, lon: String) = new GeoPoint(lat.toDouble, lon.toDouble)
 }
 
 case class Hours (

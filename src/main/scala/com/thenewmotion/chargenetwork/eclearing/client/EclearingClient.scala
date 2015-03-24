@@ -83,13 +83,17 @@ class EclearingClient(cxfClient: OCHP12) {
     req.getChargepointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
     val resp = cxfClient.setChargepointList(req)
     Result[ChargePoint](resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
-        resp.getRefusedChargePointInfo.asScala.toList.map(implicitly[ChargePoint](_)))
+        resp.getRefusedChargePointInfo.asScala.toList.flatMap(implicitly[Option[ChargePoint]](_)))
   }
 
-  def chargePointList() = {
+  def chargePointList(): Result[ChargePoint] = {
     val resp = cxfClient.getChargePointList(
       new GetChargePointListRequest)
-    resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
+
+    Result[ChargePoint](
+      resp.getResult.getResultCode.getResultCode,
+      resp.getResult.getResultDescription,
+      resp.getChargePointInfoArray.asScala.toList.flatMap(implicitly[Option[ChargePoint]](_)))
   }
 
   def setChargePointListUpdate(info: Seq[ChargePoint]): Result[ChargePoint] = {
@@ -97,16 +101,19 @@ class EclearingClient(cxfClient: OCHP12) {
     req.getChargePointInfoArray.addAll(info.map(implicitly[ChargePointInfo](_)).asJava)
     val resp = cxfClient.updateChargePointList(req)
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription,
-        resp.getRefusedChargePointInfo.asScala.toList.map(implicitly[ChargePoint](_)))
+      resp.getRefusedChargePointInfo.asScala.toList.flatMap(implicitly[Option[ChargePoint]](_)))
   }
 
-  def chargePointListUpdate(lastUpdate: DateTime) = {
+  def chargePointListUpdate(lastUpdate: DateTime): Result[ChargePoint] = {
     val req = new GetChargePointListUpdatesRequest
     req.setLastUpdate(toDateTimeType(lastUpdate))
     val resp = cxfClient.getChargePointListUpdates(req)
-    resp.getChargePointInfoArray.asScala.toList.map(implicitly[ChargePoint](_))
-  }
 
+    Result(
+      resp.getResult.getResultCode.getResultCode,
+      resp.getResult.getResultDescription,
+      resp.getChargePointInfoArray.asScala.toList.flatMap(implicitly[Option[ChargePoint]](_)))
+  }
 
 }
 
@@ -139,34 +146,30 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
     Result(resp.getResult.getResultCode.getResultCode, resp.getResult.getResultDescription, List())
   }
 
-  def getStatus(since: Option[DateTime] = None): List[EvseStatus] = {
+  def getStatus(since: Option[DateTime] = None) = {
     val r   = new GetStatusRequest
     val req = since.fold(r){x => r.setStartDateTime(toDateTimeType(x));r}
     val resp = cxfLiveClient.getStatus(req)
+
     resp.getEvse.asScala.toList.map(implicitly[EvseStatus](_))
   }
 
 }
 
-case class Result[A](
-  status: ResultCode.Value,
-  description: String,
-  refusedItems: List[A])
+case class Result[A](status: ResultCode.Value, description: String, items: List[A])
 
 object Result  {
-  def apply[A](code: String, desc: String, ref: List[A]) = {
+  def apply[A](code: String, desc: String, items: List[A]) = {
     new Result(
-      if (code == "ok" && ref.isEmpty) ResultCode.success
-      else if (code == "ok") ResultCode.partialSuccess
-      else ResultCode.failure,
-      desc, ref)
+      if ("ok".equalsIgnoreCase(code)) ResultCode.success else ResultCode.failure,
+      desc, items
+    )
   }
 }
 
 object ResultCode extends Enumeration {
   type ResultCode = Value
   val success = Value("success")
-  val partialSuccess = Value("partialSuccess")
   val failure = Value("failure")
 }
 

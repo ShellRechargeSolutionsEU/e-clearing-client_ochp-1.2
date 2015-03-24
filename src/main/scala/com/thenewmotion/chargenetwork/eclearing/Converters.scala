@@ -12,8 +12,8 @@ import com.thenewmotion.chargenetwork.eclearing.api.ConnectorStandard
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-
-
+import com.typesafe.scalalogging.slf4j.LazyLogging
+import scala.util.{Try, Success, Failure}
 /**
  *
  * Convert between cxf-generated java classes and nice scala case classes
@@ -21,7 +21,7 @@ import org.joda.time.format.ISODateTimeFormat
  * @author Yaroslav Klymko
  * @author Christoph Zwirello
  */
-object Converters{
+object Converters extends LazyLogging {
   import scala.collection.JavaConverters._
 
   implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
@@ -52,53 +52,64 @@ object Converters{
     rai
   }
 
-  private def toOption (value: String):Option[String] = {
-    value match {case null => None; case s if s.nonEmpty => Some(s); case _ => None}
+  private def toOption (value: String):Option[String] =
+    Option(value).find(_.nonEmpty)
+
+  private def toDateTimeOption (value: DateTimeType):Option[DateTime] =
+    Option(value).flatMap{v => Try(DateTimeNoMillis(v.getDateTime)) match {
+      case Success(x) => Some(x)
+      case Failure(e) => logger.error("Time value parsing failure", e); None
+    }}
+
+  private def toGeoPointOption(value: GeoPointType):Option[GeoPoint] = Try {
+    for {
+      v   <- Option(value)
+      lat <- Option(v.getLat)
+      lon <- Option(v.getLon)
+    } yield GeoPoint(lat, lon)
+  } match {
+    case Success(x) => x
+    case Failure(e) => logger.error("Geo point typeparsing failure", e); None
   }
 
-  private def toDateTimeOption (value: DateTimeType):Option[DateTime] = {
-    value match {case null => None; case s if !s.getDateTime.isEmpty => Some(DateTimeNoMillis(s.getDateTime)); case _ => None}
-  }
+  private def toChargePointStatusOption(value: ChargePointStatusType): Option[ChargePointStatus] =
+    Option(value).flatMap(v => Try(ChargePointStatus.withName(v.getChargePointStatusType)) match {
+      case Success(x) => Some(x)
+      case Failure(e) => logger.error("Charge point status parsing failure", e); None
+    })
 
-  private def toGeoPointOption (value: GeoPointType):Option[GeoPoint] = {
-    value match {
-      case null => None
-      case gp: GeoPointType if (gp.getLat != null) && (gp.getLon != null) => Some(GeoPoint(gp.getLat, gp.getLon))
-    }
-  }
-
-  private def toChargePointStatusOption(value: ChargePointStatusType): Option[ChargePointStatus] = {
-    value match {
-      case null => None
-      case cps: ChargePointStatusType if !cps.getChargePointStatusType.isEmpty =>
-        Some(ChargePointStatus.withName(cps.getChargePointStatusType))
-      case _ => None
-    }
-  }
-
-  private def toHoursOption (value: HoursType):Option[Hours] = {
-    value match {
-      case null => None;
-      case hrs: HoursType => Some(Hours(
-        regularHours = hrs.getRegularHours.asScala.toList map {rh =>
+  private def toHoursOption (value: HoursType): Option[Hours] =
+    Option(value).map(v =>
+      Hours(
+        regularHours = v.getRegularHours.asScala.toList flatMap {rh => Try{
           RegularHours(
             rh.getWeekday,
             TimeNoSecs(rh.getPeriodBegin),
-            TimeNoSecs(rh.getPeriodEnd))},
-        exceptionalOpenings = hrs.getExceptionalOpenings.asScala.toList map {eo =>
+            TimeNoSecs(rh.getPeriodEnd))
+        } match {
+          case Success(x) => Some(x)
+          case Failure(e) => logger.error("Regular hours parsing failure", e); None
+        }},
+        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo => Try {
           ExceptionalPeriod(
             periodBegin = DateTimeNoMillis(eo.getPeriodBegin.getDateTime),
-            periodEnd = DateTimeNoMillis(eo.getPeriodEnd.getDateTime)
-          )},
-        exceptionalClosings = hrs.getExceptionalClosings.asScala.toList map {ec =>
+            periodEnd = DateTimeNoMillis(eo.getPeriodEnd.getDateTime))
+        } match {
+          case Success(x) => Some(x)
+          case Failure(e) => logger.error("Exceptional perion parsing failure", e); None
+        }},
+        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec => Try{
           ExceptionalPeriod(
             periodBegin = DateTimeNoMillis(ec.getPeriodBegin.getDateTime),
-            periodEnd = DateTimeNoMillis(ec.getPeriodEnd.getDateTime)
-          )}))
-    }
-  }
+            periodEnd = DateTimeNoMillis(ec.getPeriodEnd.getDateTime))
+        } match {
+          case Success(x) => Some(x)
+          case Failure(e) => logger.error("Exceptional perion parsing failure", e); None
+        }}
+      )
+    )
 
-    implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR = {
+  implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR =
     CDR(
       cdrId = cdrinfo.getCdrId,
       evseId = cdrinfo.getEvseId,
@@ -106,7 +117,6 @@ object Converters{
         tokenId = cdrinfo.getEmtId.getInstance,
         tokenType = TokenType.withName(cdrinfo.getEmtId.getTokenType),
         tokenSubType = Option(cdrinfo.getEmtId.getTokenSubType) map {TokenSubType.withName}
-
       ),
       contractId = cdrinfo.getContractId,
       liveAuthId = toOption(cdrinfo.getLiveAuthId),
@@ -139,13 +149,8 @@ object Converters{
           itemPrice = cdrPeriod.getItemPrice,
           periodCost = Option(cost).map(implicitly[Float](_))
         )
-      }
-
-      )
+      })
     )
-  }
-
-
 
   implicit def cdrToCdrInfo(cdr: CDR): CDRInfo = {
     import cdr._
@@ -213,13 +218,14 @@ object Converters{
   }
 
   private def geoPointToGenGeoPoint(point: GeoPoint): GeoPointType = {
+    import GeoPoint.fmt
     val gpt = new GeoPointType()
-    gpt.setLat(point.lat)
-    gpt.setLon(point.lon)
+    gpt.setLat(fmt(point.lat))
+    gpt.setLon(fmt(point.lon))
     gpt
   }
 
-  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): ChargePoint = {
+  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = Try{
     ChargePoint(
       evseId = genCp.getEvseId,
       locationId = genCp.getLocationId,
@@ -241,9 +247,11 @@ object Converters{
         zipCode = genCp.getZipCode,
         country = genCp.getCountry
       ),
-      geoLocation = GeoPoint(
-         lat = genCp.getGeoLocation match {case null => ""; case gl: GeoPointType => gl.getLat},
-        lon = genCp.getGeoLocation match {case null => ""; case gl: GeoPointType => gl.getLon}),
+      geoLocation = (for {
+        g   <- Option(genCp.getGeoLocation)
+        lat <- Option(g.getLat)
+        lon <- Option(g.getLon)
+      } yield GeoPoint(lat, lon)).getOrElse(throw new IllegalArgumentException("No geo coordinates provided")),
       geoUserInterface = toGeoPointOption(genCp.getGeoUserInterface),
       geoSiteEntrance = genCp.getGeoSiteEntrance.asScala.toList map {gp =>
         GeoPoint(gp.getLat, gp.getLon)},
@@ -265,12 +273,15 @@ object Converters{
         AuthMethod.withName(am.getAuthMethodType)},
       connectors = genCp.getConnectors.asScala.toList map {con =>
         Connector(
-        connectorStandard = ConnectorStandard.withName(
-          con.getConnectorStandard.getConnectorStandard),
-        connectorFormat = ConnectorFormat.withName(
-          con.getConnectorFormat.getConnectorFormat))},
+          connectorStandard = ConnectorStandard.withName(
+            con.getConnectorStandard.getConnectorStandard),
+          connectorFormat = ConnectorFormat.withName(
+            con.getConnectorFormat.getConnectorFormat))},
       userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
     )
+  } match {
+    case Success(x) => Some(x)
+    case Failure(e) => logger.error("Charge point conversion failure", e); None
   }
 
   private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
