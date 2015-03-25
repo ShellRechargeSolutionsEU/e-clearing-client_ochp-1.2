@@ -69,7 +69,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        chargePointOpt must beSome
 
        val chargePoint = chargePointOpt.get
-       chargePoint.evseId === chargePointInfo1.getEvseId
+       chargePoint.evseId.value === chargePointInfo1.getEvseId
        chargePoint.locationId === chargePointInfo1.getLocationId
        chargePoint.locationName === chargePointInfo1.getLocationName
        chargePoint.locationNameLang === chargePointInfo1.getLocationNameLang
@@ -93,7 +93,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
 
      " translate ChargePoint into ChargePointInfo" >> {
        val chargePointInfo = chargePointToCpInfo(chargePoint1)
-       chargePointInfo.getEvseId === chargePoint1.evseId
+       chargePointInfo.getEvseId === chargePoint1.evseId.value
        chargePointInfo.getLocationId === chargePoint1.locationId
        chargePointInfo.getLocationName === chargePoint1.locationName
        chargePointInfo.getLocationNameLang === chargePoint1.locationNameLang
@@ -172,7 +172,7 @@ trait CpTestScope extends Scope {
    * Using scala code:
    */
   val chargePoint1 = ChargePoint(
-    evseId = "DE*823*E1234*5678",
+    evseId = EvseId("DE*823*E1234*5678"),
     locationId = "WERELD",
     locationName = "Keizersgracht-585",
     locationNameLang = "NLD",

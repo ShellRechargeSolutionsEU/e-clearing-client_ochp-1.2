@@ -235,7 +235,7 @@ object Converters extends LazyLogging {
 
   implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = Try{
     ChargePoint(
-      evseId = genCp.getEvseId,
+      evseId = EvseId(genCp.getEvseId),
       locationId = genCp.getLocationId,
       timestamp = toDateTimeOption(genCp.getTimestamp),
       locationName = genCp.getLocationName,
@@ -368,7 +368,7 @@ object Converters extends LazyLogging {
 
   implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
     val cpi = new ChargePointInfo()
-    cpi.setEvseId(cp.evseId)
+    cpi.setEvseId(cp.evseId.value)
     cpi.setLocationId(cp.locationId)
     cp.timestamp foreach {t =>
       cpi.setTimestamp(toDateTimeType(t))}

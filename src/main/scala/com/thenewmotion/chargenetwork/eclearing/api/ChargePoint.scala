@@ -9,12 +9,7 @@ import org.joda.time.format.ISODateTimeFormat
  * Date: 11.09.14
  */
 case class ChargePoint (
-  // Must conform to evseId pattern, but it doesn't.
-  // e-clearing is sending smth like YYCBAE22 sometimes.
-  // It's a responsibility of calling code to make sure
-  // CP is valid, so that such CP at least gets to the
-  // calling code.
-  evseId: String,
+  evseId: EvseId,
   locationId: String,
   timestamp: Option[DateTime] = None,
   locationName: String,
@@ -131,3 +126,137 @@ case class EvseImageUrl (
   width: Option[Integer] = None,
   height: Option[Integer] = None
 )
+
+case class EvseId(value: String) {
+  require(value.matches(EvseId.pattern), s"evseId needs to conform to ${EvseId.pattern} but was $value")
+}
+
+object EvseId {
+  val pattern = """([A-Za-z]{2})\*?([A-Za-z0-9]{3})\*?[Ee][A-Za-z0-9][A-Za-z0-9\*]{0,30}"""
+  val regex = pattern.r
+}
+
+case class EvseOperator(name: String, country: String)
+
+object EvseOperator {
+
+  private val evseOperatorNameMap = Map(
+    (("IE", "845") -> "ESBI Engineering and Facility Management Limited"),
+    (("BE", "846") -> "BlueCorner NV"),
+    (("AT", "847") -> "Vorarlberger Kraftwerke AG"),
+    (("AT", "850") -> "Wien Energie GmbH"),
+    (("AT", "852") -> "Salzburg AG für Energie, Verkehr und Telekommunikation"),
+    (("AT", "854") -> "KELAG-Kärntner Elektrizitäts-AG"),
+    (("NL", "857") -> "Essent New Energy BV"),
+    (("NL", "ALL") -> "Allego"),
+    (("NL", "ANW") -> "ANWB"),
+    (("NL", "BAL") -> "Ballast Nedam"),
+    (("NL", "BCU") -> "Blue Current"),
+    (("NL", "EVN") -> "EVnetNL"),
+    (("NL", "ENE") -> "Eneco"),
+    (("NL", "ESS") -> "Essent"),
+    (("NL", "EVB") -> "EV-Box"),
+    (("NL", "GFX") -> "Green Flux"),
+    (("NL", "LMS") -> "LastMileSolutions"),
+    (("NL", "NUO") -> "Nuon"),
+    (("NL", "TNM") -> "The New Motion"),
+    (("ES", "838") -> "IBERDROLA GENERACIÓN S.A.U."),
+    (("DE", "810") -> "EWE AG"),
+    (("DE", "811") -> "Linuxpartner GmbH"),
+    (("DE", "812") -> "MVV Energie AG"),
+    (("DE", "815") -> "Stadtwerke Springe GmbH"),
+    (("DE", "817") -> "Siemens AG"),
+    (("DE", "820") -> "Stadtwerke Waldkirch GmbH"),
+    (("DE", "821") -> "EnBW Energie Baden-Württemberg AG"),
+    (("DE", "822") -> "Belectric Drive GmbH"),
+    (("DE", "826") -> "Stadtwerke Schwäbisch Hall GmbH"),
+    (("DE", "841") -> "AUDI AG"),
+    (("DE", "843") -> "Bosch Software Innovations GmbH"),
+    (("DE", "853") -> "Ahrtal-Werke GmbH"),
+    (("DE", "855") -> "Energieversorgung Sehnde GmbH"),
+    (("DE", "859") -> "Plugsurfing GmbH"),
+    (("DE", "860") -> "E.ON Technologies GmbH"),
+    (("DE", "123") -> "Move About GmbH"),
+    (("DE", "IAV") -> "IAV GmbH Ingenieurgesellschaft Auto und Verkehr"),
+    (("DE", "NAG") -> "NATURSTROM AG"),
+    (("DE", "TNM") -> "The New Motion Deutschland GmbH"),
+    (("DE", "861") -> "Stadtwerke Leipzig GmbH"),
+    (("DE", "EBG") -> "EBG Compleo GmbH"),
+    (("DE", "STA") -> "Stadtwerke Aachen AG"),
+    (("DE", "LND") -> "smartlab Innovationsgesellschaft mbH"),
+    (("DE", "SWW") -> "Stadtwerke Weimar Stadtversorgungs-GmbH"),
+    (("DE", "ENL") -> "Enovos Luxembourg"),
+    (("DE", "SWE") -> "SWE Energie GmbH"),
+    (("DE", "SWD") -> "Stadtwerke Düsseldorf AG"),
+    (("DE", "VAT") -> "Vattenfall Europe Innovation GmbH"),
+    (("DE", "REK") -> "RheinEnergie AG"),
+    (("DE", "UBI") -> "ubitricity Gesellschaft für verteilte Energiesysteme mbH"),
+    (("DE", "SLB") -> "Stadtwerke Ludwigsburg-Kornwestheim GmbH"),
+    (("DE", "NDS") -> "T-Systems International GmbH"),
+    (("DE", "247") -> "Chargepartner GmbH"),
+    (("DE", "SWM") -> "Stadtwerke München GmbH"),
+    (("DE", "359") -> "swb Vertrieb Bremen GmbH"),
+    (("DE", "WSW") -> "WSW Energie und Wasser AG"),
+    (("DE", "SBR") -> "Stadtwerke Brühl GmbH"),
+    (("DE", "GMH") -> "Stadtwerke Georgsmarienhütte GmbH"),
+    (("DE", "SWS") -> "Stadtwerke Bad Säckingen GmbH"),
+    (("DE", "SWT") -> "SWT-AöR"),
+    (("DE", "SUN") -> "SUN GmbH & Co. KG"),
+    (("DE", "EVS") -> "Energieversorgung Sylt GmbH"),
+    (("DE", "AUW") -> "Allgäuer Überlandwerk GmbH"),
+    (("DE", "DVV") -> "Stadtwerke Duisburg AG"),
+    (("DE", "EBE") -> "Ebee Smart Technologies GmbH"),
+    (("DE", "UEZ") -> "Unterfränkische Überlandzentrale eG"),
+    (("DE", "SWR") -> "StadtWerke Rösrath - Energie GmbH"),
+    (("DE", "MEK") -> "MENNEKES Elektrotechnik GmbH & Co. KG"),
+    (("DE", "ALL") -> "Allego GmbH"),
+    (("DE", "STW") -> "Stadtwerke Waldshut-Tiengen GmbH"),
+    (("DE", "RWE") -> "RWE Effizienz GmbH"),
+    (("DE", "SGD") -> "Stadtwerke Schwäbisch Gmünd GmbH"),
+    (("DE", "SWH") -> "Stadtwerke EVB Huntetal GmbH"),
+    (("DE", "ENW") -> "enwor - energie & wasser vor ort GmbH"),
+    (("DE", "JEN") -> "Stadtwerke Energie Jena-Pößneck GmbH"),
+    (("DE", "DAI") -> "Technische Universität Berlin"),
+    (("DE", "TEN") -> "Teutoburger Energie Netzwerk eG (TEN eG)"),
+    (("DE", "111") -> "NürnbergMesse GmbH"),
+    (("DE", "SWO") -> "Stadtwerke Osnabrück AG"),
+    (("DE", "SWN") -> "Stadtwerke Nürtingen GmbH"),
+    (("DE", "MET") -> "Stadtwerke Metzingen"),
+    (("DE", "1HD") -> "Stadtwerke Heidelberg Energie GmbH"),
+    (("DE", "MEN") -> "Stadtwerke Menden GmbH"),
+    (("DE", "EVB") -> "Eisenacher Versorgungs-Betriebe GmbH"),
+    (("DE", "EWM") -> "Elektrizitätswerk Mittelbaden AG & Co. KG"),
+    (("DE", "WEM") -> "Stadtwerke Weilheim Energie GmbH"),
+    (("DE", "SVB") -> "Siegener Versorgungsbetriebe GmbH"),
+    (("DE", "ROS") -> "Stadtwerke Rosenheim GmbH & Co. KG"),
+    (("DE", "CIT") -> "CIRRANTIC GmbH"),
+    (("DE", "SWJ") -> "Stadtwerke Jülich GmbH"),
+    (("DE", "333") -> "Stadtwerke Ingolstadt Beteiligungen GmbH"),
+    (("DE", "NCE") -> "Nissan Center Europe GmbH"),
+    (("DE", "VWX") -> "Volkswagen Aktiengesellschaft"),
+    (("DE", "SNH") -> "Stromnetz Hamburg GmbH"),
+    (("DE", "730") -> "Heldele GmbH"),
+    (("DE", "EN0") -> "enewa GmbH"),
+    (("DE", "666") -> "E-WALD GmbH"),
+    (("DE", "EGH") -> "Elektrizitätsgenossenschaft e.G. Hasbergen"),
+    (("DE", "FFB") -> "Stadtwerke Fürstenfeldbruck GmbH"),
+    (("DE", "BMW") -> "Bayerische Motoren Werke AG"),
+    (("DE", "731") -> "Energieversorgung Filstal GmbH & Co. KG"),
+    (("DE", "SEE") -> "STADTWERK AM SEE GmbH & Co. KG"),
+    (("DE", "SKB") -> "Städtisches Kommunalunternehmen Baiersdorf, Anstalt des öffentlichen Rechts der Stadt Baiersdorf"),
+    (("DE", "SMA") -> "E-Mobility Provider Austria GmbH & CO KG"),
+    (("DE", "DBE") -> "DB Energie GmbH"),
+    (("DE", "TWS") -> "Technische Werke Schussental GmbH & Co. KG"),
+    (("DE", "WES") -> "Stadtwerke Wesel GmbH"),
+    (("DE", "SSW") -> "Schleswiger Stadtwerke GmbH"),
+    (("DE", "EEM") -> "eeMobility GmbH")
+  )
+
+  def apply(id: EvseId): Option[EvseOperator] = id.value match {
+    case EvseId.regex(country, evseOperatorId) => evseOperatorNameMap.get(country -> evseOperatorId).map(name =>
+      EvseOperator(name, country)
+    )
+    case _ => None
+  }
+
+}
