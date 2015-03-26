@@ -146,6 +146,7 @@ object EvseOperator {
     (("AT", "847") -> "Vorarlberger Kraftwerke AG"),
     (("AT", "850") -> "Wien Energie GmbH"),
     (("AT", "852") -> "Salzburg AG für Energie, Verkehr und Telekommunikation"),
+    (("DE", "853") -> "Ahrtal-Werke GmbH"),
     (("AT", "854") -> "KELAG-Kärntner Elektrizitäts-AG"),
     (("NL", "857") -> "Essent New Energy BV"),
     (("NL", "ALL") -> "Allego"),
@@ -172,7 +173,6 @@ object EvseOperator {
     (("DE", "826") -> "Stadtwerke Schwäbisch Hall GmbH"),
     (("DE", "841") -> "AUDI AG"),
     (("DE", "843") -> "Bosch Software Innovations GmbH"),
-    (("DE", "853") -> "Ahrtal-Werke GmbH"),
     (("DE", "855") -> "Energieversorgung Sehnde GmbH"),
     (("DE", "859") -> "Plugsurfing GmbH"),
     (("DE", "860") -> "E.ON Technologies GmbH"),
@@ -249,7 +249,8 @@ object EvseOperator {
     (("DE", "TWS") -> "Technische Werke Schussental GmbH & Co. KG"),
     (("DE", "WES") -> "Stadtwerke Wesel GmbH"),
     (("DE", "SSW") -> "Schleswiger Stadtwerke GmbH"),
-    (("DE", "EEM") -> "eeMobility GmbH")
+    (("DE", "EEM") -> "eeMobility GmbH"),
+    (("BE", "EST") -> "Estonteco S.a.r.l.")
   )
 
   def apply(id: EvseId): Option[EvseOperator] = id.value match {
