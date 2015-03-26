@@ -122,6 +122,11 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
        GeoPoint.fmt(-0.0004567) === "-0.000457"
        GeoPoint.fmt(.0004567) === "0.000457"
      }
+
+     " derive Evse Operator details from EvseId" >> {
+       EvseOperator(EvseId("BE*EST*E12345*89")) === Some(EvseOperator("Estonteco S.a.r.l.", "BE"))
+       EvseOperator(EvseId("YY*YYY*EYYYYY*YY")) must beNone
+     }
    }
 }
 
