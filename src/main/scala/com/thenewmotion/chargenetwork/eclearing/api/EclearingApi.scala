@@ -146,7 +146,7 @@ class QueryableEnumeration extends Enumeration {
 
 
 case class EvseStatus(
-  evseId: String,
+  evseId: EvseId,
   majorStatus: EvseStatusMajor.Value,
   minorStatus: Option[EvseStatusMinor.Value] = None
 )

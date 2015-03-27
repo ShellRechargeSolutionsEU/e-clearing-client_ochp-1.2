@@ -136,7 +136,7 @@ object EvseId {
   val regex = pattern.r
 }
 
-case class EvseOperator(name: String, country: String)
+case class EvseOperator(name: String, country: String, code: String)
 
 object EvseOperator {
 
@@ -254,9 +254,10 @@ object EvseOperator {
   )
 
   def apply(id: EvseId): Option[EvseOperator] = id.value match {
-    case EvseId.regex(country, evseOperatorId) => evseOperatorNameMap.get(country -> evseOperatorId).map(name =>
-      EvseOperator(name, country)
-    )
+    case EvseId.regex(country, evseOperatorId) =>
+      evseOperatorNameMap
+        .get(country -> evseOperatorId)
+        .map(name => EvseOperator(name, country, evseOperatorId))
     case _ => None
   }
 

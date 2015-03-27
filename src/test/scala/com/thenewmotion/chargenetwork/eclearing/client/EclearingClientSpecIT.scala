@@ -115,12 +115,12 @@ with CdrTestScope{
     " update evse status" >> {
       val evseStats = List(
         EvseStatus(
-          "DE*823*E1234*5678",
+          EvseId("DE*823*E1234*5678"),
           EvseStatusMajor.available,
           Some(EvseStatusMinor.reserved)
         ),
         EvseStatus(
-          "DE*823*E1234*6789",
+          EvseId("DE*823*E1234*6789"),
           EvseStatusMajor.`not-available`,
           Some(EvseStatusMinor.blocked)
         )

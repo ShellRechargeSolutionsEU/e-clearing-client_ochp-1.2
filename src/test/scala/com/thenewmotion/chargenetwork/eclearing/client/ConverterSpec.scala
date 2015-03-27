@@ -124,7 +124,7 @@ class ConverterSpec extends SpecificationWithJUnit with CpTestScope with CdrTest
      }
 
      " derive Evse Operator details from EvseId" >> {
-       EvseOperator(EvseId("BE*EST*E12345*89")) === Some(EvseOperator("Estonteco S.a.r.l.", "BE"))
+       EvseOperator(EvseId("BE*EST*E12345*89")) === Some(EvseOperator("Estonteco S.a.r.l.", "BE", "EST"))
        EvseOperator(EvseId("YY*YYY*EYYYYY*YY")) must beNone
      }
    }

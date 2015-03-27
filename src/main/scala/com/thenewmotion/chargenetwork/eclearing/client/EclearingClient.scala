@@ -133,7 +133,7 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
   def updateStatus(evseStats: List[EvseStatus], timeToLive: Option[DateTime] = None) = {
     def toStatusType(evseStat: EvseStatus): EvseStatusType = {
       val est = new EvseStatusType
-      est.setEvseId(evseStat.evseId)
+      est.setEvseId(evseStat.evseId.value)
       est.setMajor(evseStat.majorStatus.toString)
       evseStat.minorStatus foreach {minStat=> est.setMinor(minStat.toString)}
       est
@@ -151,7 +151,7 @@ class EclearingLiveClient(cxfLiveClient: OCHP12Live) {
     val req = since.fold(r){x => r.setStartDateTime(toDateTimeType(x));r}
     val resp = cxfLiveClient.getStatus(req)
 
-    resp.getEvse.asScala.toList.map(implicitly[EvseStatus](_))
+    resp.getEvse.asScala.toList.flatMap(implicitly[Option[EvseStatus]](_))
   }
 
 }
