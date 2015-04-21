@@ -1,15 +1,12 @@
-package com.thenewmotion.chargenetwork
-package eclearing.api
+package com.thenewmotion.ochp
+package api
 
-import com.thenewmotion.chargenetwork.eclearing.api.TokenType.TokenType
-import com.thenewmotion.chargenetwork.eclearing.client.Result
+import TokenType.TokenType
+import com.thenewmotion.ochp.client.Result
 import com.thenewmotion.time.Imports._
 import org.joda.time.format.ISODateTimeFormat
 
-/**
- * @author Yaroslav Klymko
- */
-trait EclearingApi {
+trait OchpApi {
   def recvAllTokens(): List[ChargeToken]
   def sendAllTokens(tokens: List[ChargeToken]): Result[ChargeToken]
   def recvNewTokens(lastUpdate: DateTime): List[ChargeToken]
@@ -131,7 +128,7 @@ object TokenSubType extends QueryableEnumeration{
 
   def forRfid(rfid: String): Option[TokenSubType.Value] = {
        require(rfid.matches("[0-9A-Fa-f]+"), "Rfid '%s' doesn't comply pattern '[0-9A-Fa-f]+'".format(rfid))
-       rfid.size match {
+       rfid.length match {
          case 8 => Some(mifareCls)
          case 10 => Some(mifareDes)
          case _ => None

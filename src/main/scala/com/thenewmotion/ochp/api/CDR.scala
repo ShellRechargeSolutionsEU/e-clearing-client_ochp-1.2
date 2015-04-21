@@ -1,13 +1,7 @@
-package com.thenewmotion.chargenetwork.eclearing.api
+package com.thenewmotion.ochp.api
 
 import com.thenewmotion.time.Imports._
-import org.joda.time.format.ISODateTimeFormat
 
-/**
- * Created with IntelliJ IDEA.
- * User: czwirello
- * Date: 11.09.14
- */
 case class CDR(
   cdrId: String,
   evseId: String,

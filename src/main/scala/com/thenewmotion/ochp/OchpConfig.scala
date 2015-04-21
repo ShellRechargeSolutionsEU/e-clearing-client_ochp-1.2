@@ -1,12 +1,7 @@
-package com.thenewmotion.chargenetwork.eclearing
+package com.thenewmotion.ochp
 
-/**
- * Created with IntelliJ IDEA.
- * User: czwirello
- * Date: 01.09.14
- */
 
-case class EclearingConfig(
+case class OchpConfig(
 
   wsUri: String,
   liveWsUri: String = "",

@@ -1,6 +1,7 @@
 language: scala
 scala:
-  - 2.10.4
+  - 2.10.5
+  - 2.11.6
 notifications:
   slack: thenewmotion:AXSluctig1mmZbeKRDeeY41s
-script: mvn integration-test
+script: sbt ++$TRAVIS_SCALA_VERSION test it:test

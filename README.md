@@ -1,4 +1,4 @@
-# E-Clearing client [![Build Status](https://secure.travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2.png)](http://travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2)
+# OCHP client [![Build Status](https://secure.travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2.png)](http://travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2)
 
 Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
@@ -28,17 +28,19 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     
 * Service trait that can be instantiated like here:
     ```scala
-    val service = new EclearingService {
-      val conf = EclearingConfig(
+    val service = new OchpService {
+      val conf = OchpConfig(
         wsUri = "http://localhost:8088/mockeCHS-OCHP_1.2",
         user = "me",
         password = "mypass"
       )
-      val client = EclearingClient.createCxfClient(conf)
+      val client = OchpClient.createCxfClient(conf)
     }
     ```
 
 ## Setup
+
+### Maven
 
 1. Add this repository to your pom.xml:
     ```xml
@@ -52,8 +54,20 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 2. Add dependency to your pom.xml:
     ```xml
     <dependency>
-        <groupId>com.thenewmotion.chargenetwork</groupId>
-        <artifactId>e-clearing-client_ochp-1.2_2.11</artifactId>
-        <version>1.14</version>
+        <groupId>com.thenewmotion</groupId>
+        <artifactId>ochp-client-1.2_2.11</artifactId>
+        <version>1.20</version>
     </dependency>
     ```
+### SBT
+
+1. Add the following resolver: 
+    ```scala
+    resolvers += "TNM" at "http://nexus.thenewmotion.com/content/repositories/releases-public"
+    ```
+
+2. Add the following dependency:
+    ```scala
+    "com.thenewmotion" %% "ochp-client-1.2" % "1.20",
+    ```
+    

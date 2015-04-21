@@ -1,16 +1,11 @@
-package com.thenewmotion.chargenetwork.eclearing
+package com.thenewmotion.ochp
 
-import com.thenewmotion.chargenetwork.eclearing.api._
-import com.thenewmotion.chargenetwork.eclearing.client.{EclearingLiveClient, EclearingClient, Result}
+import api._
+import client.{Result, OchpClient, OchpLiveClient}
 import com.thenewmotion.time.Imports._
 
-
-/**
- * @author Yaroslav Klymko
- * @author Christoph Zwirello
- */
-trait EclearingService extends EclearingApi {
-  def client: EclearingClient
+trait OchpService extends OchpApi {
+  def client: OchpClient
 
   def sendAllTokens(tokens: List[ChargeToken]): Result[ChargeToken] = client.setRoamingAuthorisationList(tokens)
   def recvAllTokens():List[ChargeToken] = client.roamingAuthorisationList()
@@ -27,8 +22,8 @@ trait EclearingService extends EclearingApi {
   def confCdrs(approvedCdrs: List[CDR], declinedCdrs: List[CDR]) = client.confirmCdrs(approvedCdrs, declinedCdrs)
 }
 
-trait EclearingLiveService {
-  def client: EclearingLiveClient
+trait OchpLiveService {
+  def client: OchpLiveClient
 
   def getStatus(since: Option[DateTime]) = client.getStatus(since)
   def updateStatus(statuses: List[EvseStatus]) = client.updateStatus(statuses)

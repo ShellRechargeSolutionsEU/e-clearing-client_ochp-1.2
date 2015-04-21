@@ -1,24 +1,18 @@
-package com.thenewmotion.chargenetwork.eclearing
-
-import java.util
+package com.thenewmotion.ochp
 
 import api._
 import com.thenewmotion.time.Imports._
-import com.thenewmotion.chargenetwork.eclearing.api.BillingItem
-import com.thenewmotion.chargenetwork.eclearing.api.CdrPeriod
-import com.thenewmotion.chargenetwork.eclearing.api.ChargePointStatus.ChargePointStatus
-import com.thenewmotion.chargenetwork.eclearing.api.ConnectorFormat
-import com.thenewmotion.chargenetwork.eclearing.api.ConnectorStandard
+import ChargePointStatus.ChargePointStatus
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.joda.time.format.ISODateTimeFormat
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import scala.util.{Try, Success, Failure}
+import scala.language.{implicitConversions, postfixOps}
+
 /**
  *
  * Convert between cxf-generated java classes and nice scala case classes
  *
- * @author Yaroslav Klymko
- * @author Christoph Zwirello
  */
 object Converters extends LazyLogging {
   import scala.collection.JavaConverters._
@@ -43,10 +37,10 @@ object Converters extends LazyLogging {
     rai.setContractId(contractId)
     emtId.setInstance(token.emtId.tokenId)
     emtId.setTokenType(token.emtId.tokenType.toString)
-    token.emtId.tokenSubType map {st => emtId.setTokenSubType(st.toString)}
+    token.emtId.tokenSubType foreach {st => emtId.setTokenSubType(st.toString)}
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
-    token.printedNumber map {pn => rai.setPrintedNumber(pn.toString)}
+    token.printedNumber foreach {pn => rai.setPrintedNumber(pn.toString)}
     rai.setExpiryDate(toDateTimeType(expiryDate))
     rai
   }
@@ -301,9 +295,9 @@ object Converters extends LazyLogging {
   private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
     val iut = new GenEvseImageUrlType()
     iut.setClazz(image.clazz.toString)
-    image.height map iut.setHeight
-    image.width map iut.setWidth
-    image.thumbUri map iut.setThumbUri
+    image.height foreach iut.setHeight
+    image.width foreach iut.setWidth
+    image.thumbUri foreach iut.setThumbUri
     iut.setType(image.`type`)
     iut.setUri(image.uri)
     iut
@@ -410,8 +404,8 @@ object Converters extends LazyLogging {
   implicit def toEvseStatus(s: GetEvseStatusType): Option[EvseStatus] = Try {
     EvseStatus(
       evseId = EvseId(s.getEvseId),
-      majorStatus = EvseStatusMajor.withNameOpt(s.getMajor()).getOrElse(EvseStatusMajor.unknown),
-      minorStatus = Option(s.getMinor()).flatMap(x => EvseStatusMinor.withNameOpt(x)))
+      majorStatus = EvseStatusMajor.withNameOpt(s.getMajor).getOrElse(EvseStatusMajor.unknown),
+      minorStatus = Option(s.getMinor).flatMap(x => EvseStatusMinor.withNameOpt(x)))
   } match {
     case Success(x) => Some(x)
     case Failure(e) => logger.error("Evse status conversion failure", e); None
