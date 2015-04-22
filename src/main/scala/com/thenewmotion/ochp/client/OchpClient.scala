@@ -13,8 +13,8 @@ import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.transport.http.HTTPConduit
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor
+import org.apache.wss4j.common.ConfigurationConstants
 import org.apache.wss4j.dom.WSConstants
-import org.apache.wss4j.dom.handler.WSHandlerConstants
 import org.joda.time.DateTime
 import scala.language.postfixOps
 
@@ -206,10 +206,10 @@ object OchpClient {
   private def addWssHeaders[T](conf: OchpConfig, port: T): T = {
     val cxfEndpoint: Endpoint = ClientProxy.getClient(port).getEndpoint
     val outProps = new util.HashMap[String, Object]()
-    outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN)
-    outProps.put(WSHandlerConstants.USER, conf.user)
-    outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT)
-    outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
+    outProps.put(ConfigurationConstants.ACTION, ConfigurationConstants.USERNAME_TOKEN)
+    outProps.put(ConfigurationConstants.USER, conf.user)
+    outProps.put(ConfigurationConstants.PASSWORD_TYPE, WSConstants.PW_TEXT)
+    outProps.put(ConfigurationConstants.PW_CALLBACK_CLASS,
       new PwCallbackHandler().getClass.getName)
     val wssOut = new WSS4JOutInterceptor(outProps)
     cxfEndpoint.getOutInterceptors.add(wssOut)

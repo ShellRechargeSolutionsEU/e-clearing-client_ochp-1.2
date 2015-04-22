@@ -1,5 +1,7 @@
 import sbt._
 
+val cxfVersion = "3.0.4"
+
 val root = (project in file("."))
   .enablePlugins(OssLibPlugin)
   .configs(IntegrationTest)
@@ -11,14 +13,16 @@ val root = (project in file("."))
     moduleName := name.value,
     organization := "com.thenewmotion",
     libraryDependencies ++= Seq(
-      "org.apache.cxf"                  %  "cxf-bundle"                 % "3.0.0-milestone2",
+      "org.apache.cxf"                  %  "cxf-rt-frontend-simple"     % cxfVersion,
+      "org.apache.cxf"                  %  "cxf-rt-transports-http"     % cxfVersion,
+      "org.apache.cxf"                  %  "cxf-rt-ws-security"         % cxfVersion,
       "com.thenewmotion"                %% "time"                       % "2.8",
       "com.typesafe.scala-logging"      %% "scala-logging-slf4j"        % "2.1.2",
       "com.typesafe"                    %  "config"                     % "1.2.1"               % "it,test",
       "org.specs2"                      %% "specs2-junit"               % "2.4.15"              % "it,test",
       "org.specs2"                      %% "specs2-mock"                % "2.4.15"              % "it,test"
     ),
-    cxf.cxfVersion := "3.0.0-milestone2",
+    cxf.cxfVersion := cxfVersion,
     cxf.wsdls := Seq(
       cxf.Wsdl((resourceDirectory in Compile).value / "wsdl/ochp-1.2.wsdl", Seq("-validate", "-xjc-verbose"), "ochp")
     ),
