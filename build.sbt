@@ -18,6 +18,7 @@ val root = (project in file("."))
       "org.specs2"                      %% "specs2-junit"               % "2.4.15"              % "it,test",
       "org.specs2"                      %% "specs2-mock"                % "2.4.15"              % "it,test"
     ),
+    cxf.cxfVersion := "3.0.0-milestone2",
     cxf.wsdls := Seq(
       cxf.Wsdl((resourceDirectory in Compile).value / "wsdl/ochp-1.2.wsdl", Seq("-validate", "-xjc-verbose"), "ochp")
     ),
