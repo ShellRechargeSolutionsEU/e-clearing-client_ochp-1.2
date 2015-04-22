@@ -245,24 +245,6 @@ class ConverterSpec extends SpecificationWithJUnit {
 
   trait TestScope extends Scope{
 
-    val conf: Config = ConfigFactory.load()
-
-    val client = OchpClient.createCxfClient(
-      new OchpConfig(
-        conf.getString("ochp.service-uri"),
-        "",
-        conf.getString("ochp.user"),
-        conf.getString("ochp.password"))
-    )
-
-    val faultyClient = OchpClient.createCxfClient(
-      new OchpConfig(
-        "http://localhost:8",
-        "",
-        conf.getString("ochp.user"),
-        conf.getString("ochp.password"))
-    )
-
     val teslaSocketConnector = new GenConnectorType()
     val connForm = new GenConnectorFormat()
     connForm.setConnectorFormat("Socket")

@@ -198,7 +198,7 @@ object OchpClient {
   private def createClient(conf: OchpConfig, endpoint_address: String): (QName, Service) = {
     password = conf.password
     val servicePort: QName = new QName(endpoint_address, "service port")
-    val service: Service = Service.create(null, servicePort)
+    val service: Service = Service.create(servicePort)
     service.addPort(servicePort, SOAPBinding.SOAP11HTTP_BINDING, endpoint_address)
     (servicePort, service)
   }

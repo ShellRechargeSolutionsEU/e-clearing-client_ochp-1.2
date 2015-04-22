@@ -13,7 +13,8 @@ val root = (project in file("."))
     moduleName := name.value,
     organization := "com.thenewmotion",
     libraryDependencies ++= Seq(
-      "org.apache.cxf"                  %  "cxf-rt-frontend-simple"     % cxfVersion,
+      "com.sun.xml.messaging.saaj"      %  "saaj-impl"                  % "1.3.25",
+      "org.apache.cxf"                  %  "cxf-rt-frontend-jaxws"      % cxfVersion,
       "org.apache.cxf"                  %  "cxf-rt-transports-http"     % cxfVersion,
       "org.apache.cxf"                  %  "cxf-rt-ws-security"         % cxfVersion,
       "com.thenewmotion"                %% "time"                       % "2.8",
