@@ -404,8 +404,8 @@ object Converters extends LazyLogging {
   implicit def toEvseStatus(s: GetEvseStatusType): Option[EvseStatus] = Try {
     EvseStatus(
       evseId = EvseId(s.getEvseId),
-      majorStatus = EvseStatusMajor.withNameOpt(s.getMajor).getOrElse(EvseStatusMajor.unknown),
-      minorStatus = Option(s.getMinor).flatMap(x => EvseStatusMinor.withNameOpt(x)))
+      majorStatus = EvseStatusMajor.findByName(s.getMajor).getOrElse(EvseStatusMajor.unknown),
+      minorStatus = Option(s.getMinor).flatMap(EvseStatusMinor.findByName))
   } match {
     case Success(x) => Some(x)
     case Failure(e) => logger.error("Evse status conversion failure", e); None

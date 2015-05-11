@@ -3,13 +3,12 @@ package client
 
 import Converters._
 import api._
-import com.typesafe.config.{ConfigFactory, Config}
 import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, ConnectorType => GenConnectorType, EmtId => GenEmtId, _}
 import org.joda.time.format.ISODateTimeFormat
-import org.specs2.mutable.SpecificationWithJUnit
+import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 
-class ConverterSpec extends SpecificationWithJUnit {
+class ConverterSpec extends Specification {
    "Converter" should {
 
      " translate Token into RoamingAuthorisationInfo" >> new TestScope {

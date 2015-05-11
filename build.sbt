@@ -1,33 +1,40 @@
 import sbt._
 
-val cxfVersion = "3.0.4"
+val cxfVersion = "3.1.0"
+val specsVersion = "3.6"
 
-val root = (project in file("."))
+val ochp = (project in file("."))
   .enablePlugins(OssLibPlugin)
   .configs(IntegrationTest)
-  .settings(Defaults.itSettings : _*)
-  .settings(cxf.settings : _*)
-  .settings(soapui.settings :_*)
   .settings(
+    Defaults.itSettings,
+    cxf.settings,
+    soapui.settings,
+
+    organization := "com.thenewmotion",
     name := "ochp-client-1.2",
     moduleName := name.value,
-    organization := "com.thenewmotion",
+
     libraryDependencies ++= Seq(
-      "com.sun.xml.messaging.saaj"      %  "saaj-impl"                  % "1.3.25",
-      "org.apache.cxf"                  %  "cxf-rt-frontend-jaxws"      % cxfVersion,
-      "org.apache.cxf"                  %  "cxf-rt-transports-http"     % cxfVersion,
-      "org.apache.cxf"                  %  "cxf-rt-ws-security"         % cxfVersion,
-      "com.thenewmotion"                %% "time"                       % "2.8",
-      "com.typesafe.scala-logging"      %% "scala-logging-slf4j"        % "2.1.2",
-      "com.typesafe"                    %  "config"                     % "1.2.1"               % "it,test",
-      "org.specs2"                      %% "specs2-junit"               % "2.4.15"              % "it,test",
-      "org.specs2"                      %% "specs2-mock"                % "2.4.15"              % "it,test"
+      "com.sun.xml.messaging.saaj" % "saaj-impl" % "1.3.25",
+      "org.apache.cxf" %  "cxf-rt-frontend-jaxws" % cxfVersion,
+      "org.apache.cxf" %  "cxf-rt-transports-http" % cxfVersion,
+      "org.apache.cxf" %  "cxf-rt-ws-security" % cxfVersion,
+      "com.thenewmotion" %% "time" % "2.8",
+      "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
+      "org.specs2" %% "specs2-junit" % "3.6" % "it,test",
+      "org.specs2" %% "specs2-mock" % "3.6" % "it,test"
     ),
+
     cxf.cxfVersion := cxfVersion,
     cxf.wsdls := Seq(
-      cxf.Wsdl((resourceDirectory in Compile).value / "wsdl/ochp-1.2.wsdl", Seq("-validate", "-xjc-verbose"), "ochp")
+      cxf.Wsdl(
+        (resourceDirectory in Compile).value / "wsdl" / "ochp-1.2.wsdl",
+        Seq("-validate", "-xjc-verbose"), "ochp")
     ),
     soapui.mockServices := Seq(
-      soapui.MockService( (resourceDirectory in IntegrationTest).value / "soapui" / "E-Clearing-soapui-project.xml", "8088")
+      soapui.MockService(
+        (resourceDirectory in IntegrationTest).value / "soapui" / "E-Clearing-soapui-project.xml",
+        "8088")
     )
 )

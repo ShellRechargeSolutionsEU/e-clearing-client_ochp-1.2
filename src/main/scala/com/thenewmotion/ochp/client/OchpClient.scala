@@ -1,10 +1,11 @@
 package com.thenewmotion.ochp
 package client
 
-import java.util
+import java.util.{HashMap => JMap}
 import javax.xml.namespace.QName
 import javax.xml.ws.Service
 import javax.xml.ws.soap.SOAPBinding
+import javax.security.auth.callback.{Callback, CallbackHandler}
 import api.{CDR, ChargePoint, EvseStatus, ChargeToken}
 import eu.ochp._1._
 import eu.ochp._1_2.{OCHP12, OCHP12Live}
@@ -13,8 +14,8 @@ import org.apache.cxf.frontend.ClientProxy
 import org.apache.cxf.transport.http.HTTPConduit
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor
-import org.apache.wss4j.common.ConfigurationConstants
-import org.apache.wss4j.dom.WSConstants
+import org.apache.wss4j.common.{ConfigurationConstants, WSS4JConstants}
+import org.apache.wss4j.common.ext.WSPasswordCallback
 import org.joda.time.DateTime
 import scala.language.postfixOps
 
@@ -176,11 +177,6 @@ object ResultCode extends Enumeration {
 
 object OchpClient {
 
-  // need to pass the pw to the PwCallbackHandler somehow,
-  // but can't pass it to the constructor, else wss4j won't be
-  // able to instantiate it
-  var password = ""
-
   def createCxfClient(conf: OchpConfig): OchpClient = {
     require(conf.wsUri != "", "need endpoint uri!")
     val (servicePort: QName, service: Service) = createClient(conf, conf.wsUri)
@@ -196,7 +192,6 @@ object OchpClient {
   }
 
   private def createClient(conf: OchpConfig, endpoint_address: String): (QName, Service) = {
-    password = conf.password
     val servicePort: QName = new QName(endpoint_address, "service port")
     val service: Service = Service.create(servicePort)
     service.addPort(servicePort, SOAPBinding.SOAP11HTTP_BINDING, endpoint_address)
@@ -205,12 +200,17 @@ object OchpClient {
 
   private def addWssHeaders[T](conf: OchpConfig, port: T): T = {
     val cxfEndpoint: Endpoint = ClientProxy.getClient(port).getEndpoint
-    val outProps = new util.HashMap[String, Object]()
-    outProps.put(ConfigurationConstants.ACTION, ConfigurationConstants.USERNAME_TOKEN)
-    outProps.put(ConfigurationConstants.USER, conf.user)
-    outProps.put(ConfigurationConstants.PASSWORD_TYPE, WSConstants.PW_TEXT)
-    outProps.put(ConfigurationConstants.PW_CALLBACK_CLASS,
-      new PwCallbackHandler().getClass.getName)
+    val pwCallbackHandler = new CallbackHandler {
+      def handle(cs: Array[Callback]) =
+        cs(0).asInstanceOf[WSPasswordCallback].setPassword(conf.password)
+    }
+    val outProps = new JMap[String, Object] {
+      put(ConfigurationConstants.ACTION, ConfigurationConstants.USERNAME_TOKEN)
+      put(ConfigurationConstants.USER, conf.user)
+      put(ConfigurationConstants.PASSWORD_TYPE, WSS4JConstants.PW_TEXT)
+      put(ConfigurationConstants.PW_CALLBACK_REF, pwCallbackHandler)
+    }
+
     val wssOut = new WSS4JOutInterceptor(outProps)
     cxfEndpoint.getOutInterceptors.add(wssOut)
     port
@@ -223,17 +223,6 @@ object OchpClient {
     httpClientPolicy.setAllowChunking(false)
     http.setClient(httpClientPolicy)
     port
-  }
-
-  import javax.security.auth.callback.{Callback, CallbackHandler}
-  import org.apache.wss4j.common.ext.WSPasswordCallback
-
-  private class PwCallbackHandler  extends CallbackHandler {
-
-    def handle( callbacks: Array[Callback]) = {
-      val pc: WSPasswordCallback  = callbacks(0).asInstanceOf[WSPasswordCallback]
-      pc.setPassword(password)
-    }
   }
 
 }

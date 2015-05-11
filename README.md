@@ -47,7 +47,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     <repository>
         <id>thenewmotion</id>
         <name>The New Motion Repository</name>
-        <url>http://nexus.thenewmotion.com/content/repositories/releases-public</url>
+        <url>http://nexus.thenewmotion.com/content/groups/public"</url>
     </repository>
     ```
 
@@ -63,7 +63,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
 1. Add the following resolver: 
     ```scala
-    resolvers += "TNM" at "http://nexus.thenewmotion.com/content/repositories/releases-public"
+    resolvers += "TNM" at "http://nexus.thenewmotion.com/content/groups/public"
     ```
 
 2. Add the following dependency:

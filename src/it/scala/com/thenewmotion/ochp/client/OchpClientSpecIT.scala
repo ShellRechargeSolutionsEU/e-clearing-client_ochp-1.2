@@ -2,9 +2,8 @@ package com.thenewmotion.ochp
 package client
 
 import api._
-import com.typesafe.config._
 import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, ConnectorType => GenConnectorType, EmtId => GenEmtId, _}
-import org.specs2.mutable.SpecificationWithJUnit
+import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 
 
@@ -19,7 +18,7 @@ import org.specs2.specification.Scope
  * so this test can run during integration-test phase
  *
  */
-class OchpClientSpecIT extends SpecificationWithJUnit {
+class OchpClientSpecIT extends Specification {
   args(sequential = true)
 
   "OCHP Client" should {
@@ -49,15 +48,18 @@ class OchpClientSpecIT extends SpecificationWithJUnit {
     }
 
     " send roamingAuthorisationList" >> new TestScope {
-      val tokens = List(token1)
+      val tokens = List(token)
       val rais = tokens
       val result = client.setRoamingAuthorisationList(rais)
       result.status === ResultCode.success
     }
 
     " return an error for rejected roamingAuthorisationList" >> new TestScope {
-      val tokens = List(token2)
-      val result = client.setRoamingAuthorisationList(tokens)
+      /* See script of SetRoamingAuthorisationList in E-Clearing-soapui-project.xml */
+      val rejectedToken = token.copy(
+        emtId = token.emtId.copy(
+          tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1"))
+      val result = client.setRoamingAuthorisationList(List(rejectedToken))
       result.status === ResultCode.failure
     }
 
@@ -69,7 +71,11 @@ class OchpClientSpecIT extends SpecificationWithJUnit {
     }
 
     " send roamingAuthorisationListUpdate" >> new TestScope {
-      val tokens = List(token2)
+      /* See script of UpdateRoamingAuthorisationList in E-Clearing-soapui-project.xml*/
+      val tokens = List(
+        token.copy(
+          emtId = token.emtId.copy(
+            tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1")))
       val result = client.setRoamingAuthorisationListUpdate(tokens)
       result.status === ResultCode.success
     }
@@ -99,17 +105,9 @@ class OchpClientSpecIT extends SpecificationWithJUnit {
 
   "OCHP live client" should {
 
-    val conf: Config = ConfigFactory.load()
+    " update evse status" >> new TestScope {
+      val liveClient = OchpClient.createCxfLiveClient(conf)
 
-    val liveClient = OchpClient.createCxfLiveClient(
-      new OchpConfig(
-        "",
-        conf.getString("ochp.live-service-uri"),
-        conf.getString("ochp.user"),
-        conf.getString("ochp.password"))
-    )
-
-    " update evse status" >> {
       val evseStats = List(
         EvseStatus(
           EvseId("DE*823*E1234*5678"),
@@ -129,41 +127,26 @@ class OchpClientSpecIT extends SpecificationWithJUnit {
 
   trait TestScope extends Scope {
 
-    val conf: Config = ConfigFactory.load()
+    val conf = new OchpConfig(
+      wsUri = "http://localhost:8088/mockeCHS-OCHP_1.2",
+      liveWsUri = "http://localhost:8088/mockeCHS-OCHP_1.2/live",
+      user = "backend.tnm",
+      password = "123456")
 
-    val client = OchpClient.createCxfClient(
-      new OchpConfig(
-        conf.getString("ochp.service-uri"),
-        "",
-        conf.getString("ochp.user"),
-        conf.getString("ochp.password"))
-    )
+    val client = OchpClient.createCxfClient(conf)
 
     val faultyClient = OchpClient.createCxfClient(
-      new OchpConfig(
-        "http://localhost:8",
-        "",
-        conf.getString("ochp.user"),
-        conf.getString("ochp.password"))
-    )
+      conf.copy(
+        wsUri = "http://localhost:8",
+        liveWsUri = ""))
 
-    val token1 = ChargeToken(
+    val token = ChargeToken(
       contractId = "YYABCC00000003",
       emtId=EmtId(
         tokenSubType = Some(TokenSubType.withName("mifareCls")),
         tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA0"),
       printedNumber = Some("YYABCC00000003J"),
       expiryDate = DateTimeNoMillis("2014-07-14T02:00:00+02:00")
-    )
-
-    val token2 = ChargeToken(
-      contractId = "YYABCC00000003",
-      emtId=EmtId(
-        tokenSubType = Some(TokenSubType.withName("mifareCls")),
-        tokenId = "96B0149B4EA098BE769EFDE5BD6A7403F3A25BA1"), // cf. last digit!)
-      printedNumber = Some("YYABCC00000003J"),
-
-      expiryDate = DateTimeNoMillis("2014-07-14T00:00:00Z")
     )
   }
 

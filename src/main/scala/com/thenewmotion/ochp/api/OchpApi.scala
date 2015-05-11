@@ -4,7 +4,7 @@ package api
 import TokenType.TokenType
 import com.thenewmotion.ochp.client.Result
 import com.thenewmotion.time.Imports._
-import org.joda.time.format.ISODateTimeFormat
+
 
 trait OchpApi {
   def recvAllTokens(): List[ChargeToken]
@@ -79,10 +79,11 @@ object CdrStatus extends QueryableEnumeration{
   val approved = Value("approved")
 }
 
-case class ChargeToken(contractId: String,
-                emtId: EmtId,
-                printedNumber: Option[String],
-                expiryDate: DateTime)
+case class ChargeToken(
+  contractId: String,
+  emtId: EmtId,
+  printedNumber: Option[String],
+  expiryDate: DateTime)
 
 case class DateTimeNoMillis(
   dateTime: DateTime
@@ -91,7 +92,7 @@ case class DateTimeNoMillis(
 }
 
 object DateTimeNoMillis {
-  val formatter = ISODateTimeFormat.dateTimeNoMillis()
+  val formatter = ISODateTimeFormat.dateTimeNoMillis
   def apply(s: String) = formatter.parseDateTime(s)
 }
 
@@ -102,7 +103,7 @@ case class TimeNoSecs(
 }
 
 object TimeNoSecs {
-  val formatter = ISODateTimeFormat.hourMinute()
+  val formatter = ISODateTimeFormat.hourMinute
   def apply(s: String): TimeNoSecs = TimeNoSecs(formatter.parseLocalTime(s))
 }
 
@@ -127,18 +128,18 @@ object TokenSubType extends QueryableEnumeration{
   val calypso = Value("calypso")
 
   def forRfid(rfid: String): Option[TokenSubType.Value] = {
-       require(rfid.matches("[0-9A-Fa-f]+"), "Rfid '%s' doesn't comply pattern '[0-9A-Fa-f]+'".format(rfid))
-       rfid.length match {
-         case 8 => Some(mifareCls)
-         case 10 => Some(mifareDes)
-         case _ => None
-       }
+    require(rfid.matches("[0-9A-Fa-f]+"), "Rfid '%s' doesn't comply pattern '[0-9A-Fa-f]+'".format(rfid))
+    rfid.length match {
+     case 8 => Some(mifareCls)
+     case 10 => Some(mifareDes)
+     case _ => None
+    }
   }
 }
 
 class QueryableEnumeration extends Enumeration {
-  def exists(name: String) = values.exists(_.toString == name)
-  def withNameOpt(name: String) = if (exists(name)) Some(this.withName(name)) else None
+  def findByName(name: String) = values.find(_.toString == name)
+  def exists(name: String) = findByName(name).isDefined
 }
 
 
