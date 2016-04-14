@@ -1,6 +1,6 @@
 import sbt._
 
-val cxfVersion = "3.1.0"
+val cxfVersion = "3.1.6"
 val specsVersion = "3.6"
 
 val ochp = (project in file("."))
@@ -21,7 +21,7 @@ val ochp = (project in file("."))
       "org.apache.cxf" %  "cxf-rt-transports-http" % cxfVersion,
       "org.apache.cxf" %  "cxf-rt-ws-security" % cxfVersion,
       "com.thenewmotion" %% "time" % "2.8",
-      "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
+      "org.slf4j" % "slf4j-api" % "1.7.21",
       "org.specs2" %% "specs2-junit" % "3.6" % "it,test",
       "org.specs2" %% "specs2-mock" % "3.6" % "it,test"
     ),

@@ -5,7 +5,7 @@ import com.thenewmotion.time.Imports._
 import ChargePointStatus.ChargePointStatus
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.joda.time.format.ISODateTimeFormat
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import org.slf4j.{Logger, LoggerFactory}
 import scala.util.{Try, Success, Failure}
 import scala.language.{implicitConversions, postfixOps}
 
@@ -14,8 +14,10 @@ import scala.language.{implicitConversions, postfixOps}
  * Convert between cxf-generated java classes and nice scala case classes
  *
  */
-object Converters extends LazyLogging {
+object Converters {
   import scala.collection.JavaConverters._
+
+  private val logger = LoggerFactory.getLogger(Converters.getClass)
 
   implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
     ChargeToken(
