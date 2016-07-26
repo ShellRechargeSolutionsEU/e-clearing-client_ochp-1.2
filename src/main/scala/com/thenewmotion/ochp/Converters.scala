@@ -234,6 +234,9 @@ object Converters {
     gpt
   }
 
+  private def getTimeZone(tz: String): Option[DateTimeZone] =
+    toOption(tz).flatMap(z => Try(DateTimeZone.forID(z)).toOption)
+
   implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = Try{
     ChargePoint(
       evseId = EvseId(genCp.getEvseId),
@@ -266,6 +269,7 @@ object Converters {
         GeoPoint(gp.getLat, gp.getLon)},
       geoSiteExit = genCp.getGeoSiteExit.asScala.toList map {gp =>
         GeoPoint(gp.getLat, gp.getLon)},
+      timeZone = getTimeZone(genCp.getTimeZone),
       operatingTimes = toHoursOption(genCp.getOperatingTimes),
       accessTimes = toHoursOption(genCp.getAccessTimes),
       status = toChargePointStatusOption(genCp.getStatus),
@@ -385,6 +389,7 @@ object Converters {
     cp.geoUserInterface foreach {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
     cpi.getGeoSiteEntrance.addAll(cp.geoSiteEntrance.map {geoPointToGenGeoPoint} asJavaCollection)
     cpi.getGeoSiteExit.addAll(cp.geoSiteExit.map {geoPointToGenGeoPoint} asJavaCollection)
+    cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
     cp.status foreach {st =>
