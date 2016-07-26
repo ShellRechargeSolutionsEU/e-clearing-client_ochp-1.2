@@ -29,7 +29,7 @@ val ochp = (project in file("."))
     cxf.cxfVersion := cxfVersion,
     cxf.wsdls := Seq(
       cxf.Wsdl(
-        (resourceDirectory in Compile).value / "wsdl" / "ochp-1.2.wsdl",
+        (resourceDirectory in Compile).value / "wsdl" / "ochp-1.3.wsdl",
         Seq("-validate", "-xjc-verbose"), "ochp")
     ),
     soapui.mockServices := Seq(
