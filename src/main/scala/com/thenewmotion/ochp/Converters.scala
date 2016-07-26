@@ -185,7 +185,7 @@ object Converters {
     val eid = new GenEmtId()
     eid.setInstance(cdr.emtId.tokenId)
     eid.setTokenType(cdr.emtId.tokenType.toString)
-    eid.setTokenSubType(cdr.emtId.tokenSubType.toString)
+    cdr.emtId.tokenSubType.map(tst => eid.setTokenSubType(tst.toString))
     cdrInfo.setEmtId(eid)
     val start = new LocalDateTimeType()
     start.setLocalDateTime(startDateTime.toString)
