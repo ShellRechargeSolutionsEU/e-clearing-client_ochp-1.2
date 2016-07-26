@@ -234,6 +234,38 @@ object Converters {
     gpt
   }
 
+  private def geoPointToGenAddGeoPoint(point: GeoPoint, typ: GeoPointTypeEnum.Value): AdditionalGeoPointType = {
+    val g = geoPointToGenGeoPoint(point)
+    val agpt = new AdditionalGeoPointType()
+    agpt.setLat(g.getLat)
+    agpt.setLon(g.getLon)
+    agpt.setType(typ.toString)
+
+    agpt
+  }
+
+  private def getLocation(locations: java.util.List[AdditionalGeoPointType], typ: GeoPointTypeEnum.Value) =
+    locations
+      .asScala
+      .toList
+      .filter(_.getType == typ.toString)
+      .map(gpt => GeoPoint(gpt.getLat, gpt.getLon))
+
+  private def geoUserInterface(locations: java.util.List[AdditionalGeoPointType]) =
+    getLocation(locations, GeoPointTypeEnum.ui).headOption
+
+  private def geoSiteAccess(locations: java.util.List[AdditionalGeoPointType]) =
+    getLocation(locations, GeoPointTypeEnum.access)
+
+  private def geoSiteEntrance(locations: java.util.List[AdditionalGeoPointType]) =
+    getLocation(locations, GeoPointTypeEnum.entrance)
+
+  private def geoSiteExit(locations: java.util.List[AdditionalGeoPointType]) =
+    getLocation(locations, GeoPointTypeEnum.exit)
+
+  private def geoSiteOther(locations: java.util.List[AdditionalGeoPointType]) =
+    getLocation(locations, GeoPointTypeEnum.other)
+
   private def getTimeZone(tz: String): Option[DateTimeZone] =
     toOption(tz).flatMap(z => Try(DateTimeZone.forID(z)).toOption)
 
@@ -259,16 +291,15 @@ object Converters {
         zipCode = genCp.getZipCode,
         country = genCp.getCountry
       ),
-      geoLocation = (for {
-        g   <- Option(genCp.getGeoLocation)
-        lat <- Option(g.getLat)
-        lon <- Option(g.getLon)
-      } yield GeoPoint(lat, lon)).getOrElse(throw new IllegalArgumentException("No geo coordinates provided")),
-      geoUserInterface = toGeoPointOption(genCp.getGeoUserInterface),
-      geoSiteEntrance = genCp.getGeoSiteEntrance.asScala.toList map {gp =>
-        GeoPoint(gp.getLat, gp.getLon)},
-      geoSiteExit = genCp.getGeoSiteExit.asScala.toList map {gp =>
-        GeoPoint(gp.getLat, gp.getLon)},
+      geoLocation = GeoPoint(
+        genCp.getChargePointLocation.getLat,
+        genCp.getChargePointLocation.getLon
+      ),
+      geoUserInterface = geoUserInterface(genCp.getRelatedLocation),
+      geoSiteAccess = geoSiteAccess(genCp.getRelatedLocation),
+      geoSiteEntrance = geoSiteEntrance(genCp.getRelatedLocation),
+      geoSiteExit = geoSiteExit(genCp.getRelatedLocation),
+      geoSiteOther = geoSiteOther(genCp.getRelatedLocation),
       timeZone = getTimeZone(genCp.getTimeZone),
       operatingTimes = toHoursOption(genCp.getOperatingTimes),
       accessTimes = toHoursOption(genCp.getAccessTimes),
@@ -372,6 +403,9 @@ object Converters {
   }
 
   implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
+    def mapLocations(locations: Seq[GeoPoint], typ: GeoPointTypeEnum.Value) =
+      locations.map(loc => geoPointToGenAddGeoPoint(loc, typ)).asJavaCollection
+
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId.value)
     cpi.setLocationId(cp.locationId)
@@ -385,10 +419,12 @@ object Converters {
     cpi.setZipCode(cp.address.zipCode)
     cpi.setCity(cp.address.city)
     cpi.setCountry(cp.address.country)
-    cpi.setGeoLocation(geoPointToGenGeoPoint(cp.geoLocation))
-    cp.geoUserInterface foreach {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
-    cpi.getGeoSiteEntrance.addAll(cp.geoSiteEntrance.map {geoPointToGenGeoPoint} asJavaCollection)
-    cpi.getGeoSiteExit.addAll(cp.geoSiteExit.map {geoPointToGenGeoPoint} asJavaCollection)
+    cpi.setChargePointLocation(geoPointToGenGeoPoint(cp.geoLocation))
+    cp.geoUserInterface.foreach(ui => cpi.getRelatedLocation.add(geoPointToGenAddGeoPoint(ui, GeoPointTypeEnum.ui)))
+    cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteAccess, GeoPointTypeEnum.access))
+    cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteEntrance, GeoPointTypeEnum.entrance))
+    cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteExit, GeoPointTypeEnum.exit))
+    cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteOther, GeoPointTypeEnum.other))
     cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))

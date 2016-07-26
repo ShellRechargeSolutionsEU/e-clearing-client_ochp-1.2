@@ -13,8 +13,10 @@ case class ChargePoint (
   address: CpAddress,
   geoLocation: GeoPoint,
   geoUserInterface: Option[GeoPoint] = None,
+  geoSiteAccess: List[GeoPoint] = List(),
   geoSiteEntrance: List[GeoPoint] = List(),
   geoSiteExit: List[GeoPoint] = List(),
+  geoSiteOther: List[GeoPoint] = List(),
   timeZone: Option[DateTimeZone],
   operatingTimes: Option[Hours] = None,
   accessTimes: Option[Hours] = None,
@@ -48,6 +50,15 @@ case class GeoPoint(lat: Double, lon: Double)
 object GeoPoint {
   def fmt(x: Double) = "%3.6f".formatLocal(java.util.Locale.US, x)
   def apply(lat: String, lon: String) = new GeoPoint(lat.toDouble, lon.toDouble)
+}
+
+object GeoPointTypeEnum extends QueryableEnumeration {
+  type GeoPointTypeEnum = Value
+  val access = Value("access")
+  val entrance = Value("entrance")
+  val exit = Value("exit")
+  val other = Value("other")
+  val ui = Value("ui")
 }
 
 case class Hours (
