@@ -348,11 +348,12 @@ object Converters {
   private def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
     def regHoursToRegHoursType(regHours: RegularHours): RegularHoursType = {
       val regularHoursType = new RegularHoursType()
-        regularHoursType.setWeekday(regHours.weekday)
-        regularHoursType.setPeriodBegin(regHours.periodBegin.toString)
-        regularHoursType.setPeriodEnd(regHours.periodEnd.toString)
+      regularHoursType.setWeekday(regHours.weekday)
+      regularHoursType.setPeriodBegin(regHours.periodBegin.toString)
+      regularHoursType.setPeriodEnd(regHours.periodEnd.toString)
       regularHoursType
     }
+
     def excPeriodToExcPeriodType(ep: ExceptionalPeriod): ExceptionalPeriodType = {
       val ept = new ExceptionalPeriodType()
       ept.setPeriodBegin(toDateTimeType(ep.periodBegin))
@@ -361,7 +362,7 @@ object Converters {
     }
 
     val hoursType = new HoursType()
-    maybeHours map {hours =>
+    maybeHours map { hours =>
       hoursType.getRegularHours.addAll(hours.regularHours map regHoursToRegHoursType asJavaCollection)
       hoursType.getExceptionalOpenings.addAll(hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
       hoursType.getExceptionalClosings.addAll(hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
@@ -428,10 +429,11 @@ object Converters {
     cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
-    cp.status foreach {st =>
+    cp.status.foreach { st =>
       val status = new ChargePointStatusType()
       status.setChargePointStatusType(st.toString)
-      cpi.setStatus(status)}
+      cpi.setStatus(status)
+    }
     cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
     cp.telephoneNumber foreach cpi.setTelephoneNumber
     cp.floorLevel foreach cpi.setFloorLevel

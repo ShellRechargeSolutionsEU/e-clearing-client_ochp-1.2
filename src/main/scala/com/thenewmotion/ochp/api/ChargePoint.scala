@@ -85,7 +85,6 @@ object ChargePointStatus extends QueryableEnumeration{
   val Closed = Value("Closed")
 }
 
-
 case class ChargePointSchedule (
   startDate: DateTime,
   endDate: DateTime,
