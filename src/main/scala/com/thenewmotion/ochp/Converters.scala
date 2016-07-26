@@ -93,7 +93,12 @@ object Converters {
     })
 
   private def toHoursOption (value: HoursType): Option[Hours] =
-    Option(value).map(v =>
+    Option(value)
+      .filterNot( ht =>
+        ht.getRegularHours.isEmpty &&
+        ht.getExceptionalOpenings.isEmpty &&
+        ht.getExceptionalClosings.isEmpty)
+      .map(v =>
       Hours(
         regularHours = v.getRegularHours.asScala.toList flatMap {rh =>
           toRegularHours(rh)
