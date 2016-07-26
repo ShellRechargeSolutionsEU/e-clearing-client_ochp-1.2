@@ -96,7 +96,7 @@ object AuthMethod extends QueryableEnumeration {
   val DirectDebitcard = Value("DirectDebitcard")
   val RfidMifareCls = Value("RfidMifareCls")
   val RfidMifareDes = Value("RfidMifareDes")
-  val RfidCallypso = Value("RfidCallypso")
+  val RfidCalypso = Value("RfidCalypso")
   val Iec15118 = Value("Iec15118")
 }
 
