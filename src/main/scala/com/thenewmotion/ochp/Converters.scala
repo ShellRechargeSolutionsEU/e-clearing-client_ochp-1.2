@@ -340,6 +340,7 @@ object Converters {
         case Failure(e) => logger.error("Status schedule parsing failure", e); None
       }},
       telephoneNumber = toOption(genCp.getTelephoneNumber),
+      location = GeneralLocation.withName(genCp.getLocation.getGeneralLocationType),
       floorLevel = toOption(genCp.getFloorLevel),
       parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
       parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
@@ -437,6 +438,12 @@ object Converters {
     ct
   }
 
+  private def toGeneralLocationType(gl: GeneralLocation.Value): GeneralLocationType = {
+    val glt = new GeneralLocationType()
+    glt.setGeneralLocationType(gl.toString)
+    glt
+  }
+
   implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
     def mapLocations(locations: Seq[GeoPoint], typ: GeoPointTypeEnum.Value) =
       locations.map(loc => geoPointToGenAddGeoPoint(loc, typ)).asJavaCollection
@@ -470,6 +477,7 @@ object Converters {
     }
     cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
     cp.telephoneNumber foreach cpi.setTelephoneNumber
+    cpi.setLocation(toGeneralLocationType(cp.location))
     cp.floorLevel foreach cpi.setFloorLevel
     cp.parkingSlotNumber foreach cpi.setParkingSlotNumber
     cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)

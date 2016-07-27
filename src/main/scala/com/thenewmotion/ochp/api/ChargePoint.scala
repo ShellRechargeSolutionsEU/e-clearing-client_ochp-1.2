@@ -23,6 +23,7 @@ case class ChargePoint (
   status: Option[ChargePointStatus.Value] = None,
   statusSchedule: List[ChargePointSchedule] = List(),
   telephoneNumber: Option[String] = None,
+  location: GeneralLocation.Value = GeneralLocation.unknown,
   floorLevel: Option[String] = None,
   parkingSlotNumber: Option[String] = None,
   parkingRestriction: List[ParkingRestriction.Value] = List(),
@@ -121,6 +122,16 @@ object ImageClass extends QueryableEnumeration {
   val otherPhoto = Value("otherPhoto")
   val otherLogo = Value("otherLogo")
   val otherGraphic = Value("otherGraphic")
+}
+
+object GeneralLocation extends QueryableEnumeration{
+  type GeneralLocation = Value
+  val `on-street` = Value("on-street")
+  val `parking-garage` = Value("parking-garage")
+  val `underground-garage` = Value("underground-garage")
+  val `parking-lot` = Value("parking-lot")
+  val other = Value("other")
+  val unknown = Value("unknown")
 }
 
 case class EvseImageUrl (

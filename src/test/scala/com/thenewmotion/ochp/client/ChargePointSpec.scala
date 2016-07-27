@@ -26,6 +26,7 @@ class ChargePointSpec extends Specification {
       geoSiteExit = List(GeoPoint(44, 15)),
       geoSiteOther = List(GeoPoint(45, 16)),
       timeZone = Option(DateTimeZone.forID("Europe/Amsterdam")),
+      location = GeneralLocation.`on-street`,
       authMethods = List(AuthMethod.RfidMifareCls),
       connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
       operatingTimes = Some(Hours(
