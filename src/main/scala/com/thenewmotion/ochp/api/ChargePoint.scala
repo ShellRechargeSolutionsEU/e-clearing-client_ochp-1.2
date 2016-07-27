@@ -109,6 +109,8 @@ object AuthMethod extends QueryableEnumeration {
   val RfidMifareDes = Value("RfidMifareDes")
   val RfidCalypso = Value("RfidCalypso")
   val Iec15118 = Value("Iec15118")
+  val OchpDirectAuth = Value("OchpDirectAuth")
+  val OperatorAuth = Value("OperatorAuth")
 }
 
 object ImageClass extends QueryableEnumeration {
