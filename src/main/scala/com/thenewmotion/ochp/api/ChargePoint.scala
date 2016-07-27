@@ -29,6 +29,7 @@ case class ChargePoint (
   parkingRestriction: List[ParkingRestriction.Value] = List(),
   authMethods: List[AuthMethod.Value], //must be non-empty
   connectors: List[Connector], //must be non-empty
+  ratings: Option[Ratings] = None,
   userInterfaceLang: List[String] = List()
 )
 
@@ -76,7 +77,7 @@ case class ExceptionalPeriod (
   periodBegin: DateTime,
   periodEnd: DateTime)
 
-object ChargePointStatus extends QueryableEnumeration{
+object ChargePointStatus extends QueryableEnumeration {
   type ChargePointStatus = Value
   val Unknown = Value("Unknown")
   val Operative = Value("Operative")
@@ -90,7 +91,7 @@ case class ChargePointSchedule (
   endDate: DateTime,
   status: ChargePointStatus.Value)
 
-object ParkingRestriction extends QueryableEnumeration{
+object ParkingRestriction extends QueryableEnumeration {
   type parkingRestriction = Value
   val evonly = Value("evonly")
   val plugged = Value("plugged")
@@ -126,7 +127,7 @@ object ImageClass extends QueryableEnumeration {
   val otherGraphic = Value("otherGraphic")
 }
 
-object GeneralLocation extends QueryableEnumeration{
+object GeneralLocation extends QueryableEnumeration {
   type GeneralLocation = Value
   val `on-street` = Value("on-street")
   val `parking-garage` = Value("parking-garage")
@@ -142,8 +143,12 @@ case class EvseImageUrl (
   clazz: ImageClass.Value,
   `type`: String,
   width: Option[Integer] = None,
-  height: Option[Integer] = None
-)
+  height: Option[Integer] = None)
+
+case class Ratings (
+  maximumPower: Float,
+  guaranteedPower: Option[Float],
+  nominalVoltage: Option[Int])
 
 case class EvseId(value: String) {
   require(value.matches(EvseId.pattern), s"evseId needs to conform to ${EvseId.pattern} but was $value")

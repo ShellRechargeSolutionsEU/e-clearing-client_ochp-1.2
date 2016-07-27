@@ -353,6 +353,7 @@ object Converters {
             con.getConnectorStandard.getConnectorStandard),
           connectorFormat = ConnectorFormat.withName(
             con.getConnectorFormat.getConnectorFormat))},
+      ratings = toRatingsOption(genCp.getRatings),
       userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
     )
   } match {
@@ -483,9 +484,28 @@ object Converters {
     cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)
     cpi.getAuthMethods.addAll(cp.authMethods.map {authMethodToGenAuthMethod} asJavaCollection)
     cpi.getConnectors.addAll(cp.connectors.map {connToGenConn} asJavaCollection)
+    cpi.setRatings(toRatingsType(cp.ratings))
     cpi.getUserInterfaceLang.addAll(cp.userInterfaceLang asJavaCollection)
     cpi
   }
+
+  private[ochp] def toRatingsType(value: Option[Ratings]): RatingsType =
+    value.fold(null: RatingsType) {
+      case Ratings(max, guaranteed, voltage) =>
+        val ratings = new RatingsType()
+        ratings.setMaximumPower(max)
+        guaranteed.foreach(ratings.setGuaranteedPower(_))
+        voltage.foreach(ratings.setNominalVoltage(_))
+        ratings
+    }
+
+  private[ochp] def toRatingsOption(value: RatingsType): Option[Ratings] =
+    Option(value).map { ratings =>
+      Ratings(
+        ratings.getMaximumPower,
+        Option(ratings.getGuaranteedPower).map(_.toFloat),
+        Option(ratings.getNominalVoltage).map(_.toInt))
+    }
 
   implicit def toDateTimeType(date: DateTime): DateTimeType = {
       val genTtl = new DateTimeType()
