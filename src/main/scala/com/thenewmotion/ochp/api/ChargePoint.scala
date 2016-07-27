@@ -62,10 +62,9 @@ object GeoPointTypeEnum extends QueryableEnumeration {
 }
 
 case class Hours (
-  regularHours: List[RegularHours],
+  regularHoursOrTwentyFourSeven: Either[List[RegularHours], Boolean],
   exceptionalOpenings: List[ExceptionalPeriod],
-  exceptionalClosings: List[ExceptionalPeriod]
-)
+  exceptionalClosings: List[ExceptionalPeriod])
 
 case class RegularHours (
   weekday: Int = 0,

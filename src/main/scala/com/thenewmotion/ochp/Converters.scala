@@ -92,31 +92,56 @@ object Converters {
       case Failure(e) => logger.error("Charge point status parsing failure", e); None
     })
 
-  private def toHoursOption (value: HoursType): Option[Hours] =
+  private[ochp] def validate(value: HoursType) = {
+    def prettyPrint(ht: HoursType) =
+      s"""HoursType(
+        |regularHours = ${ht.getRegularHours},
+        | twentyfourseven = ${ht.isTwentyfourseven},
+        | exceptionalOpenings = ${ht.getExceptionalOpenings},
+        | exceptionalClosings = ${ht.getExceptionalClosings})
+      """.stripMargin.replaceAll("\n", "")
+
+    val invalid =
+      Option(value.isTwentyfourseven).fold(true) { _ == false } &&
+        value.getRegularHours.isEmpty &&
+        value.getExceptionalOpenings.isEmpty &&
+        value.getExceptionalClosings.isEmpty
+
+    if(invalid)
+      throw new IllegalArgumentException(
+        s"Provided hoursType ${prettyPrint(value)} cannot be accepted because it does not define 24/7 nor any hours")
+
+    true
+  }
+
+  private[ochp] def toHoursOption(value: HoursType): Option[Hours] = {
+    def regularHours(v: HoursType): Either[List[RegularHours], Boolean] =
+      Option(v.isTwentyfourseven)
+        .map(tfs => Right(tfs == true))
+        .getOrElse(Left(v.getRegularHours.asScala.toList.flatMap(toRegularHours)))
+
     Option(value)
-      .filterNot( ht =>
-        ht.getRegularHours.isEmpty &&
-        ht.getExceptionalOpenings.isEmpty &&
-        ht.getExceptionalClosings.isEmpty)
-      .map(v =>
-      Hours(
-        regularHours = v.getRegularHours.asScala.toList flatMap {rh =>
-          toRegularHours(rh)
-        },
-        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
-          for {
-            beg <- toDateTimeOption(eo.getPeriodBegin)
-            end <- toDateTimeOption(eo.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        },
-        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
-          for {
-            beg <- toDateTimeOption(ec.getPeriodBegin)
-            end <- toDateTimeOption(ec.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        }
-      )
-    )
+      .map { v =>
+
+        validate(v)
+
+        Hours(
+          regularHoursOrTwentyFourSeven = regularHours(v),
+          exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
+            for {
+              beg <- toDateTimeOption(eo.getPeriodBegin)
+              end <- toDateTimeOption(eo.getPeriodEnd)
+            } yield ExceptionalPeriod(beg, end)
+          },
+          exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
+            for {
+              beg <- toDateTimeOption(ec.getPeriodBegin)
+              end <- toDateTimeOption(ec.getPeriodEnd)
+            } yield ExceptionalPeriod(beg, end)
+          }
+        )
+    }
+  }
 
   implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR =
     CDR(
@@ -345,7 +370,7 @@ object Converters {
     iut
   }
 
-  private def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
+  private[ochp] def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
     def regHoursToRegHoursType(regHours: RegularHours): RegularHoursType = {
       val regularHoursType = new RegularHoursType()
       regularHoursType.setWeekday(regHours.weekday)
@@ -361,13 +386,22 @@ object Converters {
       ept
     }
 
-    val hoursType = new HoursType()
-    maybeHours map { hours =>
-      hoursType.getRegularHours.addAll(hours.regularHours map regHoursToRegHoursType asJavaCollection)
-      hoursType.getExceptionalOpenings.addAll(hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
-      hoursType.getExceptionalClosings.addAll(hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
+    maybeHours.fold(null: HoursType) { hours =>
+      val hoursType = new HoursType()
+
+      hours.regularHoursOrTwentyFourSeven.fold(
+        regHours =>
+          hoursType.getRegularHours.addAll(
+            regHours.map(regHoursToRegHoursType).asJavaCollection),
+        twentyFourSeven =>
+          hoursType.setTwentyfourseven(twentyFourSeven))
+      hoursType.getExceptionalOpenings.addAll(
+        hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
+      hoursType.getExceptionalClosings.addAll(
+        hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
+
+      hoursType
     }
-    hoursType
   }
 
   private def statSchedToGenStatSched(schedule: ChargePointSchedule): ChargePointScheduleType = {
