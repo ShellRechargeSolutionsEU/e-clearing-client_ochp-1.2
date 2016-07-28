@@ -1,7 +1,6 @@
 package com.thenewmotion.ochp
 package client
 
-import Converters._
 import api._
 import org.specs2.mutable.Specification
 

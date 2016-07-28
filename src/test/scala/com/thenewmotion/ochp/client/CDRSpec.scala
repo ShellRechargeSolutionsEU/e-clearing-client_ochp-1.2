@@ -3,7 +3,6 @@ package client
 
 import Converters._
 import api._
-import eu.ochp._1.{ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, EmtId => GenEmtId, _}
 import org.specs2.mutable.Specification
 
 class CDRSpec extends Specification {

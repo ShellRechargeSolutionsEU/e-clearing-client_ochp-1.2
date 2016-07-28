@@ -3,7 +3,6 @@ package client
 
 import Converters._
 import api._
-import eu.ochp._1.RatingsType
 import org.specs2.mutable.Specification
 
 class RatingsTypeSpec extends Specification {

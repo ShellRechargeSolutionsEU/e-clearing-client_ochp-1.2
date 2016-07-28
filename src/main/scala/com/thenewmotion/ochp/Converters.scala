@@ -5,7 +5,7 @@ import com.thenewmotion.time.Imports._
 import ChargePointStatus.ChargePointStatus
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.joda.time.format.ISODateTimeFormat
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.LoggerFactory
 import scala.util.{Try, Success, Failure}
 import scala.language.{implicitConversions, postfixOps}
 
@@ -170,7 +170,7 @@ object Converters {
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Option(cost)
+          periodCost = Option(cost.toFloat)
         )
       })
     )
@@ -363,7 +363,7 @@ object Converters {
       ept
     }
 
-    maybeHours.fold(null: HoursType) { hours =>
+    maybeHours.map { hours =>
       val hoursType = new HoursType()
 
       hours.regularHoursOrTwentyFourSeven.fold(
@@ -378,7 +378,7 @@ object Converters {
         hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
 
       hoursType
-    }
+    }.getOrElse(null)
   }
 
   private def statSchedToGenStatSched(schedule: ChargePointSchedule): ChargePointScheduleType = {
@@ -469,14 +469,14 @@ object Converters {
   }
 
   private[ochp] def toRatingsType(value: Option[Ratings]): RatingsType =
-    value.fold(null: RatingsType) {
+    value.map {
       case Ratings(max, guaranteed, voltage) =>
         val ratings = new RatingsType()
         ratings.setMaximumPower(max)
         guaranteed.foreach(ratings.setGuaranteedPower(_))
         voltage.foreach(ratings.setNominalVoltage(_))
         ratings
-    }
+    }.getOrElse(null)
 
   private[ochp] def toRatingsOption(value: RatingsType): Option[Ratings] =
     Option(value).map { ratings =>
