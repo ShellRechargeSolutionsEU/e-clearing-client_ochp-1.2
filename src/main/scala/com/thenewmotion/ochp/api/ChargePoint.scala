@@ -17,7 +17,7 @@ case class ChargePoint (
   geoSiteEntrance: List[GeoPoint] = List(),
   geoSiteExit: List[GeoPoint] = List(),
   geoSiteOther: List[GeoPoint] = List(),
-  timeZone: Option[DateTimeZone],
+  timeZone: Option[DateTimeZone] = None,
   category: Option[String] = None,
   operatingTimes: Option[Hours] = None,
   accessTimes: Option[Hours] = None,
