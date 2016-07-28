@@ -170,7 +170,7 @@ object Converters {
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Option(cost.toFloat)
+          periodCost = Option(cost).map(_.toFloat)
         )
       })
     )
