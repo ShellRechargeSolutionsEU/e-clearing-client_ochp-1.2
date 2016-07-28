@@ -10,6 +10,7 @@ case class ChargePoint (
   locationName: String,
   locationNameLang: String,
   images: List[EvseImageUrl] = List(),
+  relatedResources: List[RelatedResource] = Nil,
   address: CpAddress,
   geoLocation: GeoPoint,
   geoUserInterface: Option[GeoPoint] = None,
@@ -136,6 +137,20 @@ object GeneralLocation extends QueryableEnumeration {
   val `parking-lot` = Value("parking-lot")
   val other = Value("other")
   val unknown = Value("unknown")
+}
+
+case class RelatedResource(
+  uri: String,
+  `class`: RelatedResourceTypeEnum.Value)
+
+object RelatedResourceTypeEnum extends QueryableEnumeration {
+  type RelatedResourceTypeEnum = Value
+  val operatorMap = Value("operatorMap")
+  val operatorPayment = Value("operatorPayment")
+  val stationInfo = Value("stationInfo")
+  val surroundingInfo = Value("surroundingInfo")
+  val ownerHomepage = Value("ownerHomepage")
+  val feedbackForm = Value("feedbackForm")
 }
 
 case class EvseImageUrl (
