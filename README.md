@@ -4,7 +4,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
 ## Includes
 
-* Open Clearing House Protocol v1.2 generated client and bean classes with help of [cxf](http://cxf.apache.org)
+* Open Clearing House Protocol v1.3 generated client and bean classes with help of [cxf](http://cxf.apache.org)
 
 * API trait to communicate with the clearing house:
     ```scala
@@ -56,7 +56,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     <dependency>
         <groupId>com.thenewmotion</groupId>
         <artifactId>ochp-client-1.2_2.11</artifactId>
-        <version>1.20</version>
+        <version>1.24</version>
     </dependency>
     ```
 ### SBT
@@ -68,6 +68,6 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
 2. Add the following dependency:
     ```scala
-    "com.thenewmotion" %% "ochp-client-1.2" % "1.20",
+    "com.thenewmotion" %% "ochp-client-1.2" % "1.24",
     ```
     
