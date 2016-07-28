@@ -12,12 +12,8 @@ case class ChargePoint (
   images: List[EvseImageUrl] = List(),
   relatedResources: List[RelatedResource] = Nil,
   address: CpAddress,
-  geoLocation: GeoPoint,
-  geoUserInterface: Option[GeoPoint] = None,
-  geoSiteAccess: List[GeoPoint] = List(),
-  geoSiteEntrance: List[GeoPoint] = List(),
-  geoSiteExit: List[GeoPoint] = List(),
-  geoSiteOther: List[GeoPoint] = List(),
+  chargePointLocation: GeoPoint,
+  relatedLocations: List[AdditionalGeoPoint] = Nil,
   timeZone: Option[DateTimeZone] = None,
   category: Option[String] = None,
   operatingTimes: Option[Hours] = None,
@@ -33,7 +29,22 @@ case class ChargePoint (
   connectors: List[Connector], //must be non-empty
   ratings: Option[Ratings] = None,
   userInterfaceLang: List[String] = List()
-)
+) {
+  def geoUserInterface: Option[AdditionalGeoPoint] =
+    relatedLocations.find(_.typ == GeoPointTypeEnum.ui)
+
+  def geoSiteAccess: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.access)
+
+  def geoSiteEntrance: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.entrance)
+
+  def geoSiteExit: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.exit)
+
+  def geoSiteOther: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.other)
+}
 
 case class CpAddress (
   houseNumber: Option[String] = None,
@@ -55,6 +66,11 @@ object GeoPoint {
   def fmt(x: Double) = "%3.6f".formatLocal(java.util.Locale.US, x)
   def apply(lat: String, lon: String) = new GeoPoint(lat.toDouble, lon.toDouble)
 }
+
+case class AdditionalGeoPoint(
+  point: GeoPoint,
+  name: Option[String],
+  typ: GeoPointTypeEnum.Value)
 
 object GeoPointTypeEnum extends QueryableEnumeration {
   type GeoPointTypeEnum = Value
