@@ -30,6 +30,7 @@ class ChargePointSpec extends Specification {
       authMethods = List(AuthMethod.RfidMifareCls),
       connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
       ratings = Some(Ratings(22f, None, Some(220))),
+      category = Some("5"),
       operatingTimes = Some(Hours(
         regularHoursOrTwentyFourSeven = Left(List(RegularHours(
           weekday = 1,

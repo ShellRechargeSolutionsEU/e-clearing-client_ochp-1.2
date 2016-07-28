@@ -326,6 +326,7 @@ object Converters {
       geoSiteExit = geoSiteExit(genCp.getRelatedLocation),
       geoSiteOther = geoSiteOther(genCp.getRelatedLocation),
       timeZone = getTimeZone(genCp.getTimeZone),
+      category = toOption(genCp.getCategory),
       operatingTimes = toHoursOption(genCp.getOperatingTimes),
       accessTimes = toHoursOption(genCp.getAccessTimes),
       status = toChargePointStatusOption(genCp.getStatus),
@@ -469,6 +470,7 @@ object Converters {
     cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteExit, GeoPointTypeEnum.exit))
     cpi.getRelatedLocation.addAll(mapLocations(cp.geoSiteOther, GeoPointTypeEnum.other))
     cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
+    cp.category.map(cpi.setCategory)
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
     cp.status.foreach { st =>
