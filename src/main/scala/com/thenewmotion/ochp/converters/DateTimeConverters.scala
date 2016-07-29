@@ -6,7 +6,7 @@ import com.thenewmotion.time.Imports._
 import eu.ochp._1.{DateTimeType, LocalDateTimeType}
 
 
-object DateTimeConverters {
+trait DateTimeConverters {
   object WithOffset {
     def fromOchp(dateTime: LocalDateTimeType) =
       DateTimeNoMillis(dateTime.getLocalDateTime)
@@ -29,3 +29,5 @@ object DateTimeConverters {
       DateTimeNoMillis(value.getDateTime)
   }
 }
+
+object DateTimeConverters extends DateTimeConverters
