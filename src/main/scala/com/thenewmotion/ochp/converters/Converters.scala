@@ -290,9 +290,8 @@ object Converters {
           width = Option(genImage.getWidth),
           height = Option(genImage.getHeight)
         )},
-        relatedResources = genCp.getRelatedResource.asScala.toList.map { res =>
-          RelatedResource(res.getUri, RelatedResourceTypeEnum.withName(res.getClazz))
-        },
+        relatedResources =
+          genCp.getRelatedResource.asScala.toList.map(RelatedResourceConverter.fromOchp),
         address = CpAddress(
           houseNumber = toNonEmptyOption(genCp.getHouseNumber),
           address =  genCp.getAddress,
@@ -408,13 +407,6 @@ object Converters {
     }
   }
 
-  private def toRelatedResourceType(res: RelatedResource) = {
-    val resource = new RelatedResourceType()
-    resource.setUri(res.uri)
-    resource.setClazz(res.`class`.toString)
-    resource
-  }
-
   implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId.value)
@@ -425,7 +417,7 @@ object Converters {
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
     cpi.getRelatedResource.addAll(
-      cp.relatedResources.map(toRelatedResourceType).asJavaCollection)
+      cp.relatedResources.map(RelatedResourceConverter.toOchp).asJavaCollection)
     cp.address.houseNumber foreach {hn => cpi.setAddress(hn)}
     cpi.setAddress(cp.address.address)
     cpi.setZipCode(cp.address.zipCode)

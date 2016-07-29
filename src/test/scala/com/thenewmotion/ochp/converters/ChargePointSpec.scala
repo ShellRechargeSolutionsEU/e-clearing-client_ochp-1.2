@@ -14,7 +14,7 @@ class ChargePointSpec extends Specification {
       locationName = "Keizersgracht-585",
       locationNameLang = "NLD",
       relatedResources = List(
-        RelatedResource("https://my.thenewmotion.com", RelatedResourceTypeEnum.operatorMap)),
+        RelatedResource("https://my.thenewmotion.com", RelatedResourceTypes.operatorMap)),
       address = CpAddress(
         address = "Keizersgracht 585",
         city = "Amsterdam",

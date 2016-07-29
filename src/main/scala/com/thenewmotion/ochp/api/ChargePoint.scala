@@ -157,10 +157,10 @@ object GeneralLocation extends QueryableEnumeration {
 
 case class RelatedResource(
   uri: String,
-  `class`: RelatedResourceTypeEnum.Value)
+  `class`: RelatedResourceTypes.Value)
 
-object RelatedResourceTypeEnum extends QueryableEnumeration {
-  type RelatedResourceTypeEnum = Value
+object RelatedResourceTypes extends QueryableEnumeration {
+  type RelatedResourceTypes = Value
   val operatorMap = Value("operatorMap")
   val operatorPayment = Value("operatorPayment")
   val stationInfo = Value("stationInfo")
