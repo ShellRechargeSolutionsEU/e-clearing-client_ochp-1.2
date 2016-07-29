@@ -1,5 +1,5 @@
 package com.thenewmotion.ochp
-package client
+package converters
 
 import Converters._
 import api._

@@ -1,13 +1,17 @@
 package com.thenewmotion.ochp
+package converters
 
 import api._
-import com.thenewmotion.time.Imports._
 import ChargePointStatus.ChargePointStatus
+import com.thenewmotion.time.Imports._
+import DateTimeConverters._
+import ChargePointScheduleConverter._
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
-import org.joda.time.format.ISODateTimeFormat
 import org.slf4j.LoggerFactory
 import scala.util.{Try, Success, Failure}
 import scala.language.{implicitConversions, postfixOps}
+import scala.collection.JavaConverters._
+
 
 /**
  *
@@ -15,7 +19,6 @@ import scala.language.{implicitConversions, postfixOps}
  *
  */
 object Converters {
-  import scala.collection.JavaConverters._
 
   private val logger = LoggerFactory.getLogger(Converters.getClass)
 
@@ -33,6 +36,9 @@ object Converters {
       case Some(value) =>
         convert(value).map(Some(_))
       }
+
+  private def toNonEmptyOption(value: String): Option[String] =
+    Option(value).filter(_.nonEmpty)
 
   implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
     ChargeToken(
@@ -58,18 +64,9 @@ object Converters {
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
     token.printedNumber foreach {pn => rai.setPrintedNumber(pn.toString)}
-    rai.setExpiryDate(toDateTimeType(expiryDate))
+    rai.setExpiryDate(Utc.toOchp(expiryDate))
     rai
   }
-
-  private def toOption (value: String):Option[String] =
-    Option(value).find(_.nonEmpty)
-
-  private def toDateTimeOption (value: DateTimeType):Option[DateTime] =
-    Option(value).flatMap{v => Try(DateTimeNoMillis(v.getDateTime)) match {
-      case Success(x) => Some(x)
-      case Failure(e) => logger.error("Date and time value parsing failure", e); None
-    }}
 
   private def toRegularHours (rh: RegularHoursType): Option[RegularHours] = {
 
@@ -121,22 +118,18 @@ object Converters {
   }
 
   private[ochp] def toHoursOption(value: HoursType): Try[Option[Hours]] = {
+    def toPeriod(ept: ExceptionalPeriodType) =
+      ExceptionalPeriod(
+        Utc.fromOchp(ept.getPeriodBegin),
+        Utc.fromOchp(ept.getPeriodEnd))
+
     def fromJava(v: HoursType) =
       Hours(
         regularHoursOrTwentyFourSeven = regularHours(v),
-        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
-          for {
-            beg <- toDateTimeOption(eo.getPeriodBegin)
-            end <- toDateTimeOption(eo.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        },
-        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
-          for {
-            beg <- toDateTimeOption(ec.getPeriodBegin)
-            end <- toDateTimeOption(ec.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        }
-      )
+        exceptionalOpenings =
+          v.getExceptionalOpenings.asScala.toList.map(toPeriod),
+        exceptionalClosings =
+          v.getExceptionalClosings.asScala.toList.map(toPeriod))
 
     def regularHours(v: HoursType): Either[List[RegularHours], Boolean] =
       Option(v.isTwentyfourseven)
@@ -144,15 +137,6 @@ object Converters {
         .getOrElse(Left(v.getRegularHours.asScala.toList.flatMap(toRegularHours)))
 
     safeReadWith(value)(regularOpeningsAreDefined(_).map(fromJava))
-  }
-
-  private def toDateTimeNoMillis(dateTime: LocalDateTimeType) =
-    DateTimeNoMillis(dateTime.getLocalDateTime)
-
-  private def fromDateTime(dateTime: DateTime) = {
-    new LocalDateTimeType {
-      setLocalDateTime(DateTimeNoMillis(dateTime).toString)
-    }
   }
 
   implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR =
@@ -165,15 +149,15 @@ object Converters {
         tokenSubType = Option(cdrinfo.getEmtId.getTokenSubType) map {TokenSubType.withName}
       ),
       contractId = cdrinfo.getContractId,
-      liveAuthId = toOption(cdrinfo.getLiveAuthId),
+      liveAuthId = toNonEmptyOption(cdrinfo.getLiveAuthId),
       status = CdrStatus.withName(cdrinfo.getStatus.getCdrStatusType),
-      startDateTime = toDateTimeNoMillis(cdrinfo.getStartDateTime),
-      endDateTime = toDateTimeNoMillis(cdrinfo.getEndDateTime),
-      duration = toOption(cdrinfo.getDuration),
-      houseNumber = toOption(cdrinfo.getHouseNumber),
-      address = toOption(cdrinfo.getAddress),
-      zipCode = toOption(cdrinfo.getZipCode),
-      city = toOption(cdrinfo.getCity),
+      startDateTime = WithOffset.fromOchp(cdrinfo.getStartDateTime),
+      endDateTime = WithOffset.fromOchp(cdrinfo.getEndDateTime),
+      duration = toNonEmptyOption(cdrinfo.getDuration),
+      houseNumber = toNonEmptyOption(cdrinfo.getHouseNumber),
+      address = toNonEmptyOption(cdrinfo.getAddress),
+      zipCode = toNonEmptyOption(cdrinfo.getZipCode),
+      city = toNonEmptyOption(cdrinfo.getCity),
       country = cdrinfo.getCountry,
       chargePointType = cdrinfo.getChargePointType,
       connectorType = Connector(
@@ -182,13 +166,13 @@ object Converters {
         connectorFormat = ConnectorFormat.withName(
           cdrinfo.getConnectorType.getConnectorFormat.getConnectorFormat)),
       maxSocketPower = cdrinfo.getMaxSocketPower,
-      productType = toOption(cdrinfo.getProductType),
-      meterId = toOption(cdrinfo.getMeterId),
+      productType = toNonEmptyOption(cdrinfo.getProductType),
+      meterId = toNonEmptyOption(cdrinfo.getMeterId),
       chargingPeriods = cdrinfo.getChargingPeriods.asScala.toList.map( cdrPeriod=> {
         val cost = cdrPeriod.getPeriodCost
         CdrPeriod(
-          startDateTime = toDateTimeNoMillis(cdrPeriod.getStartDateTime),
-          endDateTime = toDateTimeNoMillis(cdrPeriod.getEndDateTime),
+          startDateTime = WithOffset.fromOchp(cdrPeriod.getStartDateTime),
+          endDateTime = WithOffset.fromOchp(cdrPeriod.getEndDateTime),
           billingItem = BillingItem.withName(cdrPeriod.getBillingItem.getBillingItemType),
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
@@ -224,8 +208,8 @@ object Converters {
     eid.setTokenType(cdr.emtId.tokenType.toString)
     cdr.emtId.tokenSubType.map(tst => eid.setTokenSubType(tst.toString))
     cdrInfo.setEmtId(eid)
-    cdrInfo.setStartDateTime(fromDateTime(startDateTime))
-    cdrInfo.setEndDateTime(fromDateTime(endDateTime))
+    cdrInfo.setStartDateTime(WithOffset.toOchp(startDateTime))
+    cdrInfo.setEndDateTime(WithOffset.toOchp(endDateTime))
     cdrInfo.setEvseId(cdr.evseId)
 
     cdr.liveAuthId match {case Some(s) if !s.isEmpty => cdrInfo.setLiveAuthId(s)}
@@ -243,8 +227,8 @@ object Converters {
 
   private def chargePeriodToGenCp(gcp: CdrPeriod): GenCdrPeriodType = {
     val period1 = new GenCdrPeriodType()
-    period1.setStartDateTime(fromDateTime(gcp.startDateTime))
-    period1.setEndDateTime(fromDateTime(gcp.endDateTime))
+    period1.setStartDateTime(WithOffset.toOchp(gcp.startDateTime))
+    period1.setEndDateTime(WithOffset.toOchp(gcp.endDateTime))
     val billingItem = new GenBillingItemType()
     billingItem.setBillingItemType(gcp.billingItem.toString)
     period1.setBillingItem(billingItem)
@@ -296,12 +280,12 @@ object Converters {
       chargePoint <- Try(ChargePoint(
         evseId = EvseId(genCp.getEvseId),
         locationId = genCp.getLocationId,
-        timestamp = toDateTimeOption(genCp.getTimestamp),
+        timestamp = Option(genCp.getTimestamp).map(Utc.fromOchp),
         locationName = genCp.getLocationName,
         locationNameLang = genCp.getLocationNameLang,
         images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
           uri = genImage.getUri,
-          thumbUri = toOption(genImage.getThumbUri),
+          thumbUri = toNonEmptyOption(genImage.getThumbUri),
           clazz = ImageClass.withName(genImage.getClazz),
           `type` = genImage.getType,
           width = Option(genImage.getWidth),
@@ -311,7 +295,7 @@ object Converters {
           RelatedResource(res.getUri, RelatedResourceTypeEnum.withName(res.getClazz))
         },
         address = CpAddress(
-          houseNumber = toOption(genCp.getHouseNumber),
+          houseNumber = toNonEmptyOption(genCp.getHouseNumber),
           address =  genCp.getAddress,
           city = genCp.getCity,
           zipCode = genCp.getZipCode,
@@ -320,24 +304,15 @@ object Converters {
         chargePointLocation = toGeoPoint(genCp.getChargePointLocation),
         relatedLocations = genCp.getRelatedLocation.asScala.toList.map(toAdditionalGeoPoint),
         timeZone = timeZone,
-        category = toOption(genCp.getCategory),
+        category = toNonEmptyOption(genCp.getCategory),
         operatingTimes = openingHours,
         accessTimes = accessHours,
         status = toChargePointStatusOption(genCp.getStatus),
-        statusSchedule = genCp.getStatusSchedule.asScala.toList flatMap {cps => Try{
-          for {
-            beg <- toDateTimeOption(cps.getStartDate)
-            end <- toDateTimeOption(cps.getEndDate)
-          } yield ChargePointSchedule(beg, end,
-            ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))
-        } match {
-          case Success(x) => x
-          case Failure(e) => logger.error("Status schedule parsing failure", e); None
-        }},
-        telephoneNumber = toOption(genCp.getTelephoneNumber),
+        statusSchedule = genCp.getStatusSchedule.asScala.toList.map(fromOchp),
+        telephoneNumber = toNonEmptyOption(genCp.getTelephoneNumber),
         location = GeneralLocation.withName(genCp.getLocation.getGeneralLocationType),
-        floorLevel = toOption(genCp.getFloorLevel),
-        parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
+        floorLevel = toNonEmptyOption(genCp.getFloorLevel),
+        parkingSlotNumber = toNonEmptyOption(genCp.getParkingSlotNumber),
         parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
           ParkingRestriction.withName(pr.getParkingRestrictionType)},
         authMethods = genCp.getAuthMethods.asScala.toList map {am =>
@@ -381,8 +356,8 @@ object Converters {
 
     def excPeriodToExcPeriodType(ep: ExceptionalPeriod): ExceptionalPeriodType = {
       val ept = new ExceptionalPeriodType()
-      ept.setPeriodBegin(toDateTimeType(ep.periodBegin))
-      ept.setPeriodEnd(toDateTimeType(ep.periodEnd))
+      ept.setPeriodBegin(Utc.toOchp(ep.periodBegin))
+      ept.setPeriodEnd(Utc.toOchp(ep.periodEnd))
       ept
     }
 
@@ -402,16 +377,6 @@ object Converters {
 
       hoursType
     }.getOrElse(null)
-  }
-
-  private def statSchedToGenStatSched(schedule: ChargePointSchedule): ChargePointScheduleType = {
-    val cpst = new ChargePointScheduleType()
-    val status = new ChargePointStatusType()
-    status.setChargePointStatusType(schedule.status.toString)
-    cpst.setStatus(status)
-    cpst.setStartDate(toDateTimeType(schedule.startDate))
-    cpst.setEndDate(toDateTimeType(schedule.endDate))
-    cpst
   }
 
   private def parkRestrToGenParkRestr(pRestr: ParkingRestriction.Value): ParkingRestrictionType = {
@@ -438,9 +403,9 @@ object Converters {
   }
 
   private def toGeneralLocationType(gl: GeneralLocation.Value): GeneralLocationType = {
-    val glt = new GeneralLocationType()
-    glt.setGeneralLocationType(gl.toString)
-    glt
+    new GeneralLocationType {
+      setGeneralLocationType(gl.toString)
+    }
   }
 
   private def toRelatedResourceType(res: RelatedResource) = {
@@ -455,7 +420,7 @@ object Converters {
     cpi.setEvseId(cp.evseId.value)
     cpi.setLocationId(cp.locationId)
     cp.timestamp foreach {t =>
-      cpi.setTimestamp(toDateTimeType(t))}
+      cpi.setTimestamp(Utc.toOchp(t))}
     cpi.setLocationName(cp.locationName)
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
@@ -478,9 +443,11 @@ object Converters {
       status.setChargePointStatusType(st.toString)
       cpi.setStatus(status)
     }
-    cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
+    cpi.getStatusSchedule.addAll(cp.statusSchedule.map(toOchp).asJavaCollection)
     cp.telephoneNumber foreach cpi.setTelephoneNumber
-    cpi.setLocation(toGeneralLocationType(cp.location))
+    cpi.setLocation(new GeneralLocationType {
+      setGeneralLocationType(cp.location.toString)
+    })
     cp.floorLevel foreach cpi.setFloorLevel
     cp.parkingSlotNumber foreach cpi.setParkingSlotNumber
     cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)
@@ -508,12 +475,6 @@ object Converters {
         Option(ratings.getGuaranteedPower).map(_.toFloat),
         Option(ratings.getNominalVoltage).map(_.toInt))
     }
-
-  implicit def toDateTimeType(date: DateTime): DateTimeType = {
-      val genTtl = new DateTimeType()
-      genTtl.setDateTime(date.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()))
-      genTtl
-  }
 
   implicit def toEvseStatus(s: GetEvseStatusType): Option[EvseStatus] = Try {
     EvseStatus(

@@ -106,7 +106,7 @@ object ChargePointStatus extends QueryableEnumeration {
 
 case class ChargePointSchedule (
   startDate: DateTime,
-  endDate: DateTime,
+  endDate: Option[DateTime],
   status: ChargePointStatus.Value)
 
 object ParkingRestriction extends QueryableEnumeration {
