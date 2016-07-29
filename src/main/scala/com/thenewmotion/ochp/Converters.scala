@@ -81,7 +81,7 @@ object Converters {
       case Failure(e) => logger.error("Charge point status parsing failure", e); None
     })
 
-  private[ochp] def validate(value: HoursType) = {
+  private[ochp] def regularOpeningsAreDefined(value: HoursType) = {
     def prettyPrint(ht: HoursType) =
       s"""HoursType(
         |regularHours = ${ht.getRegularHours},
@@ -90,45 +90,48 @@ object Converters {
         | exceptionalClosings = ${ht.getExceptionalClosings})
       """.stripMargin.replaceAll("\n", "")
 
-    val invalid =
-      Option(value.isTwentyfourseven).fold(true) { _ == false } &&
-        value.getRegularHours.isEmpty &&
-        value.getExceptionalOpenings.isEmpty &&
-        value.getExceptionalClosings.isEmpty
+    val `missing 24/7` = Option(value.isTwentyfourseven).isEmpty
+    val `illegal 24/7` = Option(value.isTwentyfourseven).exists { _ == false }
+    val missingHours =
+      value.getRegularHours.isEmpty &&
+      value.getExceptionalOpenings.isEmpty &&
+      value.getExceptionalClosings.isEmpty
+
+    val invalid = (`missing 24/7` && missingHours) || `illegal 24/7`
 
     if(invalid)
-      throw new IllegalArgumentException(
-        s"Provided hoursType ${prettyPrint(value)} cannot be accepted because it does not define 24/7 nor any hours")
-
-    true
+      Failure(new IllegalArgumentException(
+        s"Provided hoursType ${prettyPrint(value)} cannot be accepted because it does not define 24/7 nor any hours"))
+    else Success(value)
   }
 
-  private[ochp] def toHoursOption(value: HoursType): Option[Hours] = {
+  private[ochp] def toHoursOption(value: HoursType): Try[Option[Hours]] = {
+    def fromJava(v: HoursType) =
+      Hours(
+        regularHoursOrTwentyFourSeven = regularHours(v),
+        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
+          for {
+            beg <- toDateTimeOption(eo.getPeriodBegin)
+            end <- toDateTimeOption(eo.getPeriodEnd)
+          } yield ExceptionalPeriod(beg, end)
+        },
+        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
+          for {
+            beg <- toDateTimeOption(ec.getPeriodBegin)
+            end <- toDateTimeOption(ec.getPeriodEnd)
+          } yield ExceptionalPeriod(beg, end)
+        }
+      )
+
     def regularHours(v: HoursType): Either[List[RegularHours], Boolean] =
       Option(v.isTwentyfourseven)
         .map(tfs => Right(tfs == true))
         .getOrElse(Left(v.getRegularHours.asScala.toList.flatMap(toRegularHours)))
 
-    Option(value)
-      .map { v =>
-
-        validate(v)
-
-        Hours(
-          regularHoursOrTwentyFourSeven = regularHours(v),
-          exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
-            for {
-              beg <- toDateTimeOption(eo.getPeriodBegin)
-              end <- toDateTimeOption(eo.getPeriodEnd)
-            } yield ExceptionalPeriod(beg, end)
-          },
-          exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
-            for {
-              beg <- toDateTimeOption(ec.getPeriodBegin)
-              end <- toDateTimeOption(ec.getPeriodEnd)
-            } yield ExceptionalPeriod(beg, end)
-          }
-        )
+    Option(value) match {
+      case None => Success(None)
+      case Some(v) =>
+        regularOpeningsAreDefined(v).map(h => Some(fromJava(h)))
     }
   }
 
@@ -272,68 +275,75 @@ object Converters {
   private def getTimeZone(tz: String): Option[DateTimeZone] =
     toOption(tz).flatMap(z => Try(DateTimeZone.forID(z)).toOption)
 
-  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = Try{
-    ChargePoint(
-      evseId = EvseId(genCp.getEvseId),
-      locationId = genCp.getLocationId,
-      timestamp = toDateTimeOption(genCp.getTimestamp),
-      locationName = genCp.getLocationName,
-      locationNameLang = genCp.getLocationNameLang,
-      images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
-        uri = genImage.getUri,
-        thumbUri = toOption(genImage.getThumbUri),
-        clazz = ImageClass.withName(genImage.getClazz),
-        `type` = genImage.getType,
-        width = Option(genImage.getWidth),
-        height = Option(genImage.getHeight)
-      )},
-      relatedResources = genCp.getRelatedResource.asScala.toList.map { res =>
-        RelatedResource(res.getUri, RelatedResourceTypeEnum.withName(res.getClazz))
-      },
-      address = CpAddress(
-        houseNumber = toOption(genCp.getHouseNumber),
-        address =  genCp.getAddress,
-        city = genCp.getCity,
-        zipCode = genCp.getZipCode,
-        country = genCp.getCountry
-      ),
-      chargePointLocation = toGeoPoint(genCp.getChargePointLocation),
-      relatedLocations = genCp.getRelatedLocation.asScala.toList.map(toAdditionalGeoPoint),
-      timeZone = getTimeZone(genCp.getTimeZone),
-      category = toOption(genCp.getCategory),
-      operatingTimes = toHoursOption(genCp.getOperatingTimes),
-      accessTimes = toHoursOption(genCp.getAccessTimes),
-      status = toChargePointStatusOption(genCp.getStatus),
-      statusSchedule = genCp.getStatusSchedule.asScala.toList flatMap {cps => Try{
-        for {
-          beg <- toDateTimeOption(cps.getStartDate)
-          end <- toDateTimeOption(cps.getEndDate)
-        } yield ChargePointSchedule(beg, end,
-          ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))
-      } match {
-        case Success(x) => x
-        case Failure(e) => logger.error("Status schedule parsing failure", e); None
-      }},
-      telephoneNumber = toOption(genCp.getTelephoneNumber),
-      location = GeneralLocation.withName(genCp.getLocation.getGeneralLocationType),
-      floorLevel = toOption(genCp.getFloorLevel),
-      parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
-      parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
-        ParkingRestriction.withName(pr.getParkingRestrictionType)},
-      authMethods = genCp.getAuthMethods.asScala.toList map {am =>
-        AuthMethod.withName(am.getAuthMethodType)},
-      connectors = genCp.getConnectors.asScala.toList map {con =>
-        Connector(
-          connectorStandard = ConnectorStandard.withName(
-            con.getConnectorStandard.getConnectorStandard),
-          connectorFormat = ConnectorFormat.withName(
-            con.getConnectorFormat.getConnectorFormat))},
-      ratings = toRatingsOption(genCp.getRatings),
-      userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
-    )
-  } match {
-    case Success(x) => Some(x)
-    case Failure(e) => logger.error("Charge point conversion failure", e); None
+  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = {
+    val cp = for {
+      openingHours <- toHoursOption(genCp.getOperatingTimes)
+      accessHours <- toHoursOption(genCp.getAccessTimes)
+
+      chargePoint <- Try(ChargePoint(
+        evseId = EvseId(genCp.getEvseId),
+        locationId = genCp.getLocationId,
+        timestamp = toDateTimeOption(genCp.getTimestamp),
+        locationName = genCp.getLocationName,
+        locationNameLang = genCp.getLocationNameLang,
+        images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
+          uri = genImage.getUri,
+          thumbUri = toOption(genImage.getThumbUri),
+          clazz = ImageClass.withName(genImage.getClazz),
+          `type` = genImage.getType,
+          width = Option(genImage.getWidth),
+          height = Option(genImage.getHeight)
+        )},
+        relatedResources = genCp.getRelatedResource.asScala.toList.map { res =>
+          RelatedResource(res.getUri, RelatedResourceTypeEnum.withName(res.getClazz))
+        },
+        address = CpAddress(
+          houseNumber = toOption(genCp.getHouseNumber),
+          address =  genCp.getAddress,
+          city = genCp.getCity,
+          zipCode = genCp.getZipCode,
+          country = genCp.getCountry
+        ),
+        chargePointLocation = toGeoPoint(genCp.getChargePointLocation),
+        relatedLocations = genCp.getRelatedLocation.asScala.toList.map(toAdditionalGeoPoint),
+        timeZone = getTimeZone(genCp.getTimeZone),
+        category = toOption(genCp.getCategory),
+        operatingTimes = openingHours,
+        accessTimes = accessHours,
+        status = toChargePointStatusOption(genCp.getStatus),
+        statusSchedule = genCp.getStatusSchedule.asScala.toList flatMap {cps => Try{
+          for {
+            beg <- toDateTimeOption(cps.getStartDate)
+            end <- toDateTimeOption(cps.getEndDate)
+          } yield ChargePointSchedule(beg, end,
+            ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))
+        } match {
+          case Success(x) => x
+          case Failure(e) => logger.error("Status schedule parsing failure", e); None
+        }},
+        telephoneNumber = toOption(genCp.getTelephoneNumber),
+        location = GeneralLocation.withName(genCp.getLocation.getGeneralLocationType),
+        floorLevel = toOption(genCp.getFloorLevel),
+        parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
+        parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
+          ParkingRestriction.withName(pr.getParkingRestrictionType)},
+        authMethods = genCp.getAuthMethods.asScala.toList map {am =>
+          AuthMethod.withName(am.getAuthMethodType)},
+        connectors = genCp.getConnectors.asScala.toList map {con =>
+          Connector(
+            connectorStandard = ConnectorStandard.withName(
+              con.getConnectorStandard.getConnectorStandard),
+            connectorFormat = ConnectorFormat.withName(
+              con.getConnectorFormat.getConnectorFormat))},
+        ratings = toRatingsOption(genCp.getRatings),
+        userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
+      ))
+    } yield chargePoint
+
+    cp match {
+      case Success(x) => Some(x)
+      case Failure(e) => logger.error("Charge point conversion failure", e); None
+    }
   }
 
   private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {

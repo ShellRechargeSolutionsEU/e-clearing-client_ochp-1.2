@@ -9,7 +9,10 @@ import org.specs2.mutable.Specification
 class HourlyTypeSpec extends Specification {
 
   "an undefined instance is equivalent to None" >> {
-    hoursOptionToHoursType(toHoursOption(null)) mustEqual null
+    val toScala = toHoursOption(null)
+
+    toScala must beSuccessfulTry(None)
+    hoursOptionToHoursType(toScala.toOption.flatten) mustEqual null
   }
 
   "when no regular/exceptional hours are provided, 24/7 must be defined and true" >> {
@@ -23,9 +26,9 @@ class HourlyTypeSpec extends Specification {
       setTwentyfourseven(true)
     }
 
-    validate(undefined) must throwAn[IllegalArgumentException]
-    validate(notTwentyFourSeven) must throwAn[IllegalArgumentException]
-    validate(twentyFourSeven) must beTrue
+    regularOpeningsAreDefined(undefined) must beFailedTry
+    regularOpeningsAreDefined(notTwentyFourSeven) must beFailedTry
+    regularOpeningsAreDefined(twentyFourSeven) must beSuccessfulTry
   }
 
   "24/7 can be defined in alternative to regular hours, possibly with exceptions" >> {
@@ -38,7 +41,7 @@ class HourlyTypeSpec extends Specification {
             DateTimeNoMillis("2015-01-01T00:00:00+00:00"),
             DateTimeNoMillis("2015-01-02T00:00:00+00:00")))))
 
-    toHoursOption(hoursOptionToHoursType(hours)) mustEqual hours
+    toHoursOption(hoursOptionToHoursType(hours)) must beSuccessfulTry(hours)
   }
 
   "regular hours can be defined in alternative to 24/7" >> {
@@ -51,6 +54,6 @@ class HourlyTypeSpec extends Specification {
         Nil,
         Nil))
 
-    toHoursOption(hoursOptionToHoursType(hours)) mustEqual hours
+    toHoursOption(hoursOptionToHoursType(hours)) must beSuccessfulTry(hours)
   }
 }
