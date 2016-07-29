@@ -4,9 +4,8 @@ package converters
 import Converters._
 import api._
 import eu.ochp._1.HoursType
-import org.specs2.mutable.Specification
 
-class HourlyTypeSpec extends Specification {
+class HourlyTypeSpec extends Spec {
 
   "an undefined instance is equivalent to None" >> {
     val toScala = toHoursOption(null)

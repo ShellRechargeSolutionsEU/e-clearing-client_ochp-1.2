@@ -63,7 +63,6 @@ object CpTimestamp {
 case class GeoPoint(lat: Double, lon: Double)
 
 object GeoPoint {
-  def fmt(x: Double) = "%3.6f".formatLocal(java.util.Locale.US, x)
   def apply(lat: String, lon: String) = new GeoPoint(lat.toDouble, lon.toDouble)
 }
 

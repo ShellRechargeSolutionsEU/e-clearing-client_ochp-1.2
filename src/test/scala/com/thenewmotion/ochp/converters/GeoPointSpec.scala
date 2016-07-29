@@ -2,17 +2,37 @@ package com.thenewmotion.ochp
 package converters
 
 import api._
-import org.specs2.mutable.Specification
+import GeoPointConverters._
 
-class GeoPointSpec extends Specification {
+class GeoPointSpec extends Spec {
   "coordinates must be provided" >> {
     GeoPoint("", "") must throwA[IllegalArgumentException]
   }
 
   "several number formats are supported for coordinates" >> {
-    GeoPoint.fmt(-123.1234567) === "-123.123457"
-    GeoPoint.fmt(123.1234567)  === "123.123457"
-    GeoPoint.fmt(-0.0004567) === "-0.000457"
-    GeoPoint.fmt(.0004567) === "0.000457"
+    fmt(-123.1234567) === "-123.123457"
+    fmt(123.1234567)  === "123.123457"
+    fmt(-0.0004567) === "-0.000457"
+    fmt(.0004567) === "0.000457"
+  }
+
+  "converting geo points to ochp and back yields the original value" >> {
+    import GeoPointConverter._
+
+    val value = GeoPoint(41, 12)
+
+    fromOchp(toOchp(value)) mustEqual value
+  }
+
+  "converting additional geo points to ochp and back yields the original value" >> {
+    import AdditionalGeoPointConverter._
+
+    val value = AdditionalGeoPoint(
+      GeoPoint(41, 12),
+      None,
+      GeoPointTypes.entrance
+    )
+
+    fromOchp(toOchp(value)) mustEqual value
   }
 }

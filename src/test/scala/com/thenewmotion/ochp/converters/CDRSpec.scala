@@ -3,9 +3,8 @@ package converters
 
 import Converters._
 import api._
-import org.specs2.mutable.Specification
 
-class CDRSpec extends Specification {
+class CDRSpec extends Spec {
   "converting a CDR into CDRInfo and back returns the original value" >> {
     val cdr = CDR(
       cdrId = "123456someId123456",

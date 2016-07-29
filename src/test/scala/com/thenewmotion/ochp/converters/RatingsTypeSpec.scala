@@ -3,9 +3,8 @@ package converters
 
 import RatingsConverter._
 import api._
-import org.specs2.mutable.Specification
 
-class RatingsTypeSpec extends Specification {
+class RatingsTypeSpec extends Spec {
   "guaranteed power may be omitted" >> {
     val expected = Ratings(22f, None, Some(220))
 

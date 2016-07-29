@@ -4,9 +4,8 @@ package converters
 import Converters._
 import api._
 import org.joda.time.DateTimeZone
-import org.specs2.mutable.Specification
 
-class ChargePointSpec extends Specification {
+class ChargePointSpec extends Spec {
   "converting a ChargePoint into a ChargePointInfo and back returns the original value" >> {
     val cp = ChargePoint(
       evseId = EvseId("DE*823*E1234*5678"),

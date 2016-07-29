@@ -5,6 +5,7 @@ import api._
 import ChargePointStatus.ChargePointStatus
 import com.thenewmotion.time.Imports._
 import DateTimeConverters._
+import GeoPointConverters._
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
 import org.slf4j.LoggerFactory
 import scala.util.{Try, Success, Failure}
@@ -238,35 +239,6 @@ object Converters {
     period1
   }
 
-  private def toGeoPoint(value: GeoPointType) =
-    GeoPoint(value.getLat, value.getLon)
-
-  private def toGeoPointType(point: GeoPoint): GeoPointType = {
-    import GeoPoint.fmt
-
-    val gpt = new GeoPointType()
-    gpt.setLat(fmt(point.lat))
-    gpt.setLon(fmt(point.lon))
-    gpt
-  }
-
-  private def toAdditionalGeoPoint(value: AdditionalGeoPointType) =
-    AdditionalGeoPoint(
-      GeoPoint(value.getLat, value.getLon),
-      Option(value.getName),
-      GeoPointTypes.withName(value.getType))
-
-  private def toAdditionalGeoPointType(value: AdditionalGeoPoint) = {
-    import GeoPoint.fmt
-
-    val res = new AdditionalGeoPointType()
-    res.setLat(fmt(value.point.lat))
-    res.setLon(fmt(value.point.lon))
-    value.name.foreach(res.setName)
-    res.setType(value.typ.toString)
-    res
-  }
-
   private def toDateTimeZone(tz: String): Try[Option[DateTimeZone]] =
     safeRead(tz)(DateTimeZone.forID)
 
@@ -299,8 +271,9 @@ object Converters {
           zipCode = genCp.getZipCode,
           country = genCp.getCountry
         ),
-        chargePointLocation = toGeoPoint(genCp.getChargePointLocation),
-        relatedLocations = genCp.getRelatedLocation.asScala.toList.map(toAdditionalGeoPoint),
+        chargePointLocation = GeoPointConverter.fromOchp(genCp.getChargePointLocation),
+        relatedLocations =
+          genCp.getRelatedLocation.asScala.toList.map(AdditionalGeoPointConverter.fromOchp),
         timeZone = timeZone,
         category = toNonEmptyOption(genCp.getCategory),
         operatingTimes = openingHours,
@@ -401,12 +374,6 @@ object Converters {
     ct
   }
 
-  private def toGeneralLocationType(gl: GeneralLocation.Value): GeneralLocationType = {
-    new GeneralLocationType {
-      setGeneralLocationType(gl.toString)
-    }
-  }
-
   implicit def chargePointToCpInfo(cp: ChargePoint): ChargePointInfo = {
     val cpi = new ChargePointInfo()
     cpi.setEvseId(cp.evseId.value)
@@ -423,9 +390,9 @@ object Converters {
     cpi.setZipCode(cp.address.zipCode)
     cpi.setCity(cp.address.city)
     cpi.setCountry(cp.address.country)
-    cpi.setChargePointLocation(toGeoPointType(cp.chargePointLocation))
+    cpi.setChargePointLocation(GeoPointConverter.toOchp(cp.chargePointLocation))
     cpi.getRelatedLocation.addAll(
-      cp.relatedLocations.map(toAdditionalGeoPointType).asJavaCollection)
+      cp.relatedLocations.map(AdditionalGeoPointConverter.toOchp).asJavaCollection)
     cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
     cp.category.map(cpi.setCategory)
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))

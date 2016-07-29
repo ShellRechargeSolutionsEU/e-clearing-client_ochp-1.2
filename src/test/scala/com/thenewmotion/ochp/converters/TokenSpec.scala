@@ -3,9 +3,8 @@ package converters
 
 import Converters._
 import api._
-import org.specs2.mutable.Specification
 
-class TokenSpec extends Specification {
+class TokenSpec extends Spec {
   "converting a Token into RoamingAuthorisationInfo and back returns the original value" >> {
     val t = ChargeToken(
       contractId = "YYABCC00000003",
