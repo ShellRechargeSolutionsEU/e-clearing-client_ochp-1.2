@@ -12,30 +12,19 @@ class HourlyTypeSpec extends Specification {
     hoursOptionToHoursType(toHoursOption(null)) mustEqual null
   }
 
-  "an undefined instance is not equivalent to one that does not define any value" >> {
-    toHoursOption(null) mustEqual None
-    toHoursOption(new HoursType) must throwA[IllegalArgumentException]
-  }
-
   "when no regular/exceptional hours are provided, 24/7 must be defined and true" >> {
-    val undefined = {
-      val ht = new HoursType
-      ht.setTwentyfourseven(null)
-      ht
+    val undefined = new HoursType {
+      setTwentyfourseven(null)
     }
-    val notTwentyFourSeven = {
-      val ht = new HoursType
-      ht.setTwentyfourseven(false)
-      ht
+    val notTwentyFourSeven = new HoursType {
+      setTwentyfourseven(false)
     }
-    val twentyFourSeven = {
-      val ht = new HoursType
-      ht.setTwentyfourseven(true)
-      ht
+    val twentyFourSeven = new HoursType {
+      setTwentyfourseven(true)
     }
 
-    validate(undefined) must throwA[IllegalArgumentException]
-    validate(notTwentyFourSeven) must throwA[IllegalArgumentException]
+    validate(undefined) must throwAn[IllegalArgumentException]
+    validate(notTwentyFourSeven) must throwAn[IllegalArgumentException]
     validate(twentyFourSeven) must beTrue
   }
 
