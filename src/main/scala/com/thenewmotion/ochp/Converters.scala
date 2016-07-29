@@ -135,6 +135,15 @@ object Converters {
     }
   }
 
+  private def toDateTimeNoMillis(dateTime: LocalDateTimeType) =
+    DateTimeNoMillis(dateTime.getLocalDateTime)
+
+  private def fromDateTime(dateTime: DateTime) = {
+    new LocalDateTimeType {
+      setLocalDateTime(DateTimeNoMillis(dateTime).toString)
+    }
+  }
+
   implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR =
     CDR(
       cdrId = cdrinfo.getCdrId,
@@ -147,8 +156,8 @@ object Converters {
       contractId = cdrinfo.getContractId,
       liveAuthId = toOption(cdrinfo.getLiveAuthId),
       status = CdrStatus.withName(cdrinfo.getStatus.getCdrStatusType),
-      startDateTime = DateTimeNoMillis(cdrinfo.getStartDateTime.getLocalDateTime),
-      endDateTime = DateTimeNoMillis(cdrinfo.getEndDateTime.getLocalDateTime),
+      startDateTime = toDateTimeNoMillis(cdrinfo.getStartDateTime),
+      endDateTime = toDateTimeNoMillis(cdrinfo.getEndDateTime),
       duration = toOption(cdrinfo.getDuration),
       houseNumber = toOption(cdrinfo.getHouseNumber),
       address = toOption(cdrinfo.getAddress),
@@ -167,8 +176,8 @@ object Converters {
       chargingPeriods = cdrinfo.getChargingPeriods.asScala.toList.map( cdrPeriod=> {
         val cost = cdrPeriod.getPeriodCost
         CdrPeriod(
-          startDateTime = DateTimeNoMillis(cdrPeriod.getStartDateTime.getLocalDateTime),
-          endDateTime = DateTimeNoMillis(cdrPeriod.getEndDateTime.getLocalDateTime),
+          startDateTime = toDateTimeNoMillis(cdrPeriod.getStartDateTime),
+          endDateTime = toDateTimeNoMillis(cdrPeriod.getEndDateTime),
           billingItem = BillingItem.withName(cdrPeriod.getBillingItem.getBillingItemType),
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
@@ -204,12 +213,8 @@ object Converters {
     eid.setTokenType(cdr.emtId.tokenType.toString)
     cdr.emtId.tokenSubType.map(tst => eid.setTokenSubType(tst.toString))
     cdrInfo.setEmtId(eid)
-    val start = new LocalDateTimeType()
-    start.setLocalDateTime(DateTimeNoMillis(startDateTime).toString)
-    cdrInfo.setStartDateTime(start)
-    val end = new LocalDateTimeType()
-    end.setLocalDateTime(DateTimeNoMillis(endDateTime).toString)
-    cdrInfo.setEndDateTime(end)
+    cdrInfo.setStartDateTime(fromDateTime(startDateTime))
+    cdrInfo.setEndDateTime(fromDateTime(endDateTime))
     cdrInfo.setEvseId(cdr.evseId)
 
     cdr.liveAuthId match {case Some(s) if !s.isEmpty => cdrInfo.setLiveAuthId(s)}
@@ -227,12 +232,8 @@ object Converters {
 
   private def chargePeriodToGenCp(gcp: CdrPeriod): GenCdrPeriodType = {
     val period1 = new GenCdrPeriodType()
-    val start = new LocalDateTimeType()
-    start.setLocalDateTime(DateTimeNoMillis(gcp.startDateTime).toString)
-    period1.setStartDateTime(start)
-    val end = new LocalDateTimeType()
-    end.setLocalDateTime(DateTimeNoMillis(gcp.endDateTime).toString)
-    period1.setEndDateTime(end)
+    period1.setStartDateTime(fromDateTime(gcp.startDateTime))
+    period1.setEndDateTime(fromDateTime(gcp.endDateTime))
     val billingItem = new GenBillingItemType()
     billingItem.setBillingItemType(gcp.billingItem.toString)
     period1.setBillingItem(billingItem)
