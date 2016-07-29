@@ -19,6 +19,21 @@ object Converters {
 
   private val logger = LoggerFactory.getLogger(Converters.getClass)
 
+  private def safeRead[T, U](possiblyNull: T)(convert: T => U): Try[Option[U]] = {
+    Option(possiblyNull) match {
+      case None => Success(None)
+      case Some(value) =>
+        Try(convert(value)).map(Some(_))
+      }
+  }
+
+  private def safeReadWith[T, U](possiblyNull: T)(convert: T => Try[U]): Try[Option[U]] =
+    Option(possiblyNull) match {
+      case None => Success(None)
+      case Some(value) =>
+        convert(value).map(Some(_))
+      }
+
   implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
     ChargeToken(
       contractId = rai.getContractId,
@@ -128,11 +143,7 @@ object Converters {
         .map(tfs => Right(tfs == true))
         .getOrElse(Left(v.getRegularHours.asScala.toList.flatMap(toRegularHours)))
 
-    Option(value) match {
-      case None => Success(None)
-      case Some(v) =>
-        regularOpeningsAreDefined(v).map(h => Some(fromJava(h)))
-    }
+    safeReadWith(value)(regularOpeningsAreDefined(_).map(fromJava))
   }
 
   private def toDateTimeNoMillis(dateTime: LocalDateTimeType) =
@@ -273,13 +284,14 @@ object Converters {
     res
   }
 
-  private def getTimeZone(tz: String): Option[DateTimeZone] =
-    toOption(tz).flatMap(z => Try(DateTimeZone.forID(z)).toOption)
+  private def toDateTimeZone(tz: String): Try[Option[DateTimeZone]] =
+    safeRead(tz)(DateTimeZone.forID)
 
   implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = {
     val cp = for {
       openingHours <- toHoursOption(genCp.getOperatingTimes)
       accessHours <- toHoursOption(genCp.getAccessTimes)
+      timeZone <- toDateTimeZone(genCp.getTimeZone)
 
       chargePoint <- Try(ChargePoint(
         evseId = EvseId(genCp.getEvseId),
@@ -307,7 +319,7 @@ object Converters {
         ),
         chargePointLocation = toGeoPoint(genCp.getChargePointLocation),
         relatedLocations = genCp.getRelatedLocation.asScala.toList.map(toAdditionalGeoPoint),
-        timeZone = getTimeZone(genCp.getTimeZone),
+        timeZone = timeZone,
         category = toOption(genCp.getCategory),
         operatingTimes = openingHours,
         accessTimes = accessHours,
