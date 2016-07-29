@@ -3,6 +3,8 @@ import sbt._
 val cxfVersion = "3.1.6"
 val specsVersion = "3.6"
 
+crossScalaVersions := Seq(tnm.ScalaVersion.curr)
+
 val ochp = (project in file("."))
   .enablePlugins(OssLibPlugin)
   .configs(IntegrationTest)

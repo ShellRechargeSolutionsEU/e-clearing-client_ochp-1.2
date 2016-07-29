@@ -1,6 +1,6 @@
 # OCHP client [![Build Status](https://secure.travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2.png)](http://travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2)
 
-Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
+Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala, for Scala 2.11+
 
 ## Includes
 
@@ -59,6 +59,7 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
         <version>1.24</version>
     </dependency>
     ```
+
 ### SBT
 
 1. Add the following resolver: 
@@ -70,4 +71,3 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
     ```scala
     "com.thenewmotion" %% "ochp-client-1.2" % "1.24",
     ```
-    
