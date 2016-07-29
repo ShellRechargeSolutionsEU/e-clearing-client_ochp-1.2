@@ -1,7 +1,7 @@
 resolvers += "TNM" at "http://nexus.thenewmotion.com/content/groups/public"
 
 // https://github.com/thenewmotion/sbt-build-seed
-addSbtPlugin("com.thenewmotion" % "sbt-build-seed" % "1.8.1" )
+addSbtPlugin("com.thenewmotion" % "sbt-build-seed" % "1.8.2" )
 
 // https://github.com/ebiznext/sbt-cxf-wsdl2java
 addSbtPlugin("com.ebiznext.sbt.plugins" % "sbt-cxf-wsdl2java" % "0.1.4")
