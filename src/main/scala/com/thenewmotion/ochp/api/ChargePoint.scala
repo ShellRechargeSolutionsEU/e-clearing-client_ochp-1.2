@@ -31,19 +31,19 @@ case class ChargePoint (
   userInterfaceLang: List[String] = List()
 ) {
   def geoUserInterface: Option[AdditionalGeoPoint] =
-    relatedLocations.find(_.typ == GeoPointTypeEnum.ui)
+    relatedLocations.find(_.typ == GeoPointTypes.ui)
 
   def geoSiteAccess: List[AdditionalGeoPoint] =
-    relatedLocations.filter(_.typ == GeoPointTypeEnum.access)
+    relatedLocations.filter(_.typ == GeoPointTypes.access)
 
   def geoSiteEntrance: List[AdditionalGeoPoint] =
-    relatedLocations.filter(_.typ == GeoPointTypeEnum.entrance)
+    relatedLocations.filter(_.typ == GeoPointTypes.entrance)
 
   def geoSiteExit: List[AdditionalGeoPoint] =
-    relatedLocations.filter(_.typ == GeoPointTypeEnum.exit)
+    relatedLocations.filter(_.typ == GeoPointTypes.exit)
 
   def geoSiteOther: List[AdditionalGeoPoint] =
-    relatedLocations.filter(_.typ == GeoPointTypeEnum.other)
+    relatedLocations.filter(_.typ == GeoPointTypes.other)
 }
 
 case class CpAddress (
@@ -70,10 +70,10 @@ object GeoPoint {
 case class AdditionalGeoPoint(
   point: GeoPoint,
   name: Option[String],
-  typ: GeoPointTypeEnum.Value)
+  typ: GeoPointTypes.Value)
 
-object GeoPointTypeEnum extends QueryableEnumeration {
-  type GeoPointTypeEnum = Value
+object GeoPointTypes extends QueryableEnumeration {
+  type GeoPointTypes = Value
   val access = Value("access")
   val entrance = Value("entrance")
   val exit = Value("exit")

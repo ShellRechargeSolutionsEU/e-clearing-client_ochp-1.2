@@ -259,7 +259,7 @@ object Converters {
     AdditionalGeoPoint(
       GeoPoint(value.getLat, value.getLon),
       Option(value.getName),
-      GeoPointTypeEnum.withName(value.getType))
+      GeoPointTypes.withName(value.getType))
 
   private def toAdditionalGeoPointType(value: AdditionalGeoPoint) = {
     import GeoPoint.fmt
