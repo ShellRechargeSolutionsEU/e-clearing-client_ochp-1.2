@@ -34,9 +34,10 @@ val ochp = (project in file("."))
         (resourceDirectory in Compile).value / "wsdl" / "ochp-1.3.wsdl",
         Seq("-validate", "-xjc-verbose"), "ochp")
     ),
+    fork in IntegrationTest := true,
     soapui.mockServices := Seq(
       soapui.MockService(
-        (resourceDirectory in IntegrationTest).value / "soapui" / "E-Clearing-soapui-project.xml",
+        (resourceDirectory in IntegrationTest).value / "soapui" / "OCHP-1-3-soapui-project.xml",
         "8088")
     )
 )

@@ -2,7 +2,6 @@ package com.thenewmotion.ochp
 package client
 
 import api._
-import eu.ochp._1.{CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, ConnectorType => GenConnectorType, EmtId => GenEmtId, _}
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 
@@ -23,10 +22,9 @@ class OchpClientSpecIT extends Specification {
 
   "OCHP Client" should {
 
-
     " receive cdrs" >> new TestScope {
       val cdrs = client.getCdrs()
-      cdrs.head.cdrId === "123456someId123456"
+      cdrs.head.cdrId === "YAABC123"
     }
 
     " add CDRs" >> new TestCdrScope {
@@ -103,42 +101,15 @@ class OchpClientSpecIT extends Specification {
 
   }
 
-  "OCHP live client" should {
-
-    " update evse status" >> new TestScope {
-      val liveClient = OchpClient.createCxfLiveClient(conf)
-
-      val evseStats = List(
-        EvseStatus(
-          EvseId("DE*823*E1234*5678"),
-          EvseStatusMajor.available,
-          Some(EvseStatusMinor.reserved)
-        ),
-        EvseStatus(
-          EvseId("DE*823*E1234*6789"),
-          EvseStatusMajor.`not-available`,
-          Some(EvseStatusMinor.blocked)
-        )
-      )
-      val result = liveClient.updateStatus(evseStats, Some(DateTimeNoMillis("2014-07-14T00:00:00Z")))
-      result.status === ResultCode.success
-    }
-  }
-
   trait TestScope extends Scope {
 
     val conf = new OchpConfig(
-      wsUri = "http://localhost:8088/mockeCHS-OCHP_1.2",
-      liveWsUri = "http://localhost:8088/mockeCHS-OCHP_1.2/live",
+      wsUri = "http://localhost:8088/mockeCHS-OCHP_1.3",
+      liveWsUri = "http://localhost:8088/mockeCHS-OCHP_1.3/live",
       user = "backend.tnm",
       password = "123456")
 
     val client = OchpClient.createCxfClient(conf)
-
-    val faultyClient = OchpClient.createCxfClient(
-      conf.copy(
-        wsUri = "http://localhost:8",
-        liveWsUri = ""))
 
     val token = ChargeToken(
       contractId = "YYABCC00000003",
@@ -245,11 +216,11 @@ class OchpClientSpecIT extends Specification {
       authMethods = List(AuthMethod.RfidMifareCls),
       connectors = List(Connector(ConnectorStandard.`TESLA-R`,ConnectorFormat.Socket)),
       operatingTimes = Some(Hours(
-        regularHours = List(RegularHours(
+        regularHoursOrTwentyFourSeven = Left(List(RegularHours(
           weekday = 1,
           periodBegin = TimeNoSecs("08:00"),
           periodEnd = TimeNoSecs("18:00")
-        )),
+        ))),
         exceptionalOpenings = List(),
         exceptionalClosings = List()))
     )
