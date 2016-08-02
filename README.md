@@ -2,6 +2,11 @@
 
 Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
 
+## WARNING
+
+This library only supports OCHP 1.2. 
+Newer versions of OCHP will be supported in [ochp-client](https://github.com/thenewmotion/ochp-client).
+
 ## Includes
 
 * Open Clearing House Protocol v1.2 generated client and bean classes with help of [cxf](http://cxf.apache.org)
