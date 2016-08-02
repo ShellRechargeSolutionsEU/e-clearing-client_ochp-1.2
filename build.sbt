@@ -24,6 +24,7 @@ val ochp = (project in file("."))
       "org.apache.cxf" %  "cxf-rt-ws-security" % cxfVersion,
       "com.thenewmotion" %% "time" % "2.8",
       "org.slf4j" % "slf4j-api" % "1.7.21",
+      "com.typesafe" % "config" % "1.3.0" % "it,test",
       "org.specs2" %% "specs2-junit" % "3.6" % "it,test",
       "org.specs2" %% "specs2-mock" % "3.6" % "it,test"
     ),

@@ -2,6 +2,8 @@ package com.thenewmotion.ochp
 package client
 
 import api._
+
+import com.typesafe.config.ConfigFactory
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 
@@ -24,15 +26,11 @@ class OchpLiveClientSpecIT extends Specification {
   "OCHP live client" should {
 
     "get evse status" >> new TestScope {
-      pending
-
       val result = liveClient.getStatus()
       result.size > 0
     }
 
     "update evse status" >> new TestScope {
-      pending
-
       val evseStats = List(
         EvseStatus(
           EvseId("DE*823*E1234*5678"),
@@ -51,11 +49,13 @@ class OchpLiveClientSpecIT extends Specification {
   }
 
   class TestScope extends Scope {
+    val config = ConfigFactory.load("it.conf").getConfig("ochp")
+
     val conf = new OchpConfig(
-      wsUri = "http://localhost:8088/mockeCHS-OCHP_1.3",
-      liveWsUri = "http://localhost:8088/mockeCHS-OCHP_1.3/live",
-      user = "backend.tnm",
-      password = "123456")
+      wsUri = config.getString("service-uri"),
+      liveWsUri = config.getString("live-service-uri"),
+      user = config.getString("user"),
+      password = config.getString("password"))
 
     val liveClient = OchpClient.createCxfLiveClient(conf)
   }

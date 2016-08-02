@@ -38,6 +38,14 @@ Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala, for
     }
     ```
 
+## Integration tests
+
+Integration tests can be run as follows:
+
+```sbt it:test```
+
+In order for these tests to work, valid credentials need to be provided: `src/it/resources/reference.conf` as a reference.
+
 ## Setup
 
 ### Maven

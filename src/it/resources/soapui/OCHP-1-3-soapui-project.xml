@@ -5590,33 +5590,6 @@ information that is more actual than the given value.</s:documentation>
          </ns:roamingAuthorisationInfoArray>
       </ns:GetRoamingAuthorisationListResponse>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.3/GetRoamingAuthorisationList"/></con:response><con:response name="Response 2" id="d32efa2b-392e-47d5-bfef-b6e800aa6f82" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://ochp.eu/1.3">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ns:GetRoamingAuthorisationListResponse>
-         <ns:result>
-            <ns:resultCode>
-               <ns:resultCode>?</ns:resultCode>
-            </ns:resultCode>
-            <ns:resultDescription>?</ns:resultDescription>
-         </ns:result>
-         <!--Zero or more repetitions:-->
-         <ns:roamingAuthorisationInfoArray>
-            <ns:EmtId representation="sha-160">
-               <ns:instance>?</ns:instance>
-               <ns:tokenType>?</ns:tokenType>
-               <!--Optional:-->
-               <ns:tokenSubType>?</ns:tokenSubType>
-            </ns:EmtId>
-            <ns:contractId>?</ns:contractId>
-            <!--Optional:-->
-            <ns:printedNumber>?</ns:printedNumber>
-            <ns:expiryDate>
-               <ns:DateTime>?</ns:DateTime>
-            </ns:expiryDate>
-         </ns:roamingAuthorisationInfoArray>
-      </ns:GetRoamingAuthorisationListResponse>
-   </soapenv:Body>
 </soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ochp.eu/1.3/GetRoamingAuthorisationList"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="GetRoamingAuthorisationListUpdates" id="7f4dbac1-ddb0-4953-9f4e-72245275fd29" interface="eCHS-OCHP_1.3" operation="GetRoamingAuthorisationListUpdates"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="88a8f057-f3db-4edd-81ac-54cc0a630f66" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
       <GetRoamingAuthorisationListUpdatesResponse xmlns="http://ochp.eu/1.3">

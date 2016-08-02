@@ -1,3 +1,6 @@
+# Integration tests
+src/it/resources/it.conf
+
 # Maven
 target
 
