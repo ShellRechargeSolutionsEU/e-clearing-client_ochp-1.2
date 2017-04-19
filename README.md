@@ -1,6 +1,6 @@
 # OCHP client [![Build Status](https://secure.travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2.png)](http://travis-ci.org/thenewmotion/e-clearing-client_ochp-1.2)
 
-Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala
+Client for [www.e-clearing.net](http://www.e-clearing.net) written in Scala, for Scala 2.11+
 
 ## WARNING
 
@@ -9,7 +9,7 @@ Newer versions of OCHP will be supported in [ochp-client](https://github.com/the
 
 ## Includes
 
-* Open Clearing House Protocol v1.2 generated client and bean classes with help of [cxf](http://cxf.apache.org)
+* Open Clearing House Protocol v1.3 generated client and bean classes with help of [cxf](http://cxf.apache.org)
 
 * API trait to communicate with the clearing house:
     ```scala
@@ -61,9 +61,10 @@ Newer versions of OCHP will be supported in [ochp-client](https://github.com/the
     <dependency>
         <groupId>com.thenewmotion</groupId>
         <artifactId>ochp-client-1.2_2.11</artifactId>
-        <version>1.20</version>
+        <version>1.24</version>
     </dependency>
     ```
+
 ### SBT
 
 1. Add the following resolver: 
@@ -73,6 +74,5 @@ Newer versions of OCHP will be supported in [ochp-client](https://github.com/the
 
 2. Add the following dependency:
     ```scala
-    "com.thenewmotion" %% "ochp-client-1.2" % "1.20",
+    "com.thenewmotion" %% "ochp-client-1.2" % "1.24",
     ```
-    

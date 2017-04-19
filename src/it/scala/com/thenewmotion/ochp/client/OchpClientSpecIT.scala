@@ -238,7 +238,7 @@ class OchpClientSpecIT extends Specification {
         zipCode = "1017DR",
         country = "NLD"
       ),
-      geoLocation = GeoPoint(
+      chargePointLocation = GeoPoint(
         lat = 52.364208,
         lon = 4.891792
       ),

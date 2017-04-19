@@ -3,6 +3,8 @@ import sbt._
 val cxfVersion = "3.1.6"
 val specsVersion = "3.6"
 
+crossScalaVersions := Seq(tnm.ScalaVersion.curr)
+
 val ochp = (project in file("."))
   .enablePlugins(OssLibPlugin)
   .configs(IntegrationTest)
@@ -29,7 +31,7 @@ val ochp = (project in file("."))
     cxf.cxfVersion := cxfVersion,
     cxf.wsdls := Seq(
       cxf.Wsdl(
-        (resourceDirectory in Compile).value / "wsdl" / "ochp-1.2.wsdl",
+        (resourceDirectory in Compile).value / "wsdl" / "ochp-1.3.wsdl",
         Seq("-validate", "-xjc-verbose"), "ochp")
     ),
     soapui.mockServices := Seq(

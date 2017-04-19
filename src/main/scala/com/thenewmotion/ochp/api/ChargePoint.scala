@@ -10,23 +10,41 @@ case class ChargePoint (
   locationName: String,
   locationNameLang: String,
   images: List[EvseImageUrl] = List(),
+  relatedResources: List[RelatedResource] = Nil,
   address: CpAddress,
-  geoLocation: GeoPoint,
-  geoUserInterface: Option[GeoPoint] = None,
-  geoSiteEntrance: List[GeoPoint] = List(),
-  geoSiteExit: List[GeoPoint] = List(),
+  chargePointLocation: GeoPoint,
+  relatedLocations: List[AdditionalGeoPoint] = Nil,
+  timeZone: Option[DateTimeZone] = None,
+  category: Option[String] = None,
   operatingTimes: Option[Hours] = None,
   accessTimes: Option[Hours] = None,
   status: Option[ChargePointStatus.Value] = None,
   statusSchedule: List[ChargePointSchedule] = List(),
   telephoneNumber: Option[String] = None,
+  location: GeneralLocation.Value = GeneralLocation.unknown,
   floorLevel: Option[String] = None,
   parkingSlotNumber: Option[String] = None,
   parkingRestriction: List[ParkingRestriction.Value] = List(),
   authMethods: List[AuthMethod.Value], //must be non-empty
   connectors: List[Connector], //must be non-empty
+  ratings: Option[Ratings] = None,
   userInterfaceLang: List[String] = List()
-)
+) {
+  def geoUserInterface: Option[AdditionalGeoPoint] =
+    relatedLocations.find(_.typ == GeoPointTypeEnum.ui)
+
+  def geoSiteAccess: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.access)
+
+  def geoSiteEntrance: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.entrance)
+
+  def geoSiteExit: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.exit)
+
+  def geoSiteOther: List[AdditionalGeoPoint] =
+    relatedLocations.filter(_.typ == GeoPointTypeEnum.other)
+}
 
 case class CpAddress (
   houseNumber: Option[String] = None,
@@ -49,11 +67,24 @@ object GeoPoint {
   def apply(lat: String, lon: String) = new GeoPoint(lat.toDouble, lon.toDouble)
 }
 
+case class AdditionalGeoPoint(
+  point: GeoPoint,
+  name: Option[String],
+  typ: GeoPointTypeEnum.Value)
+
+object GeoPointTypeEnum extends QueryableEnumeration {
+  type GeoPointTypeEnum = Value
+  val access = Value("access")
+  val entrance = Value("entrance")
+  val exit = Value("exit")
+  val other = Value("other")
+  val ui = Value("ui")
+}
+
 case class Hours (
-  regularHours: List[RegularHours],
+  regularHoursOrTwentyFourSeven: Either[List[RegularHours], Boolean],
   exceptionalOpenings: List[ExceptionalPeriod],
-  exceptionalClosings: List[ExceptionalPeriod]
-)
+  exceptionalClosings: List[ExceptionalPeriod])
 
 case class RegularHours (
   weekday: Int = 0,
@@ -64,7 +95,7 @@ case class ExceptionalPeriod (
   periodBegin: DateTime,
   periodEnd: DateTime)
 
-object ChargePointStatus extends QueryableEnumeration{
+object ChargePointStatus extends QueryableEnumeration {
   type ChargePointStatus = Value
   val Unknown = Value("Unknown")
   val Operative = Value("Operative")
@@ -73,13 +104,12 @@ object ChargePointStatus extends QueryableEnumeration{
   val Closed = Value("Closed")
 }
 
-
 case class ChargePointSchedule (
   startDate: DateTime,
   endDate: DateTime,
   status: ChargePointStatus.Value)
 
-object ParkingRestriction extends QueryableEnumeration{
+object ParkingRestriction extends QueryableEnumeration {
   type parkingRestriction = Value
   val evonly = Value("evonly")
   val plugged = Value("plugged")
@@ -96,8 +126,10 @@ object AuthMethod extends QueryableEnumeration {
   val DirectDebitcard = Value("DirectDebitcard")
   val RfidMifareCls = Value("RfidMifareCls")
   val RfidMifareDes = Value("RfidMifareDes")
-  val RfidCallypso = Value("RfidCallypso")
+  val RfidCalypso = Value("RfidCalypso")
   val Iec15118 = Value("Iec15118")
+  val OchpDirectAuth = Value("OchpDirectAuth")
+  val OperatorAuth = Value("OperatorAuth")
 }
 
 object ImageClass extends QueryableEnumeration {
@@ -113,14 +145,42 @@ object ImageClass extends QueryableEnumeration {
   val otherGraphic = Value("otherGraphic")
 }
 
+object GeneralLocation extends QueryableEnumeration {
+  type GeneralLocation = Value
+  val `on-street` = Value("on-street")
+  val `parking-garage` = Value("parking-garage")
+  val `underground-garage` = Value("underground-garage")
+  val `parking-lot` = Value("parking-lot")
+  val other = Value("other")
+  val unknown = Value("unknown")
+}
+
+case class RelatedResource(
+  uri: String,
+  `class`: RelatedResourceTypeEnum.Value)
+
+object RelatedResourceTypeEnum extends QueryableEnumeration {
+  type RelatedResourceTypeEnum = Value
+  val operatorMap = Value("operatorMap")
+  val operatorPayment = Value("operatorPayment")
+  val stationInfo = Value("stationInfo")
+  val surroundingInfo = Value("surroundingInfo")
+  val ownerHomepage = Value("ownerHomepage")
+  val feedbackForm = Value("feedbackForm")
+}
+
 case class EvseImageUrl (
   uri: String,
   thumbUri: Option[String] = None,
   clazz: ImageClass.Value,
   `type`: String,
   width: Option[Integer] = None,
-  height: Option[Integer] = None
-)
+  height: Option[Integer] = None)
+
+case class Ratings (
+  maximumPower: Float,
+  guaranteedPower: Option[Float],
+  nominalVoltage: Option[Int])
 
 case class EvseId(value: String) {
   require(value.matches(EvseId.pattern), s"evseId needs to conform to ${EvseId.pattern} but was $value")
