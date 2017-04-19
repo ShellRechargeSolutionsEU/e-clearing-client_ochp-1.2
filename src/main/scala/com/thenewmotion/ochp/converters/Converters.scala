@@ -1,13 +1,17 @@
 package com.thenewmotion.ochp
+package converters
 
 import api._
-import com.thenewmotion.time.Imports._
 import ChargePointStatus.ChargePointStatus
+import com.thenewmotion.time.Imports._
+import DateTimeConverters._
+import GeoPointConverters._
 import eu.ochp._1.{ConnectorType => GenConnectorType, EvseImageUrlType => GenEvseImageUrlType, EmtId => GenEmtId, CdrStatusType => GenCdrStatusType, ConnectorFormat => GenConnectorFormat, ConnectorStandard => GenConnectorStandard, CdrPeriodType => GenCdrPeriodType, BillingItemType => GenBillingItemType, EvseStatusType => GetEvseStatusType, _}
-import org.joda.time.format.ISODateTimeFormat
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.LoggerFactory
 import scala.util.{Try, Success, Failure}
 import scala.language.{implicitConversions, postfixOps}
+import scala.collection.JavaConverters._
+
 
 /**
  *
@@ -15,9 +19,26 @@ import scala.language.{implicitConversions, postfixOps}
  *
  */
 object Converters {
-  import scala.collection.JavaConverters._
 
   private val logger = LoggerFactory.getLogger(Converters.getClass)
+
+  private def safeRead[T, U](possiblyNull: T)(convert: T => U): Try[Option[U]] = {
+    Option(possiblyNull) match {
+      case None => Success(None)
+      case Some(value) =>
+        Try(convert(value)).map(Some(_))
+      }
+  }
+
+  private def safeReadWith[T, U](possiblyNull: T)(convert: T => Try[U]): Try[Option[U]] =
+    Option(possiblyNull) match {
+      case None => Success(None)
+      case Some(value) =>
+        convert(value).map(Some(_))
+      }
+
+  private def toNonEmptyOption(value: String): Option[String] =
+    Option(value).filter(_.nonEmpty)
 
   implicit def roamingAuthorisationInfoToToken(rai: RoamingAuthorisationInfo): ChargeToken = {
     ChargeToken(
@@ -43,18 +64,9 @@ object Converters {
     emtId.setRepresentation("plain")
     rai.setEmtId(emtId)
     token.printedNumber foreach {pn => rai.setPrintedNumber(pn.toString)}
-    rai.setExpiryDate(toDateTimeType(expiryDate))
+    rai.setExpiryDate(Utc.toOchp(expiryDate))
     rai
   }
-
-  private def toOption (value: String):Option[String] =
-    Option(value).find(_.nonEmpty)
-
-  private def toDateTimeOption (value: DateTimeType):Option[DateTime] =
-    Option(value).flatMap{v => Try(DateTimeNoMillis(v.getDateTime)) match {
-      case Success(x) => Some(x)
-      case Failure(e) => logger.error("Date and time value parsing failure", e); None
-    }}
 
   private def toRegularHours (rh: RegularHoursType): Option[RegularHours] = {
 
@@ -75,43 +87,57 @@ object Converters {
     } yield RegularHours(rh.getWeekday, beg, end)
   }
 
-  private def toGeoPointOption(value: GeoPointType):Option[GeoPoint] = Try {
-    for {
-      v   <- Option(value)
-      lat <- Option(v.getLat)
-      lon <- Option(v.getLon)
-    } yield GeoPoint(lat, lon)
-  } match {
-    case Success(x) => x
-    case Failure(e) => logger.error("Geo point typeparsing failure", e); None
-  }
-
   private def toChargePointStatusOption(value: ChargePointStatusType): Option[ChargePointStatus] =
     Option(value).flatMap(v => Try(ChargePointStatus.withName(v.getChargePointStatusType)) match {
       case Success(x) => Some(x)
       case Failure(e) => logger.error("Charge point status parsing failure", e); None
     })
 
-  private def toHoursOption (value: HoursType): Option[Hours] =
-    Option(value).map(v =>
+  private[ochp] def regularOpeningsAreDefined(value: HoursType) = {
+    def prettyPrint(ht: HoursType) =
+      s"""HoursType(
+        |regularHours = ${ht.getRegularHours},
+        | twentyfourseven = ${ht.isTwentyfourseven},
+        | exceptionalOpenings = ${ht.getExceptionalOpenings},
+        | exceptionalClosings = ${ht.getExceptionalClosings})
+      """.stripMargin.replaceAll("\n", "")
+
+    val `missing 24/7` = Option(value.isTwentyfourseven).isEmpty
+    val `illegal 24/7` = Option(value.isTwentyfourseven).exists { _ == false }
+    val missingHours =
+      value.getRegularHours.isEmpty &&
+      value.getExceptionalOpenings.isEmpty &&
+      value.getExceptionalClosings.isEmpty
+
+    val invalid = (`missing 24/7` && missingHours) || `illegal 24/7`
+
+    if(invalid)
+      Failure(new IllegalArgumentException(
+        s"Provided hoursType ${prettyPrint(value)} cannot be accepted because it does not define 24/7 nor any hours"))
+    else Success(value)
+  }
+
+  private[ochp] def toHoursOption(value: HoursType): Try[Option[Hours]] = {
+    def toPeriod(ept: ExceptionalPeriodType) =
+      ExceptionalPeriod(
+        Utc.fromOchp(ept.getPeriodBegin),
+        Utc.fromOchp(ept.getPeriodEnd))
+
+    def fromJava(v: HoursType) =
       Hours(
-        regularHours = v.getRegularHours.asScala.toList flatMap {rh =>
-          toRegularHours(rh)
-        },
-        exceptionalOpenings = v.getExceptionalOpenings.asScala.toList flatMap {eo =>
-          for {
-            beg <- toDateTimeOption(eo.getPeriodBegin)
-            end <- toDateTimeOption(eo.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        },
-        exceptionalClosings = v.getExceptionalClosings.asScala.toList flatMap {ec =>
-          for {
-            beg <- toDateTimeOption(ec.getPeriodBegin)
-            end <- toDateTimeOption(ec.getPeriodEnd)
-          } yield ExceptionalPeriod(beg, end)
-        }
-      )
-    )
+        regularHoursOrTwentyFourSeven = regularHours(v),
+        exceptionalOpenings =
+          v.getExceptionalOpenings.asScala.toList.map(toPeriod),
+        exceptionalClosings =
+          v.getExceptionalClosings.asScala.toList.map(toPeriod))
+
+    def regularHours(v: HoursType): Either[List[RegularHours], Boolean] =
+      Option(v.isTwentyfourseven)
+        .map(tfs => Right(tfs == true))
+        .getOrElse(Left(v.getRegularHours.asScala.toList.flatMap(toRegularHours)))
+
+    safeReadWith(value)(regularOpeningsAreDefined(_).map(fromJava))
+  }
 
   implicit def cdrInfoToCdr(cdrinfo: CDRInfo): CDR =
     CDR(
@@ -123,15 +149,15 @@ object Converters {
         tokenSubType = Option(cdrinfo.getEmtId.getTokenSubType) map {TokenSubType.withName}
       ),
       contractId = cdrinfo.getContractId,
-      liveAuthId = toOption(cdrinfo.getLiveAuthId),
+      liveAuthId = toNonEmptyOption(cdrinfo.getLiveAuthId),
       status = CdrStatus.withName(cdrinfo.getStatus.getCdrStatusType),
-      startDateTime = DateTimeNoMillis(cdrinfo.getStartDateTime.getLocalDateTime),
-      endDateTime = DateTimeNoMillis(cdrinfo.getEndDateTime.getLocalDateTime),
-      duration = toOption(cdrinfo.getDuration),
-      houseNumber = toOption(cdrinfo.getHouseNumber),
-      address = toOption(cdrinfo.getAddress),
-      zipCode = toOption(cdrinfo.getZipCode),
-      city = toOption(cdrinfo.getCity),
+      startDateTime = WithOffset.fromOchp(cdrinfo.getStartDateTime),
+      endDateTime = WithOffset.fromOchp(cdrinfo.getEndDateTime),
+      duration = toNonEmptyOption(cdrinfo.getDuration),
+      houseNumber = toNonEmptyOption(cdrinfo.getHouseNumber),
+      address = toNonEmptyOption(cdrinfo.getAddress),
+      zipCode = toNonEmptyOption(cdrinfo.getZipCode),
+      city = toNonEmptyOption(cdrinfo.getCity),
       country = cdrinfo.getCountry,
       chargePointType = cdrinfo.getChargePointType,
       connectorType = Connector(
@@ -140,18 +166,18 @@ object Converters {
         connectorFormat = ConnectorFormat.withName(
           cdrinfo.getConnectorType.getConnectorFormat.getConnectorFormat)),
       maxSocketPower = cdrinfo.getMaxSocketPower,
-      productType = toOption(cdrinfo.getProductType),
-      meterId = toOption(cdrinfo.getMeterId),
+      productType = toNonEmptyOption(cdrinfo.getProductType),
+      meterId = toNonEmptyOption(cdrinfo.getMeterId),
       chargingPeriods = cdrinfo.getChargingPeriods.asScala.toList.map( cdrPeriod=> {
         val cost = cdrPeriod.getPeriodCost
         CdrPeriod(
-          startDateTime = DateTimeNoMillis(cdrPeriod.getStartDateTime.getLocalDateTime),
-          endDateTime = DateTimeNoMillis(cdrPeriod.getEndDateTime.getLocalDateTime),
+          startDateTime = WithOffset.fromOchp(cdrPeriod.getStartDateTime),
+          endDateTime = WithOffset.fromOchp(cdrPeriod.getEndDateTime),
           billingItem = BillingItem.withName(cdrPeriod.getBillingItem.getBillingItemType),
           billingValue = cdrPeriod.getBillingValue,
           currency = cdrPeriod.getCurrency,
           itemPrice = cdrPeriod.getItemPrice,
-          periodCost = Option(cost)
+          periodCost = Option(cost).map(_.toFloat)
         )
       })
     )
@@ -180,14 +206,10 @@ object Converters {
     val eid = new GenEmtId()
     eid.setInstance(cdr.emtId.tokenId)
     eid.setTokenType(cdr.emtId.tokenType.toString)
-    eid.setTokenSubType(cdr.emtId.tokenSubType.toString)
+    cdr.emtId.tokenSubType.map(tst => eid.setTokenSubType(tst.toString))
     cdrInfo.setEmtId(eid)
-    val start = new LocalDateTimeType()
-    start.setLocalDateTime(startDateTime.toString)
-    cdrInfo.setStartDateTime(start)
-    val end = new LocalDateTimeType()
-    end.setLocalDateTime(endDateTime.toString)
-    cdrInfo.setEndDateTime(end)
+    cdrInfo.setStartDateTime(WithOffset.toOchp(startDateTime))
+    cdrInfo.setEndDateTime(WithOffset.toOchp(endDateTime))
     cdrInfo.setEvseId(cdr.evseId)
 
     cdr.liveAuthId match {case Some(s) if !s.isEmpty => cdrInfo.setLiveAuthId(s)}
@@ -205,12 +227,8 @@ object Converters {
 
   private def chargePeriodToGenCp(gcp: CdrPeriod): GenCdrPeriodType = {
     val period1 = new GenCdrPeriodType()
-    val start = new LocalDateTimeType()
-    start.setLocalDateTime(gcp.startDateTime.toString)
-    period1.setStartDateTime(start)
-    val end = new LocalDateTimeType()
-    end.setLocalDateTime(gcp.endDateTime.toString)
-    period1.setEndDateTime(end)
+    period1.setStartDateTime(WithOffset.toOchp(gcp.startDateTime))
+    period1.setEndDateTime(WithOffset.toOchp(gcp.endDateTime))
     val billingItem = new GenBillingItemType()
     billingItem.setBillingItemType(gcp.billingItem.toString)
     period1.setBillingItem(billingItem)
@@ -221,77 +239,71 @@ object Converters {
     period1
   }
 
-  private def geoPointToGenGeoPoint(point: GeoPoint): GeoPointType = {
-    import GeoPoint.fmt
-    val gpt = new GeoPointType()
-    gpt.setLat(fmt(point.lat))
-    gpt.setLon(fmt(point.lon))
-    gpt
-  }
+  private def toDateTimeZone(tz: String): Try[Option[DateTimeZone]] =
+    safeRead(tz)(DateTimeZone.forID)
 
-  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = Try{
-    ChargePoint(
-      evseId = EvseId(genCp.getEvseId),
-      locationId = genCp.getLocationId,
-      timestamp = toDateTimeOption(genCp.getTimestamp),
-      locationName = genCp.getLocationName,
-      locationNameLang = genCp.getLocationNameLang,
-      images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
-        uri = genImage.getUri,
-        thumbUri = toOption(genImage.getThumbUri),
-        clazz = ImageClass.withName(genImage.getClazz),
-        `type` = genImage.getType,
-        width = Option(genImage.getWidth),
-        height = Option(genImage.getHeight)
-      )},
-      address = CpAddress(
-        houseNumber = toOption(genCp.getHouseNumber),
-        address =  genCp.getAddress,
-        city = genCp.getCity,
-        zipCode = genCp.getZipCode,
-        country = genCp.getCountry
-      ),
-      geoLocation = (for {
-        g   <- Option(genCp.getGeoLocation)
-        lat <- Option(g.getLat)
-        lon <- Option(g.getLon)
-      } yield GeoPoint(lat, lon)).getOrElse(throw new IllegalArgumentException("No geo coordinates provided")),
-      geoUserInterface = toGeoPointOption(genCp.getGeoUserInterface),
-      geoSiteEntrance = genCp.getGeoSiteEntrance.asScala.toList map {gp =>
-        GeoPoint(gp.getLat, gp.getLon)},
-      geoSiteExit = genCp.getGeoSiteExit.asScala.toList map {gp =>
-        GeoPoint(gp.getLat, gp.getLon)},
-      operatingTimes = toHoursOption(genCp.getOperatingTimes),
-      accessTimes = toHoursOption(genCp.getAccessTimes),
-      status = toChargePointStatusOption(genCp.getStatus),
-      statusSchedule = genCp.getStatusSchedule.asScala.toList flatMap {cps => Try{
-        for {
-          beg <- toDateTimeOption(cps.getStartDate)
-          end <- toDateTimeOption(cps.getEndDate)
-        } yield ChargePointSchedule(beg, end,
-          ChargePointStatus.withName(cps.getStatus.getChargePointStatusType))
-      } match {
-        case Success(x) => x
-        case Failure(e) => logger.error("Status schedule parsing failure", e); None
-      }},
-      telephoneNumber = toOption(genCp.getTelephoneNumber),
-      floorLevel = toOption(genCp.getFloorLevel),
-      parkingSlotNumber = toOption(genCp.getParkingSlotNumber),
-      parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
-        ParkingRestriction.withName(pr.getParkingRestrictionType)},
-      authMethods = genCp.getAuthMethods.asScala.toList map {am =>
-        AuthMethod.withName(am.getAuthMethodType)},
-      connectors = genCp.getConnectors.asScala.toList map {con =>
-        Connector(
-          connectorStandard = ConnectorStandard.withName(
-            con.getConnectorStandard.getConnectorStandard),
-          connectorFormat = ConnectorFormat.withName(
-            con.getConnectorFormat.getConnectorFormat))},
-      userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
-    )
-  } match {
-    case Success(x) => Some(x)
-    case Failure(e) => logger.error("Charge point conversion failure", e); None
+  implicit def cpInfoToChargePoint(genCp: ChargePointInfo): Option[ChargePoint] = {
+    val cp = for {
+      openingHours <- toHoursOption(genCp.getOperatingTimes)
+      accessHours <- toHoursOption(genCp.getAccessTimes)
+      timeZone <- toDateTimeZone(genCp.getTimeZone)
+
+      chargePoint <- Try(ChargePoint(
+        evseId = EvseId(genCp.getEvseId),
+        locationId = genCp.getLocationId,
+        timestamp = Option(genCp.getTimestamp).map(Utc.fromOchp),
+        locationName = genCp.getLocationName,
+        locationNameLang = genCp.getLocationNameLang,
+        images = genCp.getImages.asScala.toList map {genImage => EvseImageUrl(
+          uri = genImage.getUri,
+          thumbUri = toNonEmptyOption(genImage.getThumbUri),
+          clazz = ImageClass.withName(genImage.getClazz),
+          `type` = genImage.getType,
+          width = Option(genImage.getWidth),
+          height = Option(genImage.getHeight)
+        )},
+        relatedResources =
+          genCp.getRelatedResource.asScala.toList.map(RelatedResourceConverter.fromOchp),
+        address = CpAddress(
+          houseNumber = toNonEmptyOption(genCp.getHouseNumber),
+          address =  genCp.getAddress,
+          city = genCp.getCity,
+          zipCode = genCp.getZipCode,
+          country = genCp.getCountry
+        ),
+        chargePointLocation = GeoPointConverter.fromOchp(genCp.getChargePointLocation),
+        relatedLocations =
+          genCp.getRelatedLocation.asScala.toList.map(AdditionalGeoPointConverter.fromOchp),
+        timeZone = timeZone,
+        category = toNonEmptyOption(genCp.getCategory),
+        operatingTimes = openingHours,
+        accessTimes = accessHours,
+        status = toChargePointStatusOption(genCp.getStatus),
+        statusSchedule =
+          genCp.getStatusSchedule.asScala.toList.map(ChargePointScheduleConverter.fromOchp),
+        telephoneNumber = toNonEmptyOption(genCp.getTelephoneNumber),
+        location = GeneralLocation.withName(genCp.getLocation.getGeneralLocationType),
+        floorLevel = toNonEmptyOption(genCp.getFloorLevel),
+        parkingSlotNumber = toNonEmptyOption(genCp.getParkingSlotNumber),
+        parkingRestriction = genCp.getParkingRestriction.asScala.toList map {pr =>
+          ParkingRestriction.withName(pr.getParkingRestrictionType)},
+        authMethods = genCp.getAuthMethods.asScala.toList map {am =>
+          AuthMethod.withName(am.getAuthMethodType)},
+        connectors = genCp.getConnectors.asScala.toList map {con =>
+          Connector(
+            connectorStandard = ConnectorStandard.withName(
+              con.getConnectorStandard.getConnectorStandard),
+            connectorFormat = ConnectorFormat.withName(
+              con.getConnectorFormat.getConnectorFormat))},
+        ratings = Option(genCp.getRatings).map(RatingsConverter.fromOchp),
+        userInterfaceLang = genCp.getUserInterfaceLang.asScala.toList
+      ))
+    } yield chargePoint
+
+    cp match {
+      case Success(x) => Some(x)
+      case Failure(e) => logger.error("Charge point conversion failure", e); None
+    }
   }
 
   private def imagesToGenImages(image: EvseImageUrl): GenEvseImageUrlType  = {
@@ -305,38 +317,38 @@ object Converters {
     iut
   }
 
-  private def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
+  private[ochp] def hoursOptionToHoursType(maybeHours: Option[Hours]): HoursType = {
     def regHoursToRegHoursType(regHours: RegularHours): RegularHoursType = {
       val regularHoursType = new RegularHoursType()
-        regularHoursType.setWeekday(regHours.weekday)
-        regularHoursType.setPeriodBegin(regHours.periodBegin.toString)
-        regularHoursType.setPeriodEnd(regHours.periodEnd.toString)
+      regularHoursType.setWeekday(regHours.weekday)
+      regularHoursType.setPeriodBegin(regHours.periodBegin.toString)
+      regularHoursType.setPeriodEnd(regHours.periodEnd.toString)
       regularHoursType
     }
+
     def excPeriodToExcPeriodType(ep: ExceptionalPeriod): ExceptionalPeriodType = {
       val ept = new ExceptionalPeriodType()
-      ept.setPeriodBegin(toDateTimeType(ep.periodBegin))
-      ept.setPeriodEnd(toDateTimeType(ep.periodEnd))
+      ept.setPeriodBegin(Utc.toOchp(ep.periodBegin))
+      ept.setPeriodEnd(Utc.toOchp(ep.periodEnd))
       ept
     }
 
-    val hoursType = new HoursType()
-    maybeHours map {hours =>
-      hoursType.getRegularHours.addAll(hours.regularHours map regHoursToRegHoursType asJavaCollection)
-      hoursType.getExceptionalOpenings.addAll(hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
-      hoursType.getExceptionalClosings.addAll(hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
-    }
-    hoursType
-  }
+    maybeHours.map { hours =>
+      val hoursType = new HoursType()
 
-  private def statSchedToGenStatSched(schedule: ChargePointSchedule): ChargePointScheduleType = {
-    val cpst = new ChargePointScheduleType()
-    val status = new ChargePointStatusType()
-    status.setChargePointStatusType(schedule.status.toString)
-    cpst.setStatus(status)
-    cpst.setStartDate(toDateTimeType(schedule.startDate))
-    cpst.setEndDate(toDateTimeType(schedule.endDate))
-    cpst
+      hours.regularHoursOrTwentyFourSeven.fold(
+        regHours =>
+          hoursType.getRegularHours.addAll(
+            regHours.map(regHoursToRegHoursType).asJavaCollection),
+        twentyFourSeven =>
+          hoursType.setTwentyfourseven(twentyFourSeven))
+      hoursType.getExceptionalOpenings.addAll(
+        hours.exceptionalOpenings map excPeriodToExcPeriodType asJavaCollection)
+      hoursType.getExceptionalClosings.addAll(
+        hours.exceptionalClosings map excPeriodToExcPeriodType asJavaCollection)
+
+      hoursType
+    }.getOrElse(null)
   }
 
   private def parkRestrToGenParkRestr(pRestr: ParkingRestriction.Value): ParkingRestrictionType = {
@@ -367,40 +379,42 @@ object Converters {
     cpi.setEvseId(cp.evseId.value)
     cpi.setLocationId(cp.locationId)
     cp.timestamp foreach {t =>
-      cpi.setTimestamp(toDateTimeType(t))}
+      cpi.setTimestamp(Utc.toOchp(t))}
     cpi.setLocationName(cp.locationName)
     cpi.setLocationNameLang(cp.locationNameLang)
     cpi.getImages.addAll(cp.images.map {imagesToGenImages} asJavaCollection)
+    cpi.getRelatedResource.addAll(
+      cp.relatedResources.map(RelatedResourceConverter.toOchp).asJavaCollection)
     cp.address.houseNumber foreach {hn => cpi.setAddress(hn)}
     cpi.setAddress(cp.address.address)
     cpi.setZipCode(cp.address.zipCode)
     cpi.setCity(cp.address.city)
     cpi.setCountry(cp.address.country)
-    cpi.setGeoLocation(geoPointToGenGeoPoint(cp.geoLocation))
-    cp.geoUserInterface foreach {gui => cpi.setGeoUserInterface(geoPointToGenGeoPoint(gui))}
-    cpi.getGeoSiteEntrance.addAll(cp.geoSiteEntrance.map {geoPointToGenGeoPoint} asJavaCollection)
-    cpi.getGeoSiteExit.addAll(cp.geoSiteExit.map {geoPointToGenGeoPoint} asJavaCollection)
+    cpi.setChargePointLocation(GeoPointConverter.toOchp(cp.chargePointLocation))
+    cpi.getRelatedLocation.addAll(
+      cp.relatedLocations.map(AdditionalGeoPointConverter.toOchp).asJavaCollection)
+    cp.timeZone.map(tz => cpi.setTimeZone(tz.toString))
+    cp.category.map(cpi.setCategory)
     cpi.setOperatingTimes(hoursOptionToHoursType(cp.operatingTimes))
     cpi.setAccessTimes(hoursOptionToHoursType(cp.accessTimes))
-    cp.status foreach {st =>
+    cp.status.foreach { st =>
       val status = new ChargePointStatusType()
       status.setChargePointStatusType(st.toString)
-      cpi.setStatus(status)}
-    cpi.getStatusSchedule.addAll(cp.statusSchedule.map {statSchedToGenStatSched} asJavaCollection)
+      cpi.setStatus(status)
+    }
+    cpi.getStatusSchedule.addAll(cp.statusSchedule.map(ChargePointScheduleConverter.toOchp).asJavaCollection)
     cp.telephoneNumber foreach cpi.setTelephoneNumber
+    cpi.setLocation(new GeneralLocationType {
+      setGeneralLocationType(cp.location.toString)
+    })
     cp.floorLevel foreach cpi.setFloorLevel
     cp.parkingSlotNumber foreach cpi.setParkingSlotNumber
     cpi.getParkingRestriction.addAll(cp.parkingRestriction.map {parkRestrToGenParkRestr} asJavaCollection)
     cpi.getAuthMethods.addAll(cp.authMethods.map {authMethodToGenAuthMethod} asJavaCollection)
     cpi.getConnectors.addAll(cp.connectors.map {connToGenConn} asJavaCollection)
+    cp.ratings.foreach(r => cpi.setRatings(RatingsConverter.toOchp(r)))
     cpi.getUserInterfaceLang.addAll(cp.userInterfaceLang asJavaCollection)
     cpi
-  }
-
-  implicit def toDateTimeType(date: DateTime): DateTimeType = {
-      val genTtl = new DateTimeType()
-      genTtl.setDateTime(date.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()))
-      genTtl
   }
 
   implicit def toEvseStatus(s: GetEvseStatusType): Option[EvseStatus] = Try {
