@@ -1,4 +1,4 @@
-resolvers += "TNM" at "http://nexus.thenewmotion.com/content/groups/public"
+resolvers += "TNM" at "https://nexus.thenewmotion.com/content/groups/public"
 
 // https://bitbucket.org/thenewmotion/sbt-build-seed
 addSbtPlugin("com.thenewmotion" % "sbt-build-seed" % "0.6.2" )
